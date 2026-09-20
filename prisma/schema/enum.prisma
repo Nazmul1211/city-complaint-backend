@@ -1,0 +1,34 @@
+enum UserRole {
+  CITIZEN
+  STAFF
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum UserStatus {
+  PENDING_VERIFICATION
+  ACTIVE
+  BLOCKED
+  SUSPENDED
+  DELETED
+}
+
+enum AuthProvider {
+  GOOGLE
+  GITHUB
+  CREDENTIAL
+}
+
+enum StaffPosition {
+  MANAGER
+  CASE_OFFICER
+  TECHNICIAN
+}
+
+
