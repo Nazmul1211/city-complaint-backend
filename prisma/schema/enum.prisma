@@ -30,5 +30,3 @@ enum StaffPosition {
   CASE_OFFICER
   TECHNICIAN
 }
-
-

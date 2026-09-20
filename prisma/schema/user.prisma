@@ -1,20 +1,27 @@
 model User {
-  id              String     @id @default(uuid()) @db.Uuid
-  name            String     @db.VarChar(120)
-  email           String     @unique @db.VarChar(320)
-  phone           String?    @unique @db.VarChar(30)
-  passwordHash    String?    @db.VarChar(255)
-  role            UserRole   @default(CITIZEN)
-  status          UserStatus @default(PENDING_VERIFICATION)
-  emailVerifiedAt DateTime?
-  avatarUrl       String?    @db.Text
-  deletedAt       DateTime?
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
+  id                String  @id @default(uuid()) @db.Uuid
+  name              String
+  email             String  @unique
+  password          String?
+  phone             String? @unique
+  googleId          String?  @unique
+  githubId          String?  @unique
+  authProvider      AuthProvider     @default(CREDENTIAL)
 
+  role              UserRole   @default(CITIZEN)
+  status            UserStatus @default(PENDING_VERIFICATION)
+  emailVerified     Boolean    @default(false)
+  avatarUrl         String?   
+  avatarPublicId    String?    
+
+  needPasswordChange Boolean @default(false)
+
+  isDeleted         Boolean   @default(false)
+  deletedAt         DateTime?
+
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
     
-  @@index([role, status])
-  @@index([deletedAt])
   @@map("users")
 }
-
