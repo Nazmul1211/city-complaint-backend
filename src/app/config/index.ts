@@ -18,6 +18,10 @@ export default {
     tester_citizen_name: process.env.TESTER_CITIZEN_NAME!,
     tester_citizen_email: process.env.TESTER_CITIZEN_EMAIL!,
     tester_citizen_password: process.env.TESTER_CITIZEN_PASSWORD!,
+    jwt_access_secret: process.env.JWT_ACCESS_SECRET!,
+	jwt_refresh_secret: process.env.JWT_REFRESH_SECRET!,
+	jwt_access_expires_in: process.env.JWT_ACCESS_EXPIRES_IN!,
+	jwt_refresh_expires_in: process.env.JWT_REFRESH_EXPIRES_IN!,
 }
 
 

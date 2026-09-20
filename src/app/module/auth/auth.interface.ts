@@ -10,3 +10,8 @@ interface IRegistryPayload {
         address?: string;
     }
 }
+
+interface ILoginUserPayload {
+    email: string;
+    password: string;
+}
