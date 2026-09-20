@@ -1,41 +1,54 @@
+import { Request, Response } from "express";
+import { sendResponse } from "../../../utils/sendResponse";
+import httpStatus from "http-status";
+import { authService } from "./auth.service";
 
+const registerCitizen = async (req: Request, res: Response) => {
+    console.log("User register api hits!");
 
-const registerCitizen = (payload: object) => {
+    const payload = req.body;
+    const result = await authService.registerCitizen(payload);
+
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "Verification OTP Sent",
+		data: result,
+	});
+}
+
+const verifyCitizenEmail = async() => {
 
 }
 
-const verifyCitizenEmail = () => {
+const loginUser = async() => {
 
 }
 
-const loginUser = () => {
-
-}
-
-const deleteUser = () => {
+const deleteUser = async() => {
 
 }
 
 
-const refreshToken = () => {
+const refreshToken = async() => {
 
 }
 
 
-const googleLogin = () => {
+const googleLogin = async() => {
     
 }
 
-const githubLogin = () => {
+const githubLogin = async() => {
     
 }
 
 
-const forgotPassword = () => {
+const forgotPassword = async() => {
     
 }
 
-const resetPassword = () => {
+const resetPassword = async() => {
     
 }
 

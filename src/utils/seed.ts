@@ -55,7 +55,6 @@ export const seedSuperAdmin = async () => {
 };
 
 
-
 // Create Tester Admin
 
 export const seedTesterAdmin = async () => {

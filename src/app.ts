@@ -3,6 +3,7 @@ import { authRoutes } from "./app/module/auth/auth.route";
 import cors from "cors";
 import config from "./app/config";
 
+
 const app: Application = express();
 
 app.use(
@@ -12,6 +13,8 @@ app.use(
 	}),
 );
 
+// Middleware to parse JSON bodies
+app.use(express.json());
 
 // Authentication
 app.use("/api/v1/auth/", authRoutes);

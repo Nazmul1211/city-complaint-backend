@@ -1,27 +1,32 @@
 model User {
-  id                String  @id @default(uuid()) @db.Uuid
-  name              String
-  email             String  @unique
-  password          String?
-  phone             String? @unique
-  googleId          String?  @unique
-  githubId          String?  @unique
-  authProvider      AuthProvider     @default(CREDENTIAL)
+  id                  String       @id @default(uuid()) @db.Uuid
 
-  role              UserRole   @default(CITIZEN)
-  status            UserStatus @default(PENDING_VERIFICATION)
-  emailVerified     Boolean    @default(false)
-  avatarUrl         String?   
-  avatarPublicId    String?    
+  name                String
+  email               String       @unique
+  password            String?
+  phone               String?      @unique
 
-  needPasswordChange Boolean @default(false)
+  googleId            String?      @unique
+  githubId            String?      @unique
 
-  isDeleted         Boolean   @default(false)
-  deletedAt         DateTime?
+  authProvider        AuthProvider @default(CREDENTIAL)
+  role                UserRole     @default(CITIZEN)
+  status              UserStatus   @default(PENDING_VERIFICATION)
 
+  emailVerified       Boolean      @default(false)
 
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-    
+  avatarUrl           String?
+  avatarPublicId      String?
+
+  needPasswordChange  Boolean      @default(false)
+
+  citizen             Citizen?
+
+  isDeleted           Boolean      @default(false)
+  deletedAt           DateTime?
+
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+
   @@map("users")
 }
