@@ -1,5 +1,5 @@
 
-interface IRegistryPayload {
+export interface IRegistryPayload {
     name: string;
     email: string;
     password: string;
@@ -11,7 +11,11 @@ interface IRegistryPayload {
     }
 }
 
-interface ILoginUserPayload {
+export interface ILoginUserPayload {
     email: string;
     password: string;
+}
+
+export interface IGoogleLoginPayload {
+	idToken: string;
 }

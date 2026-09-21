@@ -15,6 +15,9 @@ app.use(
 	}),
 );
 
+// Enable URL-encoded form data parsing
+app.use(express.urlencoded({ extended: true }));
+
 // Middleware to parse JSON bodies
 app.use(express.json());
 
