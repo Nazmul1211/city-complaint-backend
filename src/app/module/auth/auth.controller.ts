@@ -168,9 +168,18 @@ const githubLogin = async() => {
 }
 
 
-const forgotPassword = async() => {
-    
-}
+const forgotPassword = catchAsync(async (req: Request, res: Response) => {
+	const payload = req.body;
+
+	await authService.forgotPassword(payload);
+
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: `OTP sent to email : ${payload.email}`,
+		data: null,
+	});
+});
 
 const resetPassword = async() => {
     

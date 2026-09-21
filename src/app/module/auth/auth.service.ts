@@ -4,7 +4,7 @@ import { AuthProvider, UserRole, UserStatus } from "../../../../generated/prisma
 import config from "../../../app/config";
 import { jwtUtils } from "../../../utils/jwt";
 import { JwtPayload, SignOptions } from "jsonwebtoken";
-import { IGoogleLoginPayload, ILoginUserPayload, IRegisterPayload, IVerifyCitizenPayload } from "./auth.interface";
+import { IForgotPasswordPayload, IGoogleLoginPayload, ILoginUserPayload, IRegisterPayload, IVerifyCitizenPayload } from "./auth.interface";
 import { TokenPayload } from "google-auth-library";
 import { googleClient } from "../../lib/googleAuth";
 import { redisClient } from "../../lib/redis";
@@ -427,9 +427,50 @@ const githubLogin = async() => {
 }
 
 
-const forgotPassword = async() => {
-    
-}
+const forgotPassword = async (payload: IForgotPasswordPayload) => {
+	const { email } = payload;
+
+	const isUserExists = await prisma.user.findUnique({
+		where: {
+			email: email,
+		},
+	});
+
+	if (!isUserExists) {
+		throw new Error("User does not Exist!");
+	}
+
+	if (isUserExists.status === "BLOCKED") {
+		throw new Error("User is Blocked!");
+	}
+
+	if (!isUserExists.emailVerified) {
+		throw new Error("User not Verified!");
+	}
+
+	if (isUserExists.isDeleted || isUserExists.status === "DELETED") {
+		throw new Error("User is Deleted!");
+	}
+
+	if (isUserExists.googleId || isUserExists.authProvider === "GOOGLE") {
+		throw new Error("User has account with Google!");
+	}
+
+
+	const otp = crypto.randomInt(100000, 1000000).toString();
+
+	const key = `forgot-password-otp:${isUserExists.email}`;
+
+	const expirationSeconds = 5 * 60;
+
+	await redisClient.set(key, otp, {
+		expiration: {
+			type: "EX",
+			value: expirationSeconds,
+		},
+	});
+
+};
 
 const resetPassword = async() => {
     

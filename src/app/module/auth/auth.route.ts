@@ -11,7 +11,7 @@ router.post("/login", authController.loginUser);
 router.post("/google-login", authController.googleLogin);
 router.post("/github-login", authController.githubLogin);
 router.post("/refresh-token", authController.refreshToken);
-router.get("/forgot-password", authController.forgotPassword);
+router.post("/forgot-password", authController.forgotPassword);
 router.post("/reset-password", authController.resetPassword);
 
 

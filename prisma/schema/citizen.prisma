@@ -22,3 +22,5 @@ model Citizen {
 
   @@map("citizens")
 }
+
+
