@@ -10,13 +10,13 @@ const registerCitizen = catchAsync(
     console.log("User register api hits!");
 
     const payload = req.body;
-    const result = await authService.registerCitizen(payload);
+    await authService.registerCitizen(payload);
 
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		success: true,
 		message: "Verification OTP Sent",
-		data: result,
+		data: null,
 	});
 }
 )
@@ -24,6 +24,36 @@ const registerCitizen = catchAsync(
 const verifyCitizenEmail = catchAsync(
 	async(req: Request, res: Response) => {
 
+			const payload = req.body;
+
+	const result =  await authService.verifyCitizenEmail(payload);
+
+	const { accessToken, refreshToken, user, citizen } = result;
+
+	res.cookie("accessToken", accessToken, {
+		httpOnly: true,
+		secure: false,
+		sameSite: "none",
+		maxAge: 1000 * 60 * 60 * 24, // 24 hour or 1 day
+	});
+	res.cookie("refreshToken", refreshToken, {
+		httpOnly: true,
+		secure: false,
+		sameSite: "none",
+		maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+	});
+
+	sendResponse(res, {
+		statusCode: httpStatus.CREATED,
+		success: true,
+		message: "Verification OTP sent",
+		data: {
+			accessToken,
+			refreshToken,
+			user,
+			citizen
+		},
+	});
 }
 )
 

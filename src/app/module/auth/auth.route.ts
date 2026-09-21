@@ -6,7 +6,7 @@ const router = Router();
 
 
 router.post("/register", authController.registerCitizen);
-router.post("verify-email", authController.verifyCitizenEmail);
+router.post("/verify-email", authController.verifyCitizenEmail);
 router.post("/login", authController.loginUser);
 router.post("/google-login", authController.googleLogin);
 router.post("/github-login", authController.githubLogin);

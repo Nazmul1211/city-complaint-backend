@@ -4,15 +4,16 @@ import { AuthProvider, UserRole, UserStatus } from "../../../../generated/prisma
 import config from "../../../app/config";
 import { jwtUtils } from "../../../utils/jwt";
 import { SignOptions } from "jsonwebtoken";
-import { IGoogleLoginPayload, ILoginUserPayload, IRegistryPayload } from "./auth.interface";
-import path from "path";
+import { IGoogleLoginPayload, ILoginUserPayload, IRegisterPayload, IVerifyCitizenPayload } from "./auth.interface";
 import { TokenPayload } from "google-auth-library";
 import { googleClient } from "../../lib/googleAuth";
+import { redisClient } from "../../lib/redis";
+import crypto from "crypto"
 
 
 
 
-const registerCitizen = async(payload: IRegistryPayload) => {
+const registerCitizen = async(payload: IRegisterPayload) => {
 	const { name, password, citizen: citizenData } = payload;
 	const email = payload.email.trim().toLowerCase();
 
@@ -27,19 +28,108 @@ const registerCitizen = async(payload: IRegistryPayload) => {
 
 	const hashedPassword = await bcrypt.hash(password,  Number(config.bcrypt_salt_rounds));
 
-    	const createdUser = await prisma.user.create({
+
+	// store verify email otp to redis
+	const otpKey = `citizen-registration-otp:${email}`;
+	const otpValue = crypto.randomInt(100000, 1000000).toString();
+
+	const expirationSeconds = 5 * 60;
+
+	await redisClient.set(otpKey, otpValue, {
+		expiration: {
+			type: "EX",
+			value: expirationSeconds,
+		},
+	});
+
+
+	// Store Registration Form Citizen Data to Redis In memory Buffer Storate as StringiFied Format
+	const citizenRegistrationDataKey = `citizen-registration-data:${email}`
+	const redisUserDataPayload = {
+		name,
+		email,
+		password: hashedPassword,
+		citizen: citizenData
+	}
+
+	await redisClient.set(citizenRegistrationDataKey, JSON.stringify(redisUserDataPayload), {
+		expiration: {
+			type: "EX",
+			value: expirationSeconds,
+		},
+	});
+
+
+	
+}
+
+
+
+const verifyCitizenEmail = async(payload: IVerifyCitizenPayload) => {
+	const email = payload.email.trim().toLowerCase();
+	const otp = payload.otp;
+
+	const isUserExists = await prisma.user.findUnique({
+		where: {
+			email: email,
+		},
+	});
+
+	if (isUserExists?.status === "BLOCKED") {
+		throw new Error("User is Blocked!");
+	}
+
+	if (isUserExists?.emailVerified) {
+		throw new Error("User not Verified!");
+	}
+
+	if (isUserExists?.isDeleted || isUserExists?.status === "DELETED") {
+		throw new Error("User is Deleted!");
+	}
+
+	if (isUserExists?.googleId || isUserExists?.authProvider === "GOOGLE") {
+		throw new Error("User has account with Google!");
+	}
+
+		
+    // Get the OTP from redis, then comapare , finally delete the OTP
+	const otpKey = `citizen-registration-otp:${email}`;
+	const redisOtp = await redisClient.get(otpKey);
+
+	if (!redisOtp) {
+		throw new Error("Invalid OTP");
+	}
+
+	if (redisOtp !== otp) {
+		throw new Error("OTP does not match!");
+	}
+
+	await redisClient.del(otpKey);
+
+
+	// Get the Citizen Data from Redis TEMP Storage, then create the user account , finally delete Redis User TEMP register Data
+	const citizenRegistrationDataKey = `citizen-registration-data:${email}`
+	const redisCitizentPayload = await redisClient.get(citizenRegistrationDataKey);
+
+	if(!redisCitizentPayload){
+		throw new Error("Redis Citizen Data Not Found!");
+	}
+
+	const citizenPayload : IRegisterPayload  = JSON.parse(redisCitizentPayload);
+
+	const createdUser = await prisma.user.create({
 		data: {
-			name,
-			email,
-			password: hashedPassword,
+			name : citizenPayload.name,
+			email : citizenPayload.email,
+			password: citizenPayload.password,
 			role: UserRole.CITIZEN,
 			status: UserStatus.ACTIVE,
-			emailVerified: false,
+			emailVerified: true,
 			citizen: {
 				create: {
-					name,
-					email,
-					contactNumber: citizenData?.contactNumber || "",
+					name : citizenPayload.name,
+			        email : citizenPayload.email,
+					contactNumber: citizenPayload?.citizen?.contactNumber || "",
 				},
 			},
 		},
@@ -47,12 +137,40 @@ const registerCitizen = async(payload: IRegistryPayload) => {
 		include: { citizen: true },
 	});
 
-	return createdUser;
+	await redisClient.del(citizenRegistrationDataKey);
+
+
+	// Set the jwtPayload and Store the user data into the Browser Cokkies.
+	const { citizen, ...user } = createdUser;
+	const jwtPayload = {
+		userId: user.id,
+		name: user.name,
+		email: user.email,
+		role: user.role,
+	};
+
+	const accessToken = jwtUtils.createToken(
+		jwtPayload,
+		config.jwt_access_secret,
+		config.jwt_access_expires_in as SignOptions,
+	);
+
+	const refreshToken = jwtUtils.createToken(
+		jwtPayload,
+		config.jwt_refresh_secret,
+		config.jwt_refresh_expires_in as SignOptions,
+	);
+
+	return {
+		user,
+		citizen,
+		accessToken,
+		refreshToken,
+	};
+
+
 }
 
-const verifyCitizenEmail = async() => {
-
-}
 
 const loginUser = async(payload: ILoginUserPayload) => {
 
