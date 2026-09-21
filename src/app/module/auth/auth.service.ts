@@ -9,6 +9,9 @@ import { TokenPayload } from "google-auth-library";
 import { googleClient } from "../../lib/googleAuth";
 import { redisClient } from "../../lib/redis";
 import crypto from "crypto"
+import path from "path";
+import { transporter } from "../../lib/nodemailer";
+import ejs from "ejs";
 
 
 
@@ -43,7 +46,7 @@ const registerCitizen = async(payload: IRegisterPayload) => {
 	});
 
 
-	// Store Registration Form Citizen Data to Redis In memory Buffer Storate as StringiFied Format
+	// Store Registration Form Citizen Data to Redis In memory Buffer Store as StringiFied Format
 	const citizenRegistrationDataKey = `citizen-registration-data:${email}`
 	const redisUserDataPayload = {
 		name,
@@ -60,6 +63,26 @@ const registerCitizen = async(payload: IRegisterPayload) => {
 	});
 
 
+    // Implementation of NodeMailer with SMTP - Below we are sending email OTP for Account Registration
+	const templtePath = path.join(process.cwd(), "src/app/templates/registration-user-otp.ejs");
+
+	const templateData = {
+		name,
+		otp : otpValue,
+		email,
+		expirationMinutes: expirationSeconds / 60
+	}
+
+	const html = await ejs.renderFile(templtePath, templateData);
+
+	await transporter.sendMail({
+		from: config.email_sender,
+		to: email,
+		subject: "Email Verification",
+		// text: `Your OTP is ${otp}`
+		// html: `<h1>Your OTP is ${otp}</h1>`,
+		html
+	});
 
 }
 
@@ -138,6 +161,27 @@ const verifyCitizenEmail = async(payload: IVerifyCitizenPayload) => {
 	});
 
 	await redisClient.del(citizenRegistrationDataKey);
+
+
+	// Send the User Onboard or Wellcome Email Upon Email Verification and Successful Account Creation
+	const templtePath = path.join(process.cwd(), "src/app/templates/wellcome-email.ejs");
+
+	const templateData = {
+		name: createdUser.name,
+		email: createdUser.email
+
+	}
+
+	const html = await ejs.renderFile(templtePath, templateData);
+
+	await transporter.sendMail({
+		from: config.email_sender,
+		to: email,
+		subject: "Wellcome to CityCare Service",
+		// text: `Your OTP is ${otp}`
+		// html: `<h1>Your OTP is ${otp}</h1>`,
+		html
+	});
 
 
 	// Set the jwtPayload and Store the user data into the Browser Cokkies.
@@ -233,11 +277,11 @@ const loginUser = async(payload: ILoginUserPayload) => {
 	};
 }
 
-const deleteUser = async() => {
+const logoutUser = async() => {
 
 }
 
-const getMe = async() => {
+const deleteUser = async() => {
 
 }
 
@@ -470,6 +514,25 @@ const forgotPassword = async (payload: IForgotPasswordPayload) => {
 		},
 	});
 
+
+	// Send Forgot Password OTP to the User email, to reset the password using that OTP
+	const templtePath = path.join(process.cwd(), "src/app/templates/forgot-password.ejs");
+
+	const html = await ejs.renderFile(templtePath, {
+		name: isUserExists.name,
+		otp,
+		expirationMinutes: expirationSeconds / 60
+	})
+
+	await transporter.sendMail({
+		from: config.email_sender,
+		to: isUserExists.email,
+		subject: "CityCare: OTP to Reset Password",
+		// text: `Your OTP is ${otp}`
+		// html: `<h1>Your OTP is ${otp}</h1>`,
+		html
+	});
+
 };
 
 const resetPassword = async (payload: IResetPasswordPayload) => {
@@ -529,6 +592,24 @@ const resetPassword = async (payload: IResetPasswordPayload) => {
 
 	await redisClient.del([key]);
 
+
+	// Send Reset Pasword Success Email to user
+	const templtePath = path.join(process.cwd(), "src/app/templates/reset-password.ejs");
+
+	const html = await ejs.renderFile(templtePath, {
+		name: isUserExists.name
+	})
+
+	// Send Password Chnaged Mail
+	await transporter.sendMail({
+		from: config.email_sender,
+		to: isUserExists.email,
+		subject: "CityCare: Password changed Successfully!",
+		// text: `Your OTP is ${otp}`
+		// html: `<h1>Your Password is changed</h1>`,
+		html
+	});
+
 };
 
 
@@ -537,8 +618,8 @@ export const authService = {
     registerCitizen,
 	verifyCitizenEmail,
 	loginUser,
+	logoutUser,
     deleteUser,
-	getMe,
 	refreshToken,
 	googleLogin,
     githubLogin,

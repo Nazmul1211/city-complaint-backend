@@ -1,5 +1,6 @@
 import app from "./app";
 import config from "./app/config";
+import { transporter } from "./app/lib/nodemailer";
 import { prisma } from "./app/lib/prisma";
 import { redisClient } from "./app/lib/redis";
 import { seedSuperAdmin, seedTesterAdmin, seedTesterCitizen } from "./utils/seed";
@@ -11,12 +12,16 @@ const main = async () => {
 		await prisma.$connect();
 		console.log("Connected to the database successfully!");
 
+		await redisClient.connect();
+		console.log("Redis Connnected successfully!");
+
+		await transporter.verify();
+		console.log("Nodemailer connected successfully!");
+
+
         await seedSuperAdmin();
         await seedTesterAdmin();
         await seedTesterCitizen();
-
-		await redisClient.connect();
-		console.log("Redis Connnected successfully!");
 		
 		app.listen(PORT, () => {
 			console.log(`Server is running on port ${PORT}`);
