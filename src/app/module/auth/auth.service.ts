@@ -3,7 +3,7 @@ import { prisma } from "../../lib/prisma"
 import { AuthProvider, UserRole, UserStatus } from "../../../../generated/prisma/enums";
 import config from "../../../app/config";
 import { jwtUtils } from "../../../utils/jwt";
-import { SignOptions } from "jsonwebtoken";
+import { JwtPayload, SignOptions } from "jsonwebtoken";
 import { IGoogleLoginPayload, ILoginUserPayload, IRegisterPayload, IVerifyCitizenPayload } from "./auth.interface";
 import { TokenPayload } from "google-auth-library";
 import { googleClient } from "../../lib/googleAuth";
@@ -60,7 +60,7 @@ const registerCitizen = async(payload: IRegisterPayload) => {
 	});
 
 
-	
+
 }
 
 
@@ -241,9 +241,55 @@ const getMe = async() => {
 
 }
 
-const refreshToken = async() => {
+const refreshToken = async (token: string) => {
+	const verifiedRefreshToken = jwtUtils.verifyToken(
+		token,
+		config.jwt_refresh_secret,
+	);
 
-}
+	if (!verifiedRefreshToken.success || !verifiedRefreshToken.data) {
+		throw new Error(
+			config.node_env === "development"
+				? verifiedRefreshToken.error
+				: "Invalid refresh token",
+		);
+	}
+
+	const data = verifiedRefreshToken.data as JwtPayload;
+
+	const user = await prisma.user.findUnique({
+		where: { id: data.userId },
+	});
+
+	if (!user || user.isDeleted || user.status !== UserStatus.ACTIVE) {
+		throw new Error("User is inactive or not found");
+	}
+
+	const jwtPayload = {
+		userId: user.id,
+		name: user.name,
+		email: user.email,
+		role: user.role,
+	};
+
+	const accessToken = jwtUtils.createToken(
+		jwtPayload,
+		config.jwt_access_secret,
+		config.jwt_access_expires_in as SignOptions,
+	);
+
+	const refreshToken = jwtUtils.createToken(
+		jwtPayload,
+		config.jwt_refresh_secret,
+		config.jwt_refresh_expires_in as SignOptions,
+	); 
+
+	return {
+		accessToken,
+		refreshToken,
+	};
+};
+
 
 
 const googleLogin = async (payload: IGoogleLoginPayload) => {
