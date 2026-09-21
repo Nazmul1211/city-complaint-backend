@@ -28,3 +28,9 @@ export interface IVerifyCitizenPayload {
 export interface IForgotPasswordPayload {
 	email: string;
 }
+
+export interface IResetPasswordPayload {
+	email: string;
+	newPassword: string;
+	otp: string;
+}

@@ -4,7 +4,7 @@ import { AuthProvider, UserRole, UserStatus } from "../../../../generated/prisma
 import config from "../../../app/config";
 import { jwtUtils } from "../../../utils/jwt";
 import { JwtPayload, SignOptions } from "jsonwebtoken";
-import { IForgotPasswordPayload, IGoogleLoginPayload, ILoginUserPayload, IRegisterPayload, IVerifyCitizenPayload } from "./auth.interface";
+import { IForgotPasswordPayload, IGoogleLoginPayload, ILoginUserPayload, IRegisterPayload, IResetPasswordPayload, IVerifyCitizenPayload } from "./auth.interface";
 import { TokenPayload } from "google-auth-library";
 import { googleClient } from "../../lib/googleAuth";
 import { redisClient } from "../../lib/redis";
@@ -472,9 +472,66 @@ const forgotPassword = async (payload: IForgotPasswordPayload) => {
 
 };
 
-const resetPassword = async() => {
-    
-}
+const resetPassword = async (payload: IResetPasswordPayload) => {
+	const { email, otp, newPassword } = payload;
+
+	const isUserExists = await prisma.user.findUnique({
+		where: {
+			email: email,
+		},
+	});
+
+	if (!isUserExists) {
+		throw new Error("User does not Exist!");
+	}
+
+	if (isUserExists.status === "BLOCKED") {
+		throw new Error("User is Blocked!");
+	}
+
+	if (!isUserExists.emailVerified) {
+		throw new Error("User not Verified!");
+	}
+
+	if (isUserExists.isDeleted || isUserExists.status === "DELETED") {
+		throw new Error("User is Deleted!");
+	}
+
+	if (isUserExists.googleId || isUserExists.authProvider === "GOOGLE") {
+		throw new Error("User has account with Google!");
+	}
+
+	const key = `forgot-password-otp:${isUserExists.email}`;
+
+	const redisOtp = await redisClient.get(key);
+
+	if (!redisOtp) {
+		throw new Error("Invalid OTP");
+	}
+
+	if (redisOtp !== otp) {
+		throw new Error("OTP does not match!");
+	}
+
+	const hashNewPassword = await bcrypt.hash(
+		newPassword,
+		Number(config.bcrypt_salt_rounds),
+	);
+
+	await prisma.user.update({
+		where: {
+			email: isUserExists.email,
+		},
+		data: {
+			password: hashNewPassword,
+		},
+	});
+
+	await redisClient.del([key]);
+
+};
+
+
 
 export const authService = {
     registerCitizen,
