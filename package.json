@@ -34,7 +34,8 @@
     "multer": "^2.4.0",
     "nodemailer": "^10.0.10",
     "pg": "^8.23.0",
-    "redis": "^6.2.1"
+    "redis": "^6.2.1",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.14",
@@ -60,4 +61,3 @@
   },
   "homepage": "https://github.com/Nazmul1211/city-complaint-backend#readme"
 }
-
