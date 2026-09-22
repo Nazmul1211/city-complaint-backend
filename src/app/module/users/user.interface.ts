@@ -7,3 +7,14 @@ export interface IUpdateMyProfile {
 		address?: string;
 	};
 }
+
+export interface IUserFilterParams {
+	searchTerm?: string;
+	role?: string;
+	status?: string;
+	departmentId?: string;
+	page?: number;
+	limit?: number;
+	sortBy?: string;
+	sortOrder?: "asc" | "desc";
+}

@@ -1,7 +1,21 @@
 import bcrypt from "bcryptjs";
-import { UserRole } from "../../generated/prisma/enums";
+import { UserRole, UserStatus } from "../../generated/prisma/enums";
 import { prisma } from "../app/lib/prisma";
 import config from "../app/config";
+
+
+const activateIfPending = async (email: string) => {
+	await prisma.user.updateMany({
+		where: {
+			email,
+			status: UserStatus.PENDING_VERIFICATION,
+		},
+		data: {
+			status: UserStatus.ACTIVE,
+			emailVerified: true,
+		},
+	});
+};
 
 export const seedSuperAdmin = async () => {
 	try {
@@ -13,6 +27,7 @@ export const seedSuperAdmin = async () => {
 
 		if (isSuperAdminExists) {
 			console.log("Super Admin Exists!");
+			await activateIfPending(config.super_admin_email);
 			return;
 		}
 
@@ -37,6 +52,7 @@ export const seedSuperAdmin = async () => {
 				email: email,
 				password: hashPassword,
 				role: UserRole.SUPER_ADMIN,
+				status: UserStatus.ACTIVE,
 				needPasswordChange: false,
 				emailVerified: true,
 			},
@@ -66,6 +82,7 @@ export const seedTesterAdmin = async () => {
 
 		if (isTesterAdminExists) {
 			console.log("Tester Admin already Exists!");
+			await activateIfPending(config.tester_admin_email);
 			return;
 		}
 
@@ -90,6 +107,7 @@ export const seedTesterAdmin = async () => {
 				email: email,
 				password: hashPassword,
 				role: UserRole.ADMIN,
+				status: UserStatus.ACTIVE,
 				needPasswordChange: false,
 				emailVerified: true,
 			},
@@ -119,6 +137,7 @@ export const seedTesterCitizen = async () => {
 
 		if (isTestercitizenExists) {
 			console.log("Tester citizen already Exists!");
+			await activateIfPending(config.tester_citizen_email);
 			return;
 		}
 
@@ -143,6 +162,7 @@ export const seedTesterCitizen = async () => {
 				email: email,
 				password: hashPassword,
 				role: UserRole.CITIZEN,
+				status: UserStatus.ACTIVE,
 				needPasswordChange: false,
 				emailVerified: true,
 			},

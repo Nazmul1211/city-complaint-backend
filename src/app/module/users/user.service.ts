@@ -1,8 +1,101 @@
 import { prisma } from "../../lib/prisma";
-import { UserStatus } from "../../../../generated/prisma/enums";
-import type { IUpdateMyProfile } from "./user.interface";
+import {
+	UserStatus,
+	UserRole,
+} from "../../../../generated/prisma/enums";
+import type { IUpdateMyProfile, IUserFilterParams } from "./user.interface";
 import { cloudinary } from "../../lib/cloudinary";
 import type { UploadApiResponse } from "cloudinary";
+import type { Prisma } from "../../../../generated/prisma/client";
+
+// Admin user listing with filters: role/status for scoped lists (e.g. staff
+// pickers for service-request assignment), departmentId to resolve memberships,
+// and a searchTerm across name/email/phone. Always excludes soft-deleted users
+// and passwords.
+const getAllUsers = async (filters: IUserFilterParams) => {
+	const {
+		searchTerm,
+		role,
+		status,
+		departmentId,
+		page = 1,
+		limit = 10,
+		sortBy = "createdAt",
+		sortOrder = "desc",
+	} = filters;
+
+	const whereConditions: Prisma.UserWhereInput = {
+		isDeleted: false,
+	};
+
+	if (role) {
+		whereConditions.role = role.toUpperCase() as UserRole;
+	}
+
+	if (status) {
+		whereConditions.status = status.toUpperCase() as UserStatus;
+	}
+
+	if (searchTerm) {
+		whereConditions.OR = [
+			{ name: { contains: searchTerm, mode: "insensitive" } },
+			{ email: { contains: searchTerm, mode: "insensitive" } },
+			{ phone: { contains: searchTerm } },
+		];
+	}
+
+	if (departmentId) {
+		whereConditions.departmentMemberships = {
+			some: {
+				departmentId,
+				isActive: true,
+			},
+		};
+	}
+
+	const pageNumber = Math.max(Number(page) || 1, 1);
+	const limitNumber = Math.min(Math.max(Number(limit) || 10, 1), 100);
+
+	const [result, total] = await prisma.$transaction([
+		prisma.user.findMany({
+			where: whereConditions,
+			orderBy: {
+				[sortBy]: sortOrder,
+			},
+			skip: (pageNumber - 1) * limitNumber,
+			take: limitNumber,
+			include: {
+				departmentMemberships: {
+					where: { isActive: true },
+					select: {
+						id: true,
+						position: true,
+						isActive: true,
+						department: {
+							select: {
+								id: true,
+								name: true,
+								code: true,
+							},
+						},
+					},
+				},
+			},
+			omit: { password: true },
+		}),
+		prisma.user.count({ where: whereConditions }),
+	]);
+
+	return {
+		data: result,
+		meta: {
+			page: pageNumber,
+			limit: limitNumber,
+			total,
+			totalPages: Math.ceil(total / limitNumber),
+		},
+	};
+};
 
 const getMe = async (userId: string) => {
 	const user = await prisma.user.findUnique({
@@ -167,6 +260,7 @@ const deleteMe = async (userId: string) => {
 };
 
 export const userService = {
+	getAllUsers,
 	getMe,
 	updateMyProfile,
 	uploadProfileImage,

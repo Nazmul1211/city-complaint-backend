@@ -6,6 +6,13 @@ import { upload } from "../../lib/multer";
 
 const router = Router();
 
+// Admin user listing with query filters (?role=STAFF&departmentId=...&status=ACTIVE&searchTerm=...)
+router.get(
+	"/",
+	auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
+	userController.getAllUsers
+);
+
 // Authenticated "my profile" APIs — must be declared BEFORE "/:id" so that
 // Express does not treat "me" as an :id parameter.
 router.get("/me", auth(), userController.getMe);

@@ -3,6 +3,30 @@ import httpStatus from "http-status";
 import { catchAsync } from "../../../utils/catchAsync";
 import { sendResponse } from "../../../utils/sendResponse";
 import { userService } from "./user.service";
+import type { IUserFilterParams } from "./user.interface";
+
+const getAllUsers = catchAsync(async (req: Request, res: Response) => {
+	const filters: IUserFilterParams = {
+		searchTerm: req.query.searchTerm as string | undefined,
+		role: req.query.role as string | undefined,
+		status: req.query.status as string | undefined,
+		departmentId: req.query.departmentId as string | undefined,
+		page: req.query.page ? Number(req.query.page) : undefined,
+		limit: req.query.limit ? Number(req.query.limit) : undefined,
+		sortBy: req.query.sortBy as string | undefined,
+		sortOrder: req.query.sortOrder as "asc" | "desc" | undefined,
+	};
+
+	const result = await userService.getAllUsers(filters);
+
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "Users fetched successfully",
+		data: result.data,
+		meta: result.meta,
+	});
+});
 
 const getMe = catchAsync(async (req: Request, res: Response) => {
 	const userId = req.user.id;
@@ -78,6 +102,7 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const userController = {
+	getAllUsers,
 	getMe,
 	updateMyProfile,
 	uploadProfileImage,
