@@ -10,7 +10,7 @@ const router = Router();
 router.get(
 	"/",
 	auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
-	userController.getMe,
+	userController.getAllUsers,
 );
 
 // Authenticated "my profile" APIs — must be declared BEFORE "/:id" so that
