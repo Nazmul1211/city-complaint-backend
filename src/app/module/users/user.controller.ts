@@ -30,11 +30,21 @@ const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
 	});
 });
 
-
 const uploadProfileImage = catchAsync(async (req: Request, res: Response) => {
-	// TODO: implement profile image upload (needs multer + cloudinary —
-	// the User model already has avatarUrl and avatarPublicId fields)
-	throw new Error("Profile image upload is not implemented yet");
+	if (!req.file) {
+		throw new Error(
+			"Profile image file is required! Send it as form-data with the key 'profileImage'.",
+		);
+	}
+
+	const result = await userService.uploadProfileImage(req.user.id, req.file);
+
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "Profile image uploaded successfully",
+		data: result,
+	});
 });
 
 const deleteMe = catchAsync(async (req: Request, res: Response) => {
@@ -53,7 +63,7 @@ const deleteMe = catchAsync(async (req: Request, res: Response) => {
 const deleteUser = catchAsync(async (req: Request, res: Response) => {
 	const userId = req.params.id;
 
-	if(!userId){
+	if (!userId) {
 		throw new Error("User ID Required!");
 	}
 

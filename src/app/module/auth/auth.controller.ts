@@ -5,12 +5,11 @@ import { authService } from "./auth.service";
 import { PassThrough } from "stream";
 import { catchAsync } from "../../../utils/catchAsync";
 
-const registerCitizen = catchAsync(
-	async (req: Request, res: Response) => {
-    console.log("User register api hits!");
+const registerCitizen = catchAsync(async (req: Request, res: Response) => {
+	console.log("User register api hits!");
 
-    const payload = req.body;
-    await authService.registerCitizen(payload);
+	const payload = req.body;
+	await authService.registerCitizen(payload);
 
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
@@ -18,15 +17,12 @@ const registerCitizen = catchAsync(
 		message: "Verification OTP Sent",
 		data: null,
 	});
-}
-)
+});
 
-const verifyCitizenEmail = catchAsync(
-	async(req: Request, res: Response) => {
+const verifyCitizenEmail = catchAsync(async (req: Request, res: Response) => {
+	const payload = req.body;
 
-			const payload = req.body;
-
-	const result =  await authService.verifyCitizenEmail(payload);
+	const result = await authService.verifyCitizenEmail(payload);
 
 	const { accessToken, refreshToken, user, citizen } = result;
 
@@ -51,20 +47,17 @@ const verifyCitizenEmail = catchAsync(
 			accessToken,
 			refreshToken,
 			user,
-			citizen
+			citizen,
 		},
 	});
-}
-)
+});
 
-const loginUser = catchAsync(
-	async(req: Request, res: Response) => {
+const loginUser = catchAsync(async (req: Request, res: Response) => {
+	const payload = req.body;
 
-    const payload = req.body;
+	const result = await authService.loginUser(payload);
 
-    const result = await authService.loginUser(payload);
-
-     const { accessToken, refreshToken } = result;
+	const { accessToken, refreshToken } = result;
 
 	res.cookie("accessToken", accessToken, {
 		httpOnly: true,
@@ -79,42 +72,40 @@ const loginUser = catchAsync(
 		maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
 	});
 
-
-    sendResponse(res, {
-        statusCode: httpStatus.OK,
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
 		success: true,
 		message: "Verification OTP Sent",
 		data: {
 			accessToken,
-			refreshToken
+			refreshToken,
 		},
-    })
-}
-)
+	});
+});
 
 const logoutUser = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const result = await authService.logoutUser();
+	async (req: Request, res: Response, next: NextFunction) => {
+		const result = await authService.logoutUser();
 
-    res.clearCookie("accessToken", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-    });
+		res.clearCookie("accessToken", {
+			httpOnly: true,
+			secure: true,
+			sameSite: "none",
+		});
 
-    res.clearCookie("refreshToken", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-    });
+		res.clearCookie("refreshToken", {
+			httpOnly: true,
+			secure: true,
+			sameSite: "none",
+		});
 
-    sendResponse(res, {
-      success: true,
-      statusCode: httpStatus.OK,
-      message: "User logged out successfully",
-      data: result,
-    });
-  },
+		sendResponse(res, {
+			success: true,
+			statusCode: httpStatus.OK,
+			message: "User logged out successfully",
+			data: result,
+		});
+	},
 );
 
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
@@ -150,9 +141,7 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
 	});
 });
 
-
-const googleLogin = catchAsync (
-	async (req: Request, res: Response) => {
+const googleLogin = catchAsync(async (req: Request, res: Response) => {
 	const payload = req.body;
 
 	const result = await authService.googleLogin(payload);
@@ -180,13 +169,9 @@ const googleLogin = catchAsync (
 			refreshToken,
 		},
 	});
-}
-);
+});
 
-const githubLogin = async() => {
-    
-}
-
+const githubLogin = async () => {};
 
 const forgotPassword = catchAsync(async (req: Request, res: Response) => {
 	const payload = req.body;
@@ -214,15 +199,14 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
 	});
 });
 
-
 export const authController = {
-    registerCitizen,
+	registerCitizen,
 	verifyCitizenEmail,
 	loginUser,
 	logoutUser,
 	refreshToken,
 	googleLogin,
-    githubLogin,
+	githubLogin,
 	forgotPassword,
 	resetPassword,
-}
+};

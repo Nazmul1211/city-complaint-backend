@@ -1,4 +1,3 @@
-
 import jwt, { type JwtPayload, type SignOptions } from "jsonwebtoken";
 
 const createToken = (
@@ -12,7 +11,6 @@ const createToken = (
 
 	return token;
 };
-
 
 const verifyToken = (token: string, secret: string) => {
 	try {

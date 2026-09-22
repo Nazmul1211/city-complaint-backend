@@ -42,7 +42,6 @@ export const seedSuperAdmin = async () => {
 			},
 		});
 
-
 		console.log("Super Admin Created :", superAdmin);
 	} catch (error) {
 		console.log("Error seeding super admin: ", error);
@@ -54,7 +53,6 @@ export const seedSuperAdmin = async () => {
 		});
 	}
 };
-
 
 // Create Tester Admin
 

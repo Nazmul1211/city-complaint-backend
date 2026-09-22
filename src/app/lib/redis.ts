@@ -9,4 +9,3 @@ export const redisClient = createClient({
 		port: Number(config.redis_port),
 	},
 });
-

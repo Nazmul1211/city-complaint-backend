@@ -2,6 +2,7 @@ import { prisma } from "../../lib/prisma";
 import { UserStatus } from "../../../../generated/prisma/enums";
 import type { IUpdateMyProfile } from "./user.interface";
 import { cloudinary } from "../../lib/cloudinary";
+import type { UploadApiResponse } from "cloudinary";
 
 const getMe = async (userId: string) => {
 	const user = await prisma.user.findUnique({
@@ -66,34 +67,71 @@ const updateMyProfile = async (userId: string, payload: IUpdateMyProfile) => {
 	return updatedUser;
 };
 
-const uploadProfileImage = async (buffer: Buffer, userId : string) => {
-  
-  cloudinary.uploader.upload_stream(
-    {
-      resource_type: "auto"
-    },
-    async (error, result)=> {
-      if(error){
-        console.log(error);
-        throw new Error(error.message);
-      }
-      console.log(result, "result");
-      const updateUser = await prisma.user.update({
-        where: {
-          id: userId
-        },
-        data: {
-          imageUrl : result?.secure_url,
-          publicImageId : result?.public_id
-        }
-      }
-      )
-      console.log(updateUser)
+const uploadProfileImage = async (
+	userId: string,
+	file: Express.Multer.File,
+) => {
+	const user = await prisma.user.findUnique({
+		where: {
+			id: userId,
+		},
+	});
 
-      
-    }
-  ).end(buffer)
+	if (!user) {
+		throw new Error("User not found!");
+	}
 
+	if (user.isDeleted || user.status === UserStatus.DELETED) {
+		throw new Error("User is deleted!");
+	}
+
+	if (user.status === UserStatus.BLOCKED) {
+		throw new Error("User is Blocked!");
+	}
+
+	// Delete the old image from Cloudinary before uploading a new one,
+	// so orphaned files don't pile up in the Cloudinary account.
+	if (user.avatarPublicId) {
+		await cloudinary.uploader.destroy(user.avatarPublicId);
+	}
+
+	// Wrap the upload_stream callback API into a promise so errors and
+	// completion propagate properly to the caller.
+	const result = await new Promise<UploadApiResponse>((resolve, reject) => {
+		const stream = cloudinary.uploader.upload_stream(
+			{
+				folder: "city-complaint/profile-images",
+				resource_type: "image",
+			},
+			(error, uploadResult) => {
+				if (error) {
+					reject(new Error(error.message));
+				} else if (!uploadResult) {
+					reject(new Error("Cloudinary upload failed!"));
+				} else {
+					resolve(uploadResult);
+				}
+			},
+		);
+
+		stream.end(file.buffer);
+	});
+
+	const updatedUser = await prisma.user.update({
+		where: {
+			id: userId,
+		},
+		data: {
+			avatarUrl: result.secure_url,
+			avatarPublicId: result.public_id,
+		},
+		include: {
+			citizen: true,
+		},
+		omit: { password: true },
+	});
+
+	return updatedUser;
 };
 
 const deleteMe = async (userId: string) => {

@@ -8,28 +8,18 @@ const router = Router();
 
 // Authenticated "my profile" APIs — must be declared BEFORE "/:id" so that
 // Express does not treat "me" as an :id parameter.
-router.get(
-	"/me",
-	auth(),
-	userController.getMe,
-);
+router.get("/me", auth(), userController.getMe);
+
+router.patch("/me", auth(), userController.updateMyProfile);
 
 router.patch(
-	"/me",
-	auth(),
-	userController.updateMyProfile,
+	"/profile-image",
+	auth(UserRole.ADMIN, UserRole.CITIZEN, UserRole.STAFF, UserRole.SUPER_ADMIN),
+	upload.single("profileImage"),
+	userController.uploadProfileImage,
 );
 
-router.patch("/profile-image", 
-    auth(UserRole.ADMIN, UserRole.CITIZEN, UserRole.STAFF, UserRole.SUPER_ADMIN),
-    upload.single("profileImage"),
-    userController.uploadProfileImage);
-
-router.delete(
-	"/me",
-	auth(),
-	userController.deleteMe,
-);
+router.delete("/me", auth(), userController.deleteMe);
 
 // Admin-only user management API
 router.delete(

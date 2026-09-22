@@ -1,21 +1,30 @@
 import bcrypt from "bcryptjs";
-import { prisma } from "../../lib/prisma"
-import { AuthProvider, UserRole, UserStatus } from "../../../../generated/prisma/enums";
+import { prisma } from "../../lib/prisma";
+import {
+	AuthProvider,
+	UserRole,
+	UserStatus,
+} from "../../../../generated/prisma/enums";
 import config from "../../../app/config";
 import { jwtUtils } from "../../../utils/jwt";
 import { JwtPayload, SignOptions } from "jsonwebtoken";
-import { IForgotPasswordPayload, IGoogleLoginPayload, ILoginUserPayload, IRegisterPayload, IResetPasswordPayload, IVerifyCitizenPayload } from "./auth.interface";
+import {
+	IForgotPasswordPayload,
+	IGoogleLoginPayload,
+	ILoginUserPayload,
+	IRegisterPayload,
+	IResetPasswordPayload,
+	IVerifyCitizenPayload,
+} from "./auth.interface";
 import { TokenPayload } from "google-auth-library";
 import { googleClient } from "../../lib/googleAuth";
 import { redisClient } from "../../lib/redis";
-import crypto from "crypto"
+import crypto from "crypto";
 import path from "path";
 import { transporter } from "../../lib/nodemailer";
 import ejs from "ejs";
 
-
-
-const registerCitizen = async(payload: IRegisterPayload) => {
+const registerCitizen = async (payload: IRegisterPayload) => {
 	const { name, password, citizen: citizenData } = payload;
 	const email = payload.email.trim().toLowerCase();
 
@@ -27,9 +36,10 @@ const registerCitizen = async(payload: IRegisterPayload) => {
 		throw new Error("User with this email already exists");
 	}
 
-
-	const hashedPassword = await bcrypt.hash(password,  Number(config.bcrypt_salt_rounds));
-
+	const hashedPassword = await bcrypt.hash(
+		password,
+		Number(config.bcrypt_salt_rounds),
+	);
 
 	// store verify email otp to redis
 	const otpKey = `citizen-registration-otp:${email}`;
@@ -44,33 +54,38 @@ const registerCitizen = async(payload: IRegisterPayload) => {
 		},
 	});
 
-
 	// Store Registration Form Citizen Data to Redis In memory Buffer Store as StringiFied Format
-	const citizenRegistrationDataKey = `citizen-registration-data:${email}`
+	const citizenRegistrationDataKey = `citizen-registration-data:${email}`;
 	const redisUserDataPayload = {
 		name,
 		email,
 		password: hashedPassword,
-		citizen: citizenData
-	}
+		citizen: citizenData,
+	};
 
-	await redisClient.set(citizenRegistrationDataKey, JSON.stringify(redisUserDataPayload), {
-		expiration: {
-			type: "EX",
-			value: expirationSeconds,
+	await redisClient.set(
+		citizenRegistrationDataKey,
+		JSON.stringify(redisUserDataPayload),
+		{
+			expiration: {
+				type: "EX",
+				value: expirationSeconds,
+			},
 		},
-	});
+	);
 
-
-    // Implementation of NodeMailer with SMTP - Below we are sending email OTP for Account Registration
-	const templtePath = path.join(process.cwd(), "src/app/templates/registration-user-otp.ejs");
+	// Implementation of NodeMailer with SMTP - Below we are sending email OTP for Account Registration
+	const templtePath = path.join(
+		process.cwd(),
+		"src/app/templates/registration-user-otp.ejs",
+	);
 
 	const templateData = {
 		name,
-		otp : otpValue,
+		otp: otpValue,
 		email,
-		expirationMinutes: expirationSeconds / 60
-	}
+		expirationMinutes: expirationSeconds / 60,
+	};
 
 	const html = await ejs.renderFile(templtePath, templateData);
 
@@ -80,14 +95,11 @@ const registerCitizen = async(payload: IRegisterPayload) => {
 		subject: "Email Verification",
 		// text: `Your OTP is ${otp}`
 		// html: `<h1>Your OTP is ${otp}</h1>`,
-		html
+		html,
 	});
+};
 
-}
-
-
-
-const verifyCitizenEmail = async(payload: IVerifyCitizenPayload) => {
+const verifyCitizenEmail = async (payload: IVerifyCitizenPayload) => {
 	const email = payload.email.trim().toLowerCase();
 	const otp = payload.otp;
 
@@ -113,8 +125,7 @@ const verifyCitizenEmail = async(payload: IVerifyCitizenPayload) => {
 		throw new Error("User has account with Google!");
 	}
 
-		
-    // Get the OTP from redis, then comapare , finally delete the OTP
+	// Get the OTP from redis, then comapare , finally delete the OTP
 	const otpKey = `citizen-registration-otp:${email}`;
 	const redisOtp = await redisClient.get(otpKey);
 
@@ -128,29 +139,30 @@ const verifyCitizenEmail = async(payload: IVerifyCitizenPayload) => {
 
 	await redisClient.del(otpKey);
 
-
 	// Get the Citizen Data from Redis TEMP Storage, then create the user account , finally delete Redis User TEMP register Data
-	const citizenRegistrationDataKey = `citizen-registration-data:${email}`
-	const redisCitizentPayload = await redisClient.get(citizenRegistrationDataKey);
+	const citizenRegistrationDataKey = `citizen-registration-data:${email}`;
+	const redisCitizentPayload = await redisClient.get(
+		citizenRegistrationDataKey,
+	);
 
-	if(!redisCitizentPayload){
+	if (!redisCitizentPayload) {
 		throw new Error("Redis Citizen Data Not Found!");
 	}
 
-	const citizenPayload : IRegisterPayload  = JSON.parse(redisCitizentPayload);
+	const citizenPayload: IRegisterPayload = JSON.parse(redisCitizentPayload);
 
 	const createdUser = await prisma.user.create({
 		data: {
-			name : citizenPayload.name,
-			email : citizenPayload.email,
+			name: citizenPayload.name,
+			email: citizenPayload.email,
 			password: citizenPayload.password,
 			role: UserRole.CITIZEN,
 			status: UserStatus.ACTIVE,
 			emailVerified: true,
 			citizen: {
 				create: {
-					name : citizenPayload.name,
-			        email : citizenPayload.email,
+					name: citizenPayload.name,
+					email: citizenPayload.email,
 					contactNumber: citizenPayload?.citizen?.contactNumber || "",
 				},
 			},
@@ -161,15 +173,16 @@ const verifyCitizenEmail = async(payload: IVerifyCitizenPayload) => {
 
 	await redisClient.del(citizenRegistrationDataKey);
 
-
 	// Send the User Onboard or Wellcome Email Upon Email Verification and Successful Account Creation
-	const templtePath = path.join(process.cwd(), "src/app/templates/wellcome-email.ejs");
+	const templtePath = path.join(
+		process.cwd(),
+		"src/app/templates/wellcome-email.ejs",
+	);
 
 	const templateData = {
 		name: createdUser.name,
-		email: createdUser.email
-
-	}
+		email: createdUser.email,
+	};
 
 	const html = await ejs.renderFile(templtePath, templateData);
 
@@ -179,9 +192,8 @@ const verifyCitizenEmail = async(payload: IVerifyCitizenPayload) => {
 		subject: "Wellcome to CityCare Service",
 		// text: `Your OTP is ${otp}`
 		// html: `<h1>Your OTP is ${otp}</h1>`,
-		html
+		html,
 	});
-
 
 	// Set the jwtPayload and Store the user data into the Browser Cokkies.
 	const { citizen, ...user } = createdUser;
@@ -210,14 +222,10 @@ const verifyCitizenEmail = async(payload: IVerifyCitizenPayload) => {
 		accessToken,
 		refreshToken,
 	};
+};
 
-
-}
-
-
-const loginUser = async(payload: ILoginUserPayload) => {
-
-    const { password } = payload;
+const loginUser = async (payload: ILoginUserPayload) => {
+	const { password } = payload;
 	const email = payload.email.trim().toLowerCase();
 
 	const user = await prisma.user.findUnique({
@@ -274,11 +282,9 @@ const loginUser = async(payload: ILoginUserPayload) => {
 		accessToken,
 		refreshToken,
 	};
-}
+};
 
-const logoutUser = async() => {
-
-}
+const logoutUser = async () => {};
 
 const refreshToken = async (token: string) => {
 	const verifiedRefreshToken = jwtUtils.verifyToken(
@@ -321,7 +327,7 @@ const refreshToken = async (token: string) => {
 		jwtPayload,
 		config.jwt_refresh_secret,
 		config.jwt_refresh_expires_in as SignOptions,
-	); 
+	);
 
 	return {
 		accessToken,
@@ -329,10 +335,8 @@ const refreshToken = async (token: string) => {
 	};
 };
 
-
-
 const googleLogin = async (payload: IGoogleLoginPayload) => {
-	let googleIdTokenPayload : TokenPayload | undefined | null = null;
+	let googleIdTokenPayload: TokenPayload | undefined | null = null;
 
 	try {
 		const ticket = await googleClient.verifyIdToken({
@@ -419,10 +423,7 @@ const googleLogin = async (payload: IGoogleLoginPayload) => {
 				},
 			},
 		});
-
 	}
-
-
 
 	if (!user) {
 		throw new Error("User Not Found");
@@ -461,10 +462,7 @@ const googleLogin = async (payload: IGoogleLoginPayload) => {
 	};
 };
 
-const githubLogin = async() => {
-    
-}
-
+const githubLogin = async () => {};
 
 const forgotPassword = async (payload: IForgotPasswordPayload) => {
 	const { email } = payload;
@@ -495,7 +493,6 @@ const forgotPassword = async (payload: IForgotPasswordPayload) => {
 		throw new Error("User has account with Google!");
 	}
 
-
 	const otp = crypto.randomInt(100000, 1000000).toString();
 
 	const key = `forgot-password-otp:${isUserExists.email}`;
@@ -509,15 +506,17 @@ const forgotPassword = async (payload: IForgotPasswordPayload) => {
 		},
 	});
 
-
 	// Send Forgot Password OTP to the User email, to reset the password using that OTP
-	const templtePath = path.join(process.cwd(), "src/app/templates/forgot-password.ejs");
+	const templtePath = path.join(
+		process.cwd(),
+		"src/app/templates/forgot-password.ejs",
+	);
 
 	const html = await ejs.renderFile(templtePath, {
 		name: isUserExists.name,
 		otp,
-		expirationMinutes: expirationSeconds / 60
-	})
+		expirationMinutes: expirationSeconds / 60,
+	});
 
 	await transporter.sendMail({
 		from: config.email_sender,
@@ -525,9 +524,8 @@ const forgotPassword = async (payload: IForgotPasswordPayload) => {
 		subject: "CityCare: OTP to Reset Password",
 		// text: `Your OTP is ${otp}`
 		// html: `<h1>Your OTP is ${otp}</h1>`,
-		html
+		html,
 	});
-
 };
 
 const resetPassword = async (payload: IResetPasswordPayload) => {
@@ -587,13 +585,15 @@ const resetPassword = async (payload: IResetPasswordPayload) => {
 
 	await redisClient.del([key]);
 
-
 	// Send Reset Pasword Success Email to user
-	const templtePath = path.join(process.cwd(), "src/app/templates/reset-password.ejs");
+	const templtePath = path.join(
+		process.cwd(),
+		"src/app/templates/reset-password.ejs",
+	);
 
 	const html = await ejs.renderFile(templtePath, {
-		name: isUserExists.name
-	})
+		name: isUserExists.name,
+	});
 
 	// Send Password Chnaged Mail
 	await transporter.sendMail({
@@ -602,21 +602,18 @@ const resetPassword = async (payload: IResetPasswordPayload) => {
 		subject: "CityCare: Password changed Successfully!",
 		// text: `Your OTP is ${otp}`
 		// html: `<h1>Your Password is changed</h1>`,
-		html
+		html,
 	});
-
 };
 
-
-
 export const authService = {
-    registerCitizen,
+	registerCitizen,
 	verifyCitizenEmail,
 	loginUser,
 	logoutUser,
 	refreshToken,
 	googleLogin,
-    githubLogin,
+	githubLogin,
 	forgotPassword,
 	resetPassword,
-}
+};

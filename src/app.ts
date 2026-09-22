@@ -1,4 +1,9 @@
-import express, { NextFunction, type Application, type Request, type Response } from "express";
+import express, {
+	NextFunction,
+	type Application,
+	type Request,
+	type Response,
+} from "express";
 import { authRoutes } from "./app/module/auth/auth.route";
 import { userRoutes } from "./app/module/users/user.route";
 import cors from "cors";
@@ -6,7 +11,7 @@ import config from "./app/config";
 import { globalErrorHandler } from "./app/middlewares/globalErrorHandlers";
 import { notFound } from "./app/middlewares/notFound";
 import crypto from "crypto";
-import  httpStatus  from "http-status";
+import httpStatus from "http-status";
 import { redisClient } from "./app/lib/redis";
 import cookieParser from "cookie-parser";
 
@@ -26,13 +31,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-
 // Authentication API
 app.use("/api/v1/auth/", authRoutes);
 
 // User Management API
 app.use("/api/v1/users/", userRoutes);
-
 
 // TEST Otp api
 app.get("/test", async (req: Request, res: Response, next: NextFunction) => {
@@ -58,16 +61,11 @@ app.get("/test", async (req: Request, res: Response, next: NextFunction) => {
 	}
 });
 
-
-
-app.get('/', (req: Request, res: Response) => {
-  res.send('Wellcome to the Citycare Backend System!');
+app.get("/", (req: Request, res: Response) => {
+	res.send("Wellcome to the Citycare Backend System!");
 });
-
-
 
 app.use(globalErrorHandler);
 app.use(notFound);
 
 export default app;
-
