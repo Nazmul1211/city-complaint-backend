@@ -26,6 +26,22 @@ export interface IUpdateServiceRequest {
 	longitude?: number;
 }
 
+export interface ITimelineEvent {
+	type: "SUBMITTED" | "ROUTED";
+	timestamp: Date;
+	note: string;
+	actor?: {
+		id: string;
+		name: string;
+		email: string;
+	};
+	department?: {
+		id: string;
+		name: string;
+		code: string;
+	};
+}
+
 export interface IServiceRequestFilters {
 	searchTerm?: string;
 	status?: RequestStatus;

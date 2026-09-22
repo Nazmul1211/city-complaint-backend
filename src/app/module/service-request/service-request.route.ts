@@ -7,6 +7,7 @@ import { UserRole } from "../../../../generated/prisma/enums";
 
 const router = Router();
 
+
 router.post(
 	"/",
 	auth(UserRole.CITIZEN),
@@ -19,6 +20,8 @@ router.get(
 	auth(UserRole.CITIZEN),
 	serviceRequestController.getMyServiceRequests,
 );
+
+
 router.get(
 	"/",
 	auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.STAFF),
@@ -30,6 +33,14 @@ router.get(
 	auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.STAFF, UserRole.CITIZEN),
 	validateRequest(serviceRequestValidation.getServiceRequestByIdSchema),
 	serviceRequestController.getServiceRequestById,
+);
+
+
+router.get(
+	"/:id/timeline",
+	auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.STAFF, UserRole.CITIZEN),
+	validateRequest(serviceRequestValidation.getServiceRequestByIdSchema),
+	serviceRequestController.getRequestTimeline,
 );
 
 export const serviceRequestRoutes = router;

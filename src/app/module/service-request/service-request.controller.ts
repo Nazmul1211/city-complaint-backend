@@ -74,9 +74,21 @@ const getServiceRequestById = catchAsync(async (req: Request, res: Response) => 
 	});
 });
 
+const getRequestTimeline = catchAsync(async (req: Request, res: Response) => {
+	const result = await serviceRequestService.getRequestTimeline(String(req.params.id), req.user.id, req.user.role);
+
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "Request timeline fetched successfully",
+		data: result,
+	});
+});
+
 export const serviceRequestController = {
 	createServiceRequest,
 	getAllServiceRequests,
 	getMyServiceRequests,
 	getServiceRequestById,
+	getRequestTimeline,
 };

@@ -1,6 +1,6 @@
 import { prisma } from "../../lib/prisma";
 import { RequestPriority, RequestStatus } from "../../../../generated/prisma/enums";
-import type { ICreateServiceRequest, IServiceRequestFilters, IServiceRequestResponse } from "./service-request.interface";
+import type { ICreateServiceRequest, IServiceRequestFilters, IServiceRequestResponse, ITimelineEvent } from "./service-request.interface";
 
 const serviceRequestInclude = {
 	citizen: {
@@ -213,9 +213,49 @@ const getMyServiceRequests = async (userId: string, filters: IServiceRequestFilt
 	return getAllServiceRequests({ ...filters, citizenId: citizen.id }, userId, "CITIZEN");
 };
 
+const getRequestTimeline = async (id: string, userId: string, userRole: string): Promise<ITimelineEvent[]> => {
+	// Re-use the existing single-request getter — it handles auth checks for us
+	const serviceRequest = await getServiceRequestById(id, userId, userRole);
+	if (!serviceRequest) throw new Error("Service request not found.");
+
+	// Load the department routing history for this request
+	const routes = await prisma.requestDepartmentRoute.findMany({
+		where: { requestId: id },
+		orderBy: { routedAt: "asc" },
+		include: {
+			department: { select: { id: true, name: true, code: true } },
+			routedBy: { select: { id: true, name: true, email: true } },
+		},
+	});
+
+	// Build the timeline — start with the original submission event
+	const timeline: ITimelineEvent[] = [
+		{
+			type: "SUBMITTED",
+			timestamp: serviceRequest.createdAt,
+			note: `Request ${serviceRequest.requestNo} submitted`,
+		},
+	];
+
+	// Each routing entry becomes a ROUTED event
+	for (const route of routes) {
+		timeline.push({
+			type: "ROUTED",
+			timestamp: route.routedAt,
+			note: route.reason ?? `Routed to ${route.department.name}`,
+			actor: route.routedBy,
+			department: route.department,
+		});
+	}
+
+	// Sort by timestamp so the order is always correct regardless of DB insertion order
+	return timeline.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
+};
+
 export const serviceRequestService = {
 	createServiceRequest,
 	getAllServiceRequests,
 	getServiceRequestById,
 	getMyServiceRequests,
+	getRequestTimeline,
 };
