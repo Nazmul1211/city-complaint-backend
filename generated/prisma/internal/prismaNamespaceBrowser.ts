@@ -55,6 +55,9 @@ export const ModelName = {
   Citizen: 'Citizen',
   Department: 'Department',
   DepartmentMember: 'DepartmentMember',
+  ReportedLocation: 'ReportedLocation',
+  RequestDepartmentRoute: 'RequestDepartmentRoute',
+  ServiceRequest: 'ServiceRequest',
   SlaPolicy: 'SlaPolicy',
   User: 'User',
   Ward: 'Ward'
@@ -133,6 +136,56 @@ export const DepartmentMemberScalarFieldEnum = {
 } as const
 
 export type DepartmentMemberScalarFieldEnum = (typeof DepartmentMemberScalarFieldEnum)[keyof typeof DepartmentMemberScalarFieldEnum]
+
+
+export const ReportedLocationScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  wardId: 'wardId',
+  addressLine: 'addressLine',
+  landmark: 'landmark',
+  latitude: 'latitude',
+  longitude: 'longitude'
+} as const
+
+export type ReportedLocationScalarFieldEnum = (typeof ReportedLocationScalarFieldEnum)[keyof typeof ReportedLocationScalarFieldEnum]
+
+
+export const RequestDepartmentRouteScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  departmentId: 'departmentId',
+  routedById: 'routedById',
+  reason: 'reason',
+  routedAt: 'routedAt',
+  endedAt: 'endedAt'
+} as const
+
+export type RequestDepartmentRouteScalarFieldEnum = (typeof RequestDepartmentRouteScalarFieldEnum)[keyof typeof RequestDepartmentRouteScalarFieldEnum]
+
+
+export const ServiceRequestScalarFieldEnum = {
+  id: 'id',
+  requestNo: 'requestNo',
+  citizenId: 'citizenId',
+  categoryId: 'categoryId',
+  currentDepartmentId: 'currentDepartmentId',
+  type: 'type',
+  title: 'title',
+  description: 'description',
+  priority: 'priority',
+  status: 'status',
+  responseDueAt: 'responseDueAt',
+  resolutionDueAt: 'resolutionDueAt',
+  firstRespondedAt: 'firstRespondedAt',
+  resolvedAt: 'resolvedAt',
+  closedAt: 'closedAt',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ServiceRequestScalarFieldEnum = (typeof ServiceRequestScalarFieldEnum)[keyof typeof ServiceRequestScalarFieldEnum]
 
 
 export const SlaPolicyScalarFieldEnum = {

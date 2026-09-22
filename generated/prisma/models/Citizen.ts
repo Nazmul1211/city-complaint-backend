@@ -223,6 +223,7 @@ export type CitizenWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Citizen"> | Date | string
   userId?: Prisma.UuidFilter<"Citizen"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  serviceRequests?: Prisma.ServiceRequestListRelationFilter
 }
 
 export type CitizenOrderByWithRelationInput = {
@@ -237,6 +238,7 @@ export type CitizenOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  serviceRequests?: Prisma.ServiceRequestOrderByRelationAggregateInput
 }
 
 export type CitizenWhereUniqueInput = Prisma.AtLeast<{
@@ -254,6 +256,7 @@ export type CitizenWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Citizen"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Citizen"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  serviceRequests?: Prisma.ServiceRequestListRelationFilter
 }, "id" | "email" | "userId">
 
 export type CitizenOrderByWithAggregationInput = {
@@ -299,6 +302,7 @@ export type CitizenCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCitizenInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutCitizenInput
 }
 
 export type CitizenUncheckedCreateInput = {
@@ -312,6 +316,7 @@ export type CitizenUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutCitizenInput
 }
 
 export type CitizenUpdateInput = {
@@ -325,6 +330,7 @@ export type CitizenUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCitizenNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutCitizenNestedInput
 }
 
 export type CitizenUncheckedUpdateInput = {
@@ -338,6 +344,7 @@ export type CitizenUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutCitizenNestedInput
 }
 
 export type CitizenCreateManyInput = {
@@ -417,9 +424,28 @@ export type CitizenMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
 }
 
+export type CitizenScalarRelationFilter = {
+  is?: Prisma.CitizenWhereInput
+  isNot?: Prisma.CitizenWhereInput
+}
+
 export type CitizenNullableScalarRelationFilter = {
   is?: Prisma.CitizenWhereInput | null
   isNot?: Prisma.CitizenWhereInput | null
+}
+
+export type CitizenCreateNestedOneWithoutServiceRequestsInput = {
+  create?: Prisma.XOR<Prisma.CitizenCreateWithoutServiceRequestsInput, Prisma.CitizenUncheckedCreateWithoutServiceRequestsInput>
+  connectOrCreate?: Prisma.CitizenCreateOrConnectWithoutServiceRequestsInput
+  connect?: Prisma.CitizenWhereUniqueInput
+}
+
+export type CitizenUpdateOneRequiredWithoutServiceRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.CitizenCreateWithoutServiceRequestsInput, Prisma.CitizenUncheckedCreateWithoutServiceRequestsInput>
+  connectOrCreate?: Prisma.CitizenCreateOrConnectWithoutServiceRequestsInput
+  upsert?: Prisma.CitizenUpsertWithoutServiceRequestsInput
+  connect?: Prisma.CitizenWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CitizenUpdateToOneWithWhereWithoutServiceRequestsInput, Prisma.CitizenUpdateWithoutServiceRequestsInput>, Prisma.CitizenUncheckedUpdateWithoutServiceRequestsInput>
 }
 
 export type CitizenCreateNestedOneWithoutUserInput = {
@@ -454,6 +480,74 @@ export type CitizenUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CitizenUpdateToOneWithWhereWithoutUserInput, Prisma.CitizenUpdateWithoutUserInput>, Prisma.CitizenUncheckedUpdateWithoutUserInput>
 }
 
+export type CitizenCreateWithoutServiceRequestsInput = {
+  id?: string
+  name: string
+  email: string
+  contactNumber?: string | null
+  address?: string | null
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutCitizenInput
+}
+
+export type CitizenUncheckedCreateWithoutServiceRequestsInput = {
+  id?: string
+  name: string
+  email: string
+  contactNumber?: string | null
+  address?: string | null
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  userId: string
+}
+
+export type CitizenCreateOrConnectWithoutServiceRequestsInput = {
+  where: Prisma.CitizenWhereUniqueInput
+  create: Prisma.XOR<Prisma.CitizenCreateWithoutServiceRequestsInput, Prisma.CitizenUncheckedCreateWithoutServiceRequestsInput>
+}
+
+export type CitizenUpsertWithoutServiceRequestsInput = {
+  update: Prisma.XOR<Prisma.CitizenUpdateWithoutServiceRequestsInput, Prisma.CitizenUncheckedUpdateWithoutServiceRequestsInput>
+  create: Prisma.XOR<Prisma.CitizenCreateWithoutServiceRequestsInput, Prisma.CitizenUncheckedCreateWithoutServiceRequestsInput>
+  where?: Prisma.CitizenWhereInput
+}
+
+export type CitizenUpdateToOneWithWhereWithoutServiceRequestsInput = {
+  where?: Prisma.CitizenWhereInput
+  data: Prisma.XOR<Prisma.CitizenUpdateWithoutServiceRequestsInput, Prisma.CitizenUncheckedUpdateWithoutServiceRequestsInput>
+}
+
+export type CitizenUpdateWithoutServiceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutCitizenNestedInput
+}
+
+export type CitizenUncheckedUpdateWithoutServiceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
 export type CitizenCreateWithoutUserInput = {
   id?: string
   name: string
@@ -464,6 +558,7 @@ export type CitizenCreateWithoutUserInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutCitizenInput
 }
 
 export type CitizenUncheckedCreateWithoutUserInput = {
@@ -476,6 +571,7 @@ export type CitizenUncheckedCreateWithoutUserInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutCitizenInput
 }
 
 export type CitizenCreateOrConnectWithoutUserInput = {
@@ -504,6 +600,7 @@ export type CitizenUpdateWithoutUserInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutCitizenNestedInput
 }
 
 export type CitizenUncheckedUpdateWithoutUserInput = {
@@ -516,8 +613,38 @@ export type CitizenUncheckedUpdateWithoutUserInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutCitizenNestedInput
 }
 
+
+/**
+ * Count Type CitizenCountOutputType
+ */
+
+export type CitizenCountOutputType = {
+  serviceRequests: number
+}
+
+export type CitizenCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  serviceRequests?: boolean | CitizenCountOutputTypeCountServiceRequestsArgs
+}
+
+/**
+ * CitizenCountOutputType without action
+ */
+export type CitizenCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CitizenCountOutputType
+   */
+  select?: Prisma.CitizenCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * CitizenCountOutputType without action
+ */
+export type CitizenCountOutputTypeCountServiceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ServiceRequestWhereInput
+}
 
 
 export type CitizenSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -532,6 +659,8 @@ export type CitizenSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   updatedAt?: boolean
   userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  serviceRequests?: boolean | Prisma.Citizen$serviceRequestsArgs<ExtArgs>
+  _count?: boolean | Prisma.CitizenCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["citizen"]>
 
 export type CitizenSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -578,6 +707,8 @@ export type CitizenSelectScalar = {
 export type CitizenOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "contactNumber" | "address" | "isDeleted" | "deletedAt" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["citizen"]>
 export type CitizenInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  serviceRequests?: boolean | Prisma.Citizen$serviceRequestsArgs<ExtArgs>
+  _count?: boolean | Prisma.CitizenCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CitizenIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -590,6 +721,7 @@ export type $CitizenPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "Citizen"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    serviceRequests: Prisma.$ServiceRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -997,6 +1129,7 @@ readonly fields: CitizenFieldRefs;
 export interface Prisma__CitizenClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  serviceRequests<T extends Prisma.Citizen$serviceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Citizen$serviceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1434,6 +1567,30 @@ export type CitizenDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Citizens to delete.
    */
   limit?: number
+}
+
+/**
+ * Citizen.serviceRequests
+ */
+export type Citizen$serviceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ServiceRequest
+   */
+  select?: Prisma.ServiceRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ServiceRequest
+   */
+  omit?: Prisma.ServiceRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceRequestInclude<ExtArgs> | null
+  where?: Prisma.ServiceRequestWhereInput
+  orderBy?: Prisma.ServiceRequestOrderByWithRelationInput | Prisma.ServiceRequestOrderByWithRelationInput[]
+  cursor?: Prisma.ServiceRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ServiceRequestScalarFieldEnum | Prisma.ServiceRequestScalarFieldEnum[]
 }
 
 /**

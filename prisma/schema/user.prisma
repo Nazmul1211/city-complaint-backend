@@ -31,5 +31,7 @@ model User {
   // Relations
   departmentMemberships DepartmentMember[]
 
+  routedRequests      RequestDepartmentRoute[] @relation("RouteByUser")
+
   @@map("users")
 }

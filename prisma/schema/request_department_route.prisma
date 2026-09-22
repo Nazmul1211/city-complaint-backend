@@ -1,0 +1,25 @@
+model RequestDepartmentRoute {
+  id            String   @id @default(uuid()) @db.Uuid
+
+  requestId     String   @db.Uuid
+  departmentId  String   @db.Uuid
+  routedById    String   @db.Uuid
+
+  reason        String?
+  routedAt      DateTime @default(now())
+  endedAt       DateTime?
+
+
+  // Relations
+
+  request       ServiceRequest @relation(fields: [requestId],references: [id])
+
+  department    Department @relation(fields: [departmentId],references: [id])
+
+  routedBy      User @relation("RouteByUser",fields: [routedById],references: [id])
+
+  @@index([requestId])
+  @@index([departmentId])
+  @@index([routedById])
+  @@index([requestId, routedAt])
+}

@@ -11,9 +11,14 @@ model Department {
   updatedAt   DateTime @updatedAt
 
   // Relations
-
+  
   members     DepartmentMember[]
+
   categories  Category[]
+
+  serviceRequests ServiceRequest[]
+
+  routeHistory RequestDepartmentRoute[]
 
   @@index([isActive])
 }

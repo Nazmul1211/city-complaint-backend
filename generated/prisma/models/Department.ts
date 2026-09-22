@@ -208,6 +208,8 @@ export type DepartmentWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Department"> | Date | string
   members?: Prisma.DepartmentMemberListRelationFilter
   categories?: Prisma.CategoryListRelationFilter
+  serviceRequests?: Prisma.ServiceRequestListRelationFilter
+  routeHistory?: Prisma.RequestDepartmentRouteListRelationFilter
 }
 
 export type DepartmentOrderByWithRelationInput = {
@@ -221,6 +223,8 @@ export type DepartmentOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   members?: Prisma.DepartmentMemberOrderByRelationAggregateInput
   categories?: Prisma.CategoryOrderByRelationAggregateInput
+  serviceRequests?: Prisma.ServiceRequestOrderByRelationAggregateInput
+  routeHistory?: Prisma.RequestDepartmentRouteOrderByRelationAggregateInput
 }
 
 export type DepartmentWhereUniqueInput = Prisma.AtLeast<{
@@ -237,6 +241,8 @@ export type DepartmentWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Department"> | Date | string
   members?: Prisma.DepartmentMemberListRelationFilter
   categories?: Prisma.CategoryListRelationFilter
+  serviceRequests?: Prisma.ServiceRequestListRelationFilter
+  routeHistory?: Prisma.RequestDepartmentRouteListRelationFilter
 }, "id" | "name" | "code">
 
 export type DepartmentOrderByWithAggregationInput = {
@@ -278,6 +284,8 @@ export type DepartmentCreateInput = {
   updatedAt?: Date | string
   members?: Prisma.DepartmentMemberCreateNestedManyWithoutDepartmentInput
   categories?: Prisma.CategoryCreateNestedManyWithoutDepartmentInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutCurrentDepartmentInput
+  routeHistory?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentUncheckedCreateInput = {
@@ -291,6 +299,8 @@ export type DepartmentUncheckedCreateInput = {
   updatedAt?: Date | string
   members?: Prisma.DepartmentMemberUncheckedCreateNestedManyWithoutDepartmentInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutDepartmentInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutCurrentDepartmentInput
+  routeHistory?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentUpdateInput = {
@@ -304,6 +314,8 @@ export type DepartmentUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.DepartmentMemberUpdateManyWithoutDepartmentNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutDepartmentNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutCurrentDepartmentNestedInput
+  routeHistory?: Prisma.RequestDepartmentRouteUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentUncheckedUpdateInput = {
@@ -317,6 +329,8 @@ export type DepartmentUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.DepartmentMemberUncheckedUpdateManyWithoutDepartmentNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutDepartmentNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutCurrentDepartmentNestedInput
+  routeHistory?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentCreateManyInput = {
@@ -418,6 +432,34 @@ export type DepartmentUpdateOneRequiredWithoutMembersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DepartmentUpdateToOneWithWhereWithoutMembersInput, Prisma.DepartmentUpdateWithoutMembersInput>, Prisma.DepartmentUncheckedUpdateWithoutMembersInput>
 }
 
+export type DepartmentCreateNestedOneWithoutRouteHistoryInput = {
+  create?: Prisma.XOR<Prisma.DepartmentCreateWithoutRouteHistoryInput, Prisma.DepartmentUncheckedCreateWithoutRouteHistoryInput>
+  connectOrCreate?: Prisma.DepartmentCreateOrConnectWithoutRouteHistoryInput
+  connect?: Prisma.DepartmentWhereUniqueInput
+}
+
+export type DepartmentUpdateOneRequiredWithoutRouteHistoryNestedInput = {
+  create?: Prisma.XOR<Prisma.DepartmentCreateWithoutRouteHistoryInput, Prisma.DepartmentUncheckedCreateWithoutRouteHistoryInput>
+  connectOrCreate?: Prisma.DepartmentCreateOrConnectWithoutRouteHistoryInput
+  upsert?: Prisma.DepartmentUpsertWithoutRouteHistoryInput
+  connect?: Prisma.DepartmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DepartmentUpdateToOneWithWhereWithoutRouteHistoryInput, Prisma.DepartmentUpdateWithoutRouteHistoryInput>, Prisma.DepartmentUncheckedUpdateWithoutRouteHistoryInput>
+}
+
+export type DepartmentCreateNestedOneWithoutServiceRequestsInput = {
+  create?: Prisma.XOR<Prisma.DepartmentCreateWithoutServiceRequestsInput, Prisma.DepartmentUncheckedCreateWithoutServiceRequestsInput>
+  connectOrCreate?: Prisma.DepartmentCreateOrConnectWithoutServiceRequestsInput
+  connect?: Prisma.DepartmentWhereUniqueInput
+}
+
+export type DepartmentUpdateOneRequiredWithoutServiceRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.DepartmentCreateWithoutServiceRequestsInput, Prisma.DepartmentUncheckedCreateWithoutServiceRequestsInput>
+  connectOrCreate?: Prisma.DepartmentCreateOrConnectWithoutServiceRequestsInput
+  upsert?: Prisma.DepartmentUpsertWithoutServiceRequestsInput
+  connect?: Prisma.DepartmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DepartmentUpdateToOneWithWhereWithoutServiceRequestsInput, Prisma.DepartmentUpdateWithoutServiceRequestsInput>, Prisma.DepartmentUncheckedUpdateWithoutServiceRequestsInput>
+}
+
 export type DepartmentCreateWithoutCategoriesInput = {
   id?: string
   name: string
@@ -428,6 +470,8 @@ export type DepartmentCreateWithoutCategoriesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.DepartmentMemberCreateNestedManyWithoutDepartmentInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutCurrentDepartmentInput
+  routeHistory?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentUncheckedCreateWithoutCategoriesInput = {
@@ -440,6 +484,8 @@ export type DepartmentUncheckedCreateWithoutCategoriesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.DepartmentMemberUncheckedCreateNestedManyWithoutDepartmentInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutCurrentDepartmentInput
+  routeHistory?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentCreateOrConnectWithoutCategoriesInput = {
@@ -468,6 +514,8 @@ export type DepartmentUpdateWithoutCategoriesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.DepartmentMemberUpdateManyWithoutDepartmentNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutCurrentDepartmentNestedInput
+  routeHistory?: Prisma.RequestDepartmentRouteUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentUncheckedUpdateWithoutCategoriesInput = {
@@ -480,6 +528,8 @@ export type DepartmentUncheckedUpdateWithoutCategoriesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.DepartmentMemberUncheckedUpdateManyWithoutDepartmentNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutCurrentDepartmentNestedInput
+  routeHistory?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentCreateWithoutMembersInput = {
@@ -492,6 +542,8 @@ export type DepartmentCreateWithoutMembersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   categories?: Prisma.CategoryCreateNestedManyWithoutDepartmentInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutCurrentDepartmentInput
+  routeHistory?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentUncheckedCreateWithoutMembersInput = {
@@ -504,6 +556,8 @@ export type DepartmentUncheckedCreateWithoutMembersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutDepartmentInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutCurrentDepartmentInput
+  routeHistory?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentCreateOrConnectWithoutMembersInput = {
@@ -532,6 +586,8 @@ export type DepartmentUpdateWithoutMembersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categories?: Prisma.CategoryUpdateManyWithoutDepartmentNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutCurrentDepartmentNestedInput
+  routeHistory?: Prisma.RequestDepartmentRouteUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentUncheckedUpdateWithoutMembersInput = {
@@ -544,6 +600,152 @@ export type DepartmentUncheckedUpdateWithoutMembersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutDepartmentNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutCurrentDepartmentNestedInput
+  routeHistory?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutDepartmentNestedInput
+}
+
+export type DepartmentCreateWithoutRouteHistoryInput = {
+  id?: string
+  name: string
+  code: string
+  description?: string | null
+  isActive?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.DepartmentMemberCreateNestedManyWithoutDepartmentInput
+  categories?: Prisma.CategoryCreateNestedManyWithoutDepartmentInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutCurrentDepartmentInput
+}
+
+export type DepartmentUncheckedCreateWithoutRouteHistoryInput = {
+  id?: string
+  name: string
+  code: string
+  description?: string | null
+  isActive?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.DepartmentMemberUncheckedCreateNestedManyWithoutDepartmentInput
+  categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutDepartmentInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutCurrentDepartmentInput
+}
+
+export type DepartmentCreateOrConnectWithoutRouteHistoryInput = {
+  where: Prisma.DepartmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.DepartmentCreateWithoutRouteHistoryInput, Prisma.DepartmentUncheckedCreateWithoutRouteHistoryInput>
+}
+
+export type DepartmentUpsertWithoutRouteHistoryInput = {
+  update: Prisma.XOR<Prisma.DepartmentUpdateWithoutRouteHistoryInput, Prisma.DepartmentUncheckedUpdateWithoutRouteHistoryInput>
+  create: Prisma.XOR<Prisma.DepartmentCreateWithoutRouteHistoryInput, Prisma.DepartmentUncheckedCreateWithoutRouteHistoryInput>
+  where?: Prisma.DepartmentWhereInput
+}
+
+export type DepartmentUpdateToOneWithWhereWithoutRouteHistoryInput = {
+  where?: Prisma.DepartmentWhereInput
+  data: Prisma.XOR<Prisma.DepartmentUpdateWithoutRouteHistoryInput, Prisma.DepartmentUncheckedUpdateWithoutRouteHistoryInput>
+}
+
+export type DepartmentUpdateWithoutRouteHistoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.DepartmentMemberUpdateManyWithoutDepartmentNestedInput
+  categories?: Prisma.CategoryUpdateManyWithoutDepartmentNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutCurrentDepartmentNestedInput
+}
+
+export type DepartmentUncheckedUpdateWithoutRouteHistoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.DepartmentMemberUncheckedUpdateManyWithoutDepartmentNestedInput
+  categories?: Prisma.CategoryUncheckedUpdateManyWithoutDepartmentNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutCurrentDepartmentNestedInput
+}
+
+export type DepartmentCreateWithoutServiceRequestsInput = {
+  id?: string
+  name: string
+  code: string
+  description?: string | null
+  isActive?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.DepartmentMemberCreateNestedManyWithoutDepartmentInput
+  categories?: Prisma.CategoryCreateNestedManyWithoutDepartmentInput
+  routeHistory?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutDepartmentInput
+}
+
+export type DepartmentUncheckedCreateWithoutServiceRequestsInput = {
+  id?: string
+  name: string
+  code: string
+  description?: string | null
+  isActive?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.DepartmentMemberUncheckedCreateNestedManyWithoutDepartmentInput
+  categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutDepartmentInput
+  routeHistory?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutDepartmentInput
+}
+
+export type DepartmentCreateOrConnectWithoutServiceRequestsInput = {
+  where: Prisma.DepartmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.DepartmentCreateWithoutServiceRequestsInput, Prisma.DepartmentUncheckedCreateWithoutServiceRequestsInput>
+}
+
+export type DepartmentUpsertWithoutServiceRequestsInput = {
+  update: Prisma.XOR<Prisma.DepartmentUpdateWithoutServiceRequestsInput, Prisma.DepartmentUncheckedUpdateWithoutServiceRequestsInput>
+  create: Prisma.XOR<Prisma.DepartmentCreateWithoutServiceRequestsInput, Prisma.DepartmentUncheckedCreateWithoutServiceRequestsInput>
+  where?: Prisma.DepartmentWhereInput
+}
+
+export type DepartmentUpdateToOneWithWhereWithoutServiceRequestsInput = {
+  where?: Prisma.DepartmentWhereInput
+  data: Prisma.XOR<Prisma.DepartmentUpdateWithoutServiceRequestsInput, Prisma.DepartmentUncheckedUpdateWithoutServiceRequestsInput>
+}
+
+export type DepartmentUpdateWithoutServiceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.DepartmentMemberUpdateManyWithoutDepartmentNestedInput
+  categories?: Prisma.CategoryUpdateManyWithoutDepartmentNestedInput
+  routeHistory?: Prisma.RequestDepartmentRouteUpdateManyWithoutDepartmentNestedInput
+}
+
+export type DepartmentUncheckedUpdateWithoutServiceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.DepartmentMemberUncheckedUpdateManyWithoutDepartmentNestedInput
+  categories?: Prisma.CategoryUncheckedUpdateManyWithoutDepartmentNestedInput
+  routeHistory?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutDepartmentNestedInput
 }
 
 
@@ -554,11 +756,15 @@ export type DepartmentUncheckedUpdateWithoutMembersInput = {
 export type DepartmentCountOutputType = {
   members: number
   categories: number
+  serviceRequests: number
+  routeHistory: number
 }
 
 export type DepartmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   members?: boolean | DepartmentCountOutputTypeCountMembersArgs
   categories?: boolean | DepartmentCountOutputTypeCountCategoriesArgs
+  serviceRequests?: boolean | DepartmentCountOutputTypeCountServiceRequestsArgs
+  routeHistory?: boolean | DepartmentCountOutputTypeCountRouteHistoryArgs
 }
 
 /**
@@ -585,6 +791,20 @@ export type DepartmentCountOutputTypeCountCategoriesArgs<ExtArgs extends runtime
   where?: Prisma.CategoryWhereInput
 }
 
+/**
+ * DepartmentCountOutputType without action
+ */
+export type DepartmentCountOutputTypeCountServiceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ServiceRequestWhereInput
+}
+
+/**
+ * DepartmentCountOutputType without action
+ */
+export type DepartmentCountOutputTypeCountRouteHistoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RequestDepartmentRouteWhereInput
+}
+
 
 export type DepartmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -597,6 +817,8 @@ export type DepartmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   updatedAt?: boolean
   members?: boolean | Prisma.Department$membersArgs<ExtArgs>
   categories?: boolean | Prisma.Department$categoriesArgs<ExtArgs>
+  serviceRequests?: boolean | Prisma.Department$serviceRequestsArgs<ExtArgs>
+  routeHistory?: boolean | Prisma.Department$routeHistoryArgs<ExtArgs>
   _count?: boolean | Prisma.DepartmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["department"]>
 
@@ -637,6 +859,8 @@ export type DepartmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type DepartmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   members?: boolean | Prisma.Department$membersArgs<ExtArgs>
   categories?: boolean | Prisma.Department$categoriesArgs<ExtArgs>
+  serviceRequests?: boolean | Prisma.Department$serviceRequestsArgs<ExtArgs>
+  routeHistory?: boolean | Prisma.Department$routeHistoryArgs<ExtArgs>
   _count?: boolean | Prisma.DepartmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DepartmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -647,6 +871,8 @@ export type $DepartmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     members: Prisma.$DepartmentMemberPayload<ExtArgs>[]
     categories: Prisma.$CategoryPayload<ExtArgs>[]
+    serviceRequests: Prisma.$ServiceRequestPayload<ExtArgs>[]
+    routeHistory: Prisma.$RequestDepartmentRoutePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1053,6 +1279,8 @@ export interface Prisma__DepartmentClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   members<T extends Prisma.Department$membersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Department$membersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DepartmentMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   categories<T extends Prisma.Department$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Department$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  serviceRequests<T extends Prisma.Department$serviceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Department$serviceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  routeHistory<T extends Prisma.Department$routeHistoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Department$routeHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RequestDepartmentRoutePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1528,6 +1756,54 @@ export type Department$categoriesArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.CategoryScalarFieldEnum | Prisma.CategoryScalarFieldEnum[]
+}
+
+/**
+ * Department.serviceRequests
+ */
+export type Department$serviceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ServiceRequest
+   */
+  select?: Prisma.ServiceRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ServiceRequest
+   */
+  omit?: Prisma.ServiceRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceRequestInclude<ExtArgs> | null
+  where?: Prisma.ServiceRequestWhereInput
+  orderBy?: Prisma.ServiceRequestOrderByWithRelationInput | Prisma.ServiceRequestOrderByWithRelationInput[]
+  cursor?: Prisma.ServiceRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ServiceRequestScalarFieldEnum | Prisma.ServiceRequestScalarFieldEnum[]
+}
+
+/**
+ * Department.routeHistory
+ */
+export type Department$routeHistoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RequestDepartmentRoute
+   */
+  select?: Prisma.RequestDepartmentRouteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RequestDepartmentRoute
+   */
+  omit?: Prisma.RequestDepartmentRouteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RequestDepartmentRouteInclude<ExtArgs> | null
+  where?: Prisma.RequestDepartmentRouteWhereInput
+  orderBy?: Prisma.RequestDepartmentRouteOrderByWithRelationInput | Prisma.RequestDepartmentRouteOrderByWithRelationInput[]
+  cursor?: Prisma.RequestDepartmentRouteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RequestDepartmentRouteScalarFieldEnum | Prisma.RequestDepartmentRouteScalarFieldEnum[]
 }
 
 /**

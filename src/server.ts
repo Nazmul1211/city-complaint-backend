@@ -7,6 +7,7 @@ import {
 	seedSuperAdmin,
 	seedTesterAdmin,
 	seedTesterCitizen,
+	seedDemoData,
 } from "./utils/seed";
 
 const PORT = config.port;
@@ -25,6 +26,9 @@ const main = async () => {
 		await seedSuperAdmin();
 		await seedTesterAdmin();
 		await seedTesterCitizen();
+
+		// Demo data: departments, staff, members, categories, SLAs, wards
+		await seedDemoData();
 
 		app.listen(PORT, () => {
 			console.log(`Server is running on port ${PORT}`);

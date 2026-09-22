@@ -9,6 +9,7 @@ import { userRoutes } from "./app/module/users/user.route";
 import { departmentRoutes } from "./app/module/department/department.route";
 import { categoryRoutes } from "./app/module/category/category.route";
 import { wardRoutes } from "./app/module/ward/ward.route";
+import { serviceRequestRoutes } from "./app/module/service-request/service-request.route";
 import cors from "cors";
 import config from "./app/config";
 import { globalErrorHandler } from "./app/middlewares/globalErrorHandlers";
@@ -47,6 +48,9 @@ app.use("/api/v1/categories/", categoryRoutes);
 
 // Ward Management API (used for reported locations)
 app.use("/api/v1/wards/", wardRoutes);
+
+// Service Request API
+app.use("/api/v1/requests/", serviceRequestRoutes);
 
 // TEST Otp api
 app.get("/test", async (req: Request, res: Response, next: NextFunction) => {

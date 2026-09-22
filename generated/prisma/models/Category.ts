@@ -265,6 +265,7 @@ export type CategoryWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   department?: Prisma.XOR<Prisma.DepartmentScalarRelationFilter, Prisma.DepartmentWhereInput>
+  serviceRequests?: Prisma.ServiceRequestListRelationFilter
   slaPolicy?: Prisma.XOR<Prisma.SlaPolicyNullableScalarRelationFilter, Prisma.SlaPolicyWhereInput> | null
 }
 
@@ -281,6 +282,7 @@ export type CategoryOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   department?: Prisma.DepartmentOrderByWithRelationInput
+  serviceRequests?: Prisma.ServiceRequestOrderByRelationAggregateInput
   slaPolicy?: Prisma.SlaPolicyOrderByWithRelationInput
 }
 
@@ -301,6 +303,7 @@ export type CategoryWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   department?: Prisma.XOR<Prisma.DepartmentScalarRelationFilter, Prisma.DepartmentWhereInput>
+  serviceRequests?: Prisma.ServiceRequestListRelationFilter
   slaPolicy?: Prisma.XOR<Prisma.SlaPolicyNullableScalarRelationFilter, Prisma.SlaPolicyWhereInput> | null
 }, "id" | "departmentId_name">
 
@@ -352,6 +355,7 @@ export type CategoryCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   department: Prisma.DepartmentCreateNestedOneWithoutCategoriesInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutCategoryInput
   slaPolicy?: Prisma.SlaPolicyCreateNestedOneWithoutCategoryInput
 }
 
@@ -367,6 +371,7 @@ export type CategoryUncheckedCreateInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutCategoryInput
   slaPolicy?: Prisma.SlaPolicyUncheckedCreateNestedOneWithoutCategoryInput
 }
 
@@ -382,6 +387,7 @@ export type CategoryUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   department?: Prisma.DepartmentUpdateOneRequiredWithoutCategoriesNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutCategoryNestedInput
   slaPolicy?: Prisma.SlaPolicyUpdateOneWithoutCategoryNestedInput
 }
 
@@ -397,6 +403,7 @@ export type CategoryUncheckedUpdateInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutCategoryNestedInput
   slaPolicy?: Prisma.SlaPolicyUncheckedUpdateOneWithoutCategoryNestedInput
 }
 
@@ -581,6 +588,20 @@ export type CategoryUncheckedUpdateManyWithoutDepartmentNestedInput = {
   deleteMany?: Prisma.CategoryScalarWhereInput | Prisma.CategoryScalarWhereInput[]
 }
 
+export type CategoryCreateNestedOneWithoutServiceRequestsInput = {
+  create?: Prisma.XOR<Prisma.CategoryCreateWithoutServiceRequestsInput, Prisma.CategoryUncheckedCreateWithoutServiceRequestsInput>
+  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutServiceRequestsInput
+  connect?: Prisma.CategoryWhereUniqueInput
+}
+
+export type CategoryUpdateOneRequiredWithoutServiceRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.CategoryCreateWithoutServiceRequestsInput, Prisma.CategoryUncheckedCreateWithoutServiceRequestsInput>
+  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutServiceRequestsInput
+  upsert?: Prisma.CategoryUpsertWithoutServiceRequestsInput
+  connect?: Prisma.CategoryWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CategoryUpdateToOneWithWhereWithoutServiceRequestsInput, Prisma.CategoryUpdateWithoutServiceRequestsInput>, Prisma.CategoryUncheckedUpdateWithoutServiceRequestsInput>
+}
+
 export type CategoryCreateNestedOneWithoutSlaPolicyInput = {
   create?: Prisma.XOR<Prisma.CategoryCreateWithoutSlaPolicyInput, Prisma.CategoryUncheckedCreateWithoutSlaPolicyInput>
   connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutSlaPolicyInput
@@ -606,6 +627,7 @@ export type CategoryCreateWithoutDepartmentInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutCategoryInput
   slaPolicy?: Prisma.SlaPolicyCreateNestedOneWithoutCategoryInput
 }
 
@@ -620,6 +642,7 @@ export type CategoryUncheckedCreateWithoutDepartmentInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutCategoryInput
   slaPolicy?: Prisma.SlaPolicyUncheckedCreateNestedOneWithoutCategoryInput
 }
 
@@ -666,6 +689,82 @@ export type CategoryScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Category"> | Date | string
 }
 
+export type CategoryCreateWithoutServiceRequestsInput = {
+  id?: string
+  name: string
+  description?: string | null
+  paymentRequired?: boolean
+  defaultFeeAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
+  isActive?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  department: Prisma.DepartmentCreateNestedOneWithoutCategoriesInput
+  slaPolicy?: Prisma.SlaPolicyCreateNestedOneWithoutCategoryInput
+}
+
+export type CategoryUncheckedCreateWithoutServiceRequestsInput = {
+  id?: string
+  departmentId: string
+  name: string
+  description?: string | null
+  paymentRequired?: boolean
+  defaultFeeAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
+  isActive?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  slaPolicy?: Prisma.SlaPolicyUncheckedCreateNestedOneWithoutCategoryInput
+}
+
+export type CategoryCreateOrConnectWithoutServiceRequestsInput = {
+  where: Prisma.CategoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.CategoryCreateWithoutServiceRequestsInput, Prisma.CategoryUncheckedCreateWithoutServiceRequestsInput>
+}
+
+export type CategoryUpsertWithoutServiceRequestsInput = {
+  update: Prisma.XOR<Prisma.CategoryUpdateWithoutServiceRequestsInput, Prisma.CategoryUncheckedUpdateWithoutServiceRequestsInput>
+  create: Prisma.XOR<Prisma.CategoryCreateWithoutServiceRequestsInput, Prisma.CategoryUncheckedCreateWithoutServiceRequestsInput>
+  where?: Prisma.CategoryWhereInput
+}
+
+export type CategoryUpdateToOneWithWhereWithoutServiceRequestsInput = {
+  where?: Prisma.CategoryWhereInput
+  data: Prisma.XOR<Prisma.CategoryUpdateWithoutServiceRequestsInput, Prisma.CategoryUncheckedUpdateWithoutServiceRequestsInput>
+}
+
+export type CategoryUpdateWithoutServiceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFeeAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  department?: Prisma.DepartmentUpdateOneRequiredWithoutCategoriesNestedInput
+  slaPolicy?: Prisma.SlaPolicyUpdateOneWithoutCategoryNestedInput
+}
+
+export type CategoryUncheckedUpdateWithoutServiceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  departmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFeeAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slaPolicy?: Prisma.SlaPolicyUncheckedUpdateOneWithoutCategoryNestedInput
+}
+
 export type CategoryCreateWithoutSlaPolicyInput = {
   id?: string
   name: string
@@ -678,6 +777,7 @@ export type CategoryCreateWithoutSlaPolicyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   department: Prisma.DepartmentCreateNestedOneWithoutCategoriesInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUncheckedCreateWithoutSlaPolicyInput = {
@@ -692,6 +792,7 @@ export type CategoryUncheckedCreateWithoutSlaPolicyInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryCreateOrConnectWithoutSlaPolicyInput = {
@@ -722,6 +823,7 @@ export type CategoryUpdateWithoutSlaPolicyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   department?: Prisma.DepartmentUpdateOneRequiredWithoutCategoriesNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutSlaPolicyInput = {
@@ -736,6 +838,7 @@ export type CategoryUncheckedUpdateWithoutSlaPolicyInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryCreateManyDepartmentInput = {
@@ -762,6 +865,7 @@ export type CategoryUpdateWithoutDepartmentInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutCategoryNestedInput
   slaPolicy?: Prisma.SlaPolicyUpdateOneWithoutCategoryNestedInput
 }
 
@@ -776,6 +880,7 @@ export type CategoryUncheckedUpdateWithoutDepartmentInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutCategoryNestedInput
   slaPolicy?: Prisma.SlaPolicyUncheckedUpdateOneWithoutCategoryNestedInput
 }
 
@@ -793,6 +898,35 @@ export type CategoryUncheckedUpdateManyWithoutDepartmentInput = {
 }
 
 
+/**
+ * Count Type CategoryCountOutputType
+ */
+
+export type CategoryCountOutputType = {
+  serviceRequests: number
+}
+
+export type CategoryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  serviceRequests?: boolean | CategoryCountOutputTypeCountServiceRequestsArgs
+}
+
+/**
+ * CategoryCountOutputType without action
+ */
+export type CategoryCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CategoryCountOutputType
+   */
+  select?: Prisma.CategoryCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * CategoryCountOutputType without action
+ */
+export type CategoryCountOutputTypeCountServiceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ServiceRequestWhereInput
+}
+
 
 export type CategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -807,7 +941,9 @@ export type CategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   createdAt?: boolean
   updatedAt?: boolean
   department?: boolean | Prisma.DepartmentDefaultArgs<ExtArgs>
+  serviceRequests?: boolean | Prisma.Category$serviceRequestsArgs<ExtArgs>
   slaPolicy?: boolean | Prisma.Category$slaPolicyArgs<ExtArgs>
+  _count?: boolean | Prisma.CategoryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["category"]>
 
 export type CategorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -857,7 +993,9 @@ export type CategorySelectScalar = {
 export type CategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "departmentId" | "name" | "description" | "paymentRequired" | "defaultFeeAmount" | "currency" | "isActive" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
 export type CategoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   department?: boolean | Prisma.DepartmentDefaultArgs<ExtArgs>
+  serviceRequests?: boolean | Prisma.Category$serviceRequestsArgs<ExtArgs>
   slaPolicy?: boolean | Prisma.Category$slaPolicyArgs<ExtArgs>
+  _count?: boolean | Prisma.CategoryCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CategoryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   department?: boolean | Prisma.DepartmentDefaultArgs<ExtArgs>
@@ -870,6 +1008,7 @@ export type $CategoryPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "Category"
   objects: {
     department: Prisma.$DepartmentPayload<ExtArgs>
+    serviceRequests: Prisma.$ServiceRequestPayload<ExtArgs>[]
     slaPolicy: Prisma.$SlaPolicyPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1279,6 +1418,7 @@ readonly fields: CategoryFieldRefs;
 export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   department<T extends Prisma.DepartmentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DepartmentDefaultArgs<ExtArgs>>): Prisma.Prisma__DepartmentClient<runtime.Types.Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  serviceRequests<T extends Prisma.Category$serviceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$serviceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   slaPolicy<T extends Prisma.Category$slaPolicyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$slaPolicyArgs<ExtArgs>>): Prisma.Prisma__SlaPolicyClient<runtime.Types.Result.GetResult<Prisma.$SlaPolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1718,6 +1858,30 @@ export type CategoryDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Categories to delete.
    */
   limit?: number
+}
+
+/**
+ * Category.serviceRequests
+ */
+export type Category$serviceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ServiceRequest
+   */
+  select?: Prisma.ServiceRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ServiceRequest
+   */
+  omit?: Prisma.ServiceRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceRequestInclude<ExtArgs> | null
+  where?: Prisma.ServiceRequestWhereInput
+  orderBy?: Prisma.ServiceRequestOrderByWithRelationInput | Prisma.ServiceRequestOrderByWithRelationInput[]
+  cursor?: Prisma.ServiceRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ServiceRequestScalarFieldEnum | Prisma.ServiceRequestScalarFieldEnum[]
 }
 
 /**

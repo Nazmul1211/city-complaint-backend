@@ -182,6 +182,7 @@ export type WardWhereInput = {
   code?: Prisma.StringFilter<"Ward"> | string
   city?: Prisma.StringFilter<"Ward"> | string
   isActive?: Prisma.BoolFilter<"Ward"> | boolean
+  reportedLocations?: Prisma.ReportedLocationListRelationFilter
 }
 
 export type WardOrderByWithRelationInput = {
@@ -190,6 +191,7 @@ export type WardOrderByWithRelationInput = {
   code?: Prisma.SortOrder
   city?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  reportedLocations?: Prisma.ReportedLocationOrderByRelationAggregateInput
 }
 
 export type WardWhereUniqueInput = Prisma.AtLeast<{
@@ -201,6 +203,7 @@ export type WardWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Ward"> | string
   city?: Prisma.StringFilter<"Ward"> | string
   isActive?: Prisma.BoolFilter<"Ward"> | boolean
+  reportedLocations?: Prisma.ReportedLocationListRelationFilter
 }, "id" | "code">
 
 export type WardOrderByWithAggregationInput = {
@@ -231,6 +234,7 @@ export type WardCreateInput = {
   code: string
   city: string
   isActive?: boolean
+  reportedLocations?: Prisma.ReportedLocationCreateNestedManyWithoutWardInput
 }
 
 export type WardUncheckedCreateInput = {
@@ -239,6 +243,7 @@ export type WardUncheckedCreateInput = {
   code: string
   city: string
   isActive?: boolean
+  reportedLocations?: Prisma.ReportedLocationUncheckedCreateNestedManyWithoutWardInput
 }
 
 export type WardUpdateInput = {
@@ -247,6 +252,7 @@ export type WardUpdateInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reportedLocations?: Prisma.ReportedLocationUpdateManyWithoutWardNestedInput
 }
 
 export type WardUncheckedUpdateInput = {
@@ -255,6 +261,7 @@ export type WardUncheckedUpdateInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reportedLocations?: Prisma.ReportedLocationUncheckedUpdateManyWithoutWardNestedInput
 }
 
 export type WardCreateManyInput = {
@@ -281,6 +288,11 @@ export type WardUncheckedUpdateManyInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
+export type WardScalarRelationFilter = {
+  is?: Prisma.WardWhereInput
+  isNot?: Prisma.WardWhereInput
+}
+
 export type WardCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -305,6 +317,97 @@ export type WardMinOrderByAggregateInput = {
   isActive?: Prisma.SortOrder
 }
 
+export type WardCreateNestedOneWithoutReportedLocationsInput = {
+  create?: Prisma.XOR<Prisma.WardCreateWithoutReportedLocationsInput, Prisma.WardUncheckedCreateWithoutReportedLocationsInput>
+  connectOrCreate?: Prisma.WardCreateOrConnectWithoutReportedLocationsInput
+  connect?: Prisma.WardWhereUniqueInput
+}
+
+export type WardUpdateOneRequiredWithoutReportedLocationsNestedInput = {
+  create?: Prisma.XOR<Prisma.WardCreateWithoutReportedLocationsInput, Prisma.WardUncheckedCreateWithoutReportedLocationsInput>
+  connectOrCreate?: Prisma.WardCreateOrConnectWithoutReportedLocationsInput
+  upsert?: Prisma.WardUpsertWithoutReportedLocationsInput
+  connect?: Prisma.WardWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WardUpdateToOneWithWhereWithoutReportedLocationsInput, Prisma.WardUpdateWithoutReportedLocationsInput>, Prisma.WardUncheckedUpdateWithoutReportedLocationsInput>
+}
+
+export type WardCreateWithoutReportedLocationsInput = {
+  id?: string
+  name: string
+  code: string
+  city: string
+  isActive?: boolean
+}
+
+export type WardUncheckedCreateWithoutReportedLocationsInput = {
+  id?: string
+  name: string
+  code: string
+  city: string
+  isActive?: boolean
+}
+
+export type WardCreateOrConnectWithoutReportedLocationsInput = {
+  where: Prisma.WardWhereUniqueInput
+  create: Prisma.XOR<Prisma.WardCreateWithoutReportedLocationsInput, Prisma.WardUncheckedCreateWithoutReportedLocationsInput>
+}
+
+export type WardUpsertWithoutReportedLocationsInput = {
+  update: Prisma.XOR<Prisma.WardUpdateWithoutReportedLocationsInput, Prisma.WardUncheckedUpdateWithoutReportedLocationsInput>
+  create: Prisma.XOR<Prisma.WardCreateWithoutReportedLocationsInput, Prisma.WardUncheckedCreateWithoutReportedLocationsInput>
+  where?: Prisma.WardWhereInput
+}
+
+export type WardUpdateToOneWithWhereWithoutReportedLocationsInput = {
+  where?: Prisma.WardWhereInput
+  data: Prisma.XOR<Prisma.WardUpdateWithoutReportedLocationsInput, Prisma.WardUncheckedUpdateWithoutReportedLocationsInput>
+}
+
+export type WardUpdateWithoutReportedLocationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+}
+
+export type WardUncheckedUpdateWithoutReportedLocationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+}
+
+
+/**
+ * Count Type WardCountOutputType
+ */
+
+export type WardCountOutputType = {
+  reportedLocations: number
+}
+
+export type WardCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  reportedLocations?: boolean | WardCountOutputTypeCountReportedLocationsArgs
+}
+
+/**
+ * WardCountOutputType without action
+ */
+export type WardCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WardCountOutputType
+   */
+  select?: Prisma.WardCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * WardCountOutputType without action
+ */
+export type WardCountOutputTypeCountReportedLocationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReportedLocationWhereInput
+}
 
 
 export type WardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -313,6 +416,8 @@ export type WardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   code?: boolean
   city?: boolean
   isActive?: boolean
+  reportedLocations?: boolean | Prisma.Ward$reportedLocationsArgs<ExtArgs>
+  _count?: boolean | Prisma.WardCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ward"]>
 
 export type WardSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -340,10 +445,18 @@ export type WardSelectScalar = {
 }
 
 export type WardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "code" | "city" | "isActive", ExtArgs["result"]["ward"]>
+export type WardInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  reportedLocations?: boolean | Prisma.Ward$reportedLocationsArgs<ExtArgs>
+  _count?: boolean | Prisma.WardCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type WardIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type WardIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $WardPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Ward"
-  objects: {}
+  objects: {
+    reportedLocations: Prisma.$ReportedLocationPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
@@ -744,6 +857,7 @@ readonly fields: WardFieldRefs;
  */
 export interface Prisma__WardClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  reportedLocations<T extends Prisma.Ward$reportedLocationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Ward$reportedLocationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportedLocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -795,6 +909,10 @@ export type WardFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   omit?: Prisma.WardOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WardInclude<ExtArgs> | null
+  /**
    * Filter, which Ward to fetch.
    */
   where: Prisma.WardWhereUniqueInput
@@ -813,6 +931,10 @@ export type WardFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.WardOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WardInclude<ExtArgs> | null
+  /**
    * Filter, which Ward to fetch.
    */
   where: Prisma.WardWhereUniqueInput
@@ -830,6 +952,10 @@ export type WardFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Ward
    */
   omit?: Prisma.WardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WardInclude<ExtArgs> | null
   /**
    * Filter, which Ward to fetch.
    */
@@ -879,6 +1005,10 @@ export type WardFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.WardOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WardInclude<ExtArgs> | null
+  /**
    * Filter, which Ward to fetch.
    */
   where?: Prisma.WardWhereInput
@@ -926,6 +1056,10 @@ export type WardFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Ward
    */
   omit?: Prisma.WardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WardInclude<ExtArgs> | null
   /**
    * Filter, which Wards to fetch.
    */
@@ -975,6 +1109,10 @@ export type WardCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.WardOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WardInclude<ExtArgs> | null
+  /**
    * The data needed to create a Ward.
    */
   data: Prisma.XOR<Prisma.WardCreateInput, Prisma.WardUncheckedCreateInput>
@@ -1022,6 +1160,10 @@ export type WardUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    * Omit specific fields from the Ward
    */
   omit?: Prisma.WardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WardInclude<ExtArgs> | null
   /**
    * The data needed to update a Ward.
    */
@@ -1089,6 +1231,10 @@ export type WardUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.WardOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WardInclude<ExtArgs> | null
+  /**
    * The filter to search for the Ward to update in case it exists.
    */
   where: Prisma.WardWhereUniqueInput
@@ -1115,6 +1261,10 @@ export type WardDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.WardOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WardInclude<ExtArgs> | null
+  /**
    * Filter which Ward to delete.
    */
   where: Prisma.WardWhereUniqueInput
@@ -1135,6 +1285,30 @@ export type WardDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * Ward.reportedLocations
+ */
+export type Ward$reportedLocationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ReportedLocation
+   */
+  select?: Prisma.ReportedLocationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ReportedLocation
+   */
+  omit?: Prisma.ReportedLocationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReportedLocationInclude<ExtArgs> | null
+  where?: Prisma.ReportedLocationWhereInput
+  orderBy?: Prisma.ReportedLocationOrderByWithRelationInput | Prisma.ReportedLocationOrderByWithRelationInput[]
+  cursor?: Prisma.ReportedLocationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReportedLocationScalarFieldEnum | Prisma.ReportedLocationScalarFieldEnum[]
+}
+
+/**
  * Ward without action
  */
 export type WardDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1146,4 +1320,8 @@ export type WardDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the Ward
    */
   omit?: Prisma.WardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WardInclude<ExtArgs> | null
 }

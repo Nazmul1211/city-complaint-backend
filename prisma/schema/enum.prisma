@@ -30,3 +30,28 @@ enum StaffPosition {
   CASE_OFFICER
   TECHNICIAN
 }
+
+enum RequestType {
+  COMPLAINT
+  SERVICE
+  INFORMATION
+}
+
+enum RequestPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum RequestStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  ASSIGNED
+  IN_PROGRESS
+  PENDING
+  RESOLVED
+  CLOSED
+  REOPENED
+  REJECTED
+}

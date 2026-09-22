@@ -5,6 +5,8 @@ model Ward {
   city        String
   isActive    Boolean  @default(true)
 
+  reportedLocations ReportedLocation[]
+
   @@index([city])
   @@index([isActive])
 }

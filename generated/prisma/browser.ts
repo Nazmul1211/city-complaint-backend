@@ -38,6 +38,21 @@ export type Department = Prisma.DepartmentModel
  */
 export type DepartmentMember = Prisma.DepartmentMemberModel
 /**
+ * Model ReportedLocation
+ * 
+ */
+export type ReportedLocation = Prisma.ReportedLocationModel
+/**
+ * Model RequestDepartmentRoute
+ * 
+ */
+export type RequestDepartmentRoute = Prisma.RequestDepartmentRouteModel
+/**
+ * Model ServiceRequest
+ * 
+ */
+export type ServiceRequest = Prisma.ServiceRequestModel
+/**
  * Model SlaPolicy
  * 
  */

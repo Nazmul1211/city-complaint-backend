@@ -401,6 +401,9 @@ export const ModelName = {
   Citizen: 'Citizen',
   Department: 'Department',
   DepartmentMember: 'DepartmentMember',
+  ReportedLocation: 'ReportedLocation',
+  RequestDepartmentRoute: 'RequestDepartmentRoute',
+  ServiceRequest: 'ServiceRequest',
   SlaPolicy: 'SlaPolicy',
   User: 'User',
   Ward: 'Ward'
@@ -419,7 +422,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "category" | "citizen" | "department" | "departmentMember" | "slaPolicy" | "user" | "ward"
+    modelProps: "category" | "citizen" | "department" | "departmentMember" | "reportedLocation" | "requestDepartmentRoute" | "serviceRequest" | "slaPolicy" | "user" | "ward"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -716,6 +719,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.DepartmentMemberCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.DepartmentMemberCountAggregateOutputType> | number
+        }
+      }
+    }
+    ReportedLocation: {
+      payload: Prisma.$ReportedLocationPayload<ExtArgs>
+      fields: Prisma.ReportedLocationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ReportedLocationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportedLocationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ReportedLocationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportedLocationPayload>
+        }
+        findFirst: {
+          args: Prisma.ReportedLocationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportedLocationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ReportedLocationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportedLocationPayload>
+        }
+        findMany: {
+          args: Prisma.ReportedLocationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportedLocationPayload>[]
+        }
+        create: {
+          args: Prisma.ReportedLocationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportedLocationPayload>
+        }
+        createMany: {
+          args: Prisma.ReportedLocationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ReportedLocationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportedLocationPayload>[]
+        }
+        delete: {
+          args: Prisma.ReportedLocationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportedLocationPayload>
+        }
+        update: {
+          args: Prisma.ReportedLocationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportedLocationPayload>
+        }
+        deleteMany: {
+          args: Prisma.ReportedLocationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ReportedLocationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ReportedLocationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportedLocationPayload>[]
+        }
+        upsert: {
+          args: Prisma.ReportedLocationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportedLocationPayload>
+        }
+        aggregate: {
+          args: Prisma.ReportedLocationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateReportedLocation>
+        }
+        groupBy: {
+          args: Prisma.ReportedLocationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReportedLocationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ReportedLocationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReportedLocationCountAggregateOutputType> | number
+        }
+      }
+    }
+    RequestDepartmentRoute: {
+      payload: Prisma.$RequestDepartmentRoutePayload<ExtArgs>
+      fields: Prisma.RequestDepartmentRouteFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RequestDepartmentRouteFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestDepartmentRoutePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RequestDepartmentRouteFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestDepartmentRoutePayload>
+        }
+        findFirst: {
+          args: Prisma.RequestDepartmentRouteFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestDepartmentRoutePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RequestDepartmentRouteFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestDepartmentRoutePayload>
+        }
+        findMany: {
+          args: Prisma.RequestDepartmentRouteFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestDepartmentRoutePayload>[]
+        }
+        create: {
+          args: Prisma.RequestDepartmentRouteCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestDepartmentRoutePayload>
+        }
+        createMany: {
+          args: Prisma.RequestDepartmentRouteCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RequestDepartmentRouteCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestDepartmentRoutePayload>[]
+        }
+        delete: {
+          args: Prisma.RequestDepartmentRouteDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestDepartmentRoutePayload>
+        }
+        update: {
+          args: Prisma.RequestDepartmentRouteUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestDepartmentRoutePayload>
+        }
+        deleteMany: {
+          args: Prisma.RequestDepartmentRouteDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RequestDepartmentRouteUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RequestDepartmentRouteUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestDepartmentRoutePayload>[]
+        }
+        upsert: {
+          args: Prisma.RequestDepartmentRouteUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestDepartmentRoutePayload>
+        }
+        aggregate: {
+          args: Prisma.RequestDepartmentRouteAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRequestDepartmentRoute>
+        }
+        groupBy: {
+          args: Prisma.RequestDepartmentRouteGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RequestDepartmentRouteGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RequestDepartmentRouteCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RequestDepartmentRouteCountAggregateOutputType> | number
+        }
+      }
+    }
+    ServiceRequest: {
+      payload: Prisma.$ServiceRequestPayload<ExtArgs>
+      fields: Prisma.ServiceRequestFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ServiceRequestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceRequestPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ServiceRequestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceRequestPayload>
+        }
+        findFirst: {
+          args: Prisma.ServiceRequestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceRequestPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ServiceRequestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceRequestPayload>
+        }
+        findMany: {
+          args: Prisma.ServiceRequestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceRequestPayload>[]
+        }
+        create: {
+          args: Prisma.ServiceRequestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceRequestPayload>
+        }
+        createMany: {
+          args: Prisma.ServiceRequestCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ServiceRequestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceRequestPayload>[]
+        }
+        delete: {
+          args: Prisma.ServiceRequestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceRequestPayload>
+        }
+        update: {
+          args: Prisma.ServiceRequestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceRequestPayload>
+        }
+        deleteMany: {
+          args: Prisma.ServiceRequestDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ServiceRequestUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ServiceRequestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceRequestPayload>[]
+        }
+        upsert: {
+          args: Prisma.ServiceRequestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceRequestPayload>
+        }
+        aggregate: {
+          args: Prisma.ServiceRequestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateServiceRequest>
+        }
+        groupBy: {
+          args: Prisma.ServiceRequestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ServiceRequestGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ServiceRequestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ServiceRequestCountAggregateOutputType> | number
         }
       }
     }
@@ -1039,6 +1264,56 @@ export const DepartmentMemberScalarFieldEnum = {
 export type DepartmentMemberScalarFieldEnum = (typeof DepartmentMemberScalarFieldEnum)[keyof typeof DepartmentMemberScalarFieldEnum]
 
 
+export const ReportedLocationScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  wardId: 'wardId',
+  addressLine: 'addressLine',
+  landmark: 'landmark',
+  latitude: 'latitude',
+  longitude: 'longitude'
+} as const
+
+export type ReportedLocationScalarFieldEnum = (typeof ReportedLocationScalarFieldEnum)[keyof typeof ReportedLocationScalarFieldEnum]
+
+
+export const RequestDepartmentRouteScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  departmentId: 'departmentId',
+  routedById: 'routedById',
+  reason: 'reason',
+  routedAt: 'routedAt',
+  endedAt: 'endedAt'
+} as const
+
+export type RequestDepartmentRouteScalarFieldEnum = (typeof RequestDepartmentRouteScalarFieldEnum)[keyof typeof RequestDepartmentRouteScalarFieldEnum]
+
+
+export const ServiceRequestScalarFieldEnum = {
+  id: 'id',
+  requestNo: 'requestNo',
+  citizenId: 'citizenId',
+  categoryId: 'categoryId',
+  currentDepartmentId: 'currentDepartmentId',
+  type: 'type',
+  title: 'title',
+  description: 'description',
+  priority: 'priority',
+  status: 'status',
+  responseDueAt: 'responseDueAt',
+  resolutionDueAt: 'resolutionDueAt',
+  firstRespondedAt: 'firstRespondedAt',
+  resolvedAt: 'resolvedAt',
+  closedAt: 'closedAt',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ServiceRequestScalarFieldEnum = (typeof ServiceRequestScalarFieldEnum)[keyof typeof ServiceRequestScalarFieldEnum]
+
+
 export const SlaPolicyScalarFieldEnum = {
   id: 'id',
   categoryId: 'categoryId',
@@ -1176,6 +1451,48 @@ export type EnumStaffPositionFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'StaffPosition[]'
  */
 export type ListEnumStaffPositionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StaffPosition[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RequestType'
+ */
+export type EnumRequestTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestType'>
+    
+
+
+/**
+ * Reference to a field of type 'RequestType[]'
+ */
+export type ListEnumRequestTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RequestPriority'
+ */
+export type EnumRequestPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestPriority'>
+    
+
+
+/**
+ * Reference to a field of type 'RequestPriority[]'
+ */
+export type ListEnumRequestPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestPriority[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RequestStatus'
+ */
+export type EnumRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'RequestStatus[]'
+ */
+export type ListEnumRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestStatus[]'>
     
 
 
@@ -1403,6 +1720,9 @@ export type GlobalOmitConfig = {
   citizen?: Prisma.CitizenOmit
   department?: Prisma.DepartmentOmit
   departmentMember?: Prisma.DepartmentMemberOmit
+  reportedLocation?: Prisma.ReportedLocationOmit
+  requestDepartmentRoute?: Prisma.RequestDepartmentRouteOmit
+  serviceRequest?: Prisma.ServiceRequestOmit
   slaPolicy?: Prisma.SlaPolicyOmit
   user?: Prisma.UserOmit
   ward?: Prisma.WardOmit

@@ -1,0 +1,52 @@
+model ServiceRequest {
+  id                    String          @id @default(uuid()) @db.Uuid
+
+  requestNo             String          @unique
+
+  citizenId             String          @db.Uuid
+  categoryId            String          @db.Uuid
+  currentDepartmentId   String          @db.Uuid
+
+  type                  RequestType
+  title                 String
+  description           String
+
+  priority              RequestPriority @default(MEDIUM)
+  status                RequestStatus   @default(SUBMITTED)
+
+  responseDueAt         DateTime?
+  resolutionDueAt       DateTime?
+
+  firstRespondedAt      DateTime?
+  resolvedAt            DateTime?
+  closedAt              DateTime?
+
+  deletedAt             DateTime?
+
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+
+  // Relations
+
+  citizen               Citizen @relation(fields: [citizenId],references: [id])
+
+  category              Category @relation(fields: [categoryId],references: [id])
+
+  currentDepartment     Department @relation(fields: [currentDepartmentId],references: [id])
+
+  reportedLocation      ReportedLocation?
+
+  departmentRoutes      RequestDepartmentRoute[]
+
+ 
+  // Indexes
+
+  @@index([citizenId])
+  @@index([categoryId])
+  @@index([currentDepartmentId])
+  @@index([status])
+  @@index([priority])
+  @@index([createdAt])
+  @@index([status, priority])
+}
+

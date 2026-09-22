@@ -288,6 +288,7 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   citizen?: Prisma.XOR<Prisma.CitizenNullableScalarRelationFilter, Prisma.CitizenWhereInput> | null
   departmentMemberships?: Prisma.DepartmentMemberListRelationFilter
+  routedRequests?: Prisma.RequestDepartmentRouteListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -311,6 +312,7 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   citizen?: Prisma.CitizenOrderByWithRelationInput
   departmentMemberships?: Prisma.DepartmentMemberOrderByRelationAggregateInput
+  routedRequests?: Prisma.RequestDepartmentRouteOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -337,6 +339,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   citizen?: Prisma.XOR<Prisma.CitizenNullableScalarRelationFilter, Prisma.CitizenWhereInput> | null
   departmentMemberships?: Prisma.DepartmentMemberListRelationFilter
+  routedRequests?: Prisma.RequestDepartmentRouteListRelationFilter
 }, "id" | "email" | "phone" | "googleId" | "githubId">
 
 export type UserOrderByWithAggregationInput = {
@@ -408,6 +411,7 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   citizen?: Prisma.CitizenCreateNestedOneWithoutUserInput
   departmentMemberships?: Prisma.DepartmentMemberCreateNestedManyWithoutUserInput
+  routedRequests?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutRoutedByInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -431,6 +435,7 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   citizen?: Prisma.CitizenUncheckedCreateNestedOneWithoutUserInput
   departmentMemberships?: Prisma.DepartmentMemberUncheckedCreateNestedManyWithoutUserInput
+  routedRequests?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutRoutedByInput
 }
 
 export type UserUpdateInput = {
@@ -454,6 +459,7 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citizen?: Prisma.CitizenUpdateOneWithoutUserNestedInput
   departmentMemberships?: Prisma.DepartmentMemberUpdateManyWithoutUserNestedInput
+  routedRequests?: Prisma.RequestDepartmentRouteUpdateManyWithoutRoutedByNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -477,6 +483,7 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citizen?: Prisma.CitizenUncheckedUpdateOneWithoutUserNestedInput
   departmentMemberships?: Prisma.DepartmentMemberUncheckedUpdateManyWithoutUserNestedInput
+  routedRequests?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutRoutedByNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -638,6 +645,20 @@ export type UserUpdateOneRequiredWithoutDepartmentMembershipsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDepartmentMembershipsInput, Prisma.UserUpdateWithoutDepartmentMembershipsInput>, Prisma.UserUncheckedUpdateWithoutDepartmentMembershipsInput>
 }
 
+export type UserCreateNestedOneWithoutRoutedRequestsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRoutedRequestsInput, Prisma.UserUncheckedCreateWithoutRoutedRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRoutedRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutRoutedRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRoutedRequestsInput, Prisma.UserUncheckedCreateWithoutRoutedRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRoutedRequestsInput
+  upsert?: Prisma.UserUpsertWithoutRoutedRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRoutedRequestsInput, Prisma.UserUpdateWithoutRoutedRequestsInput>, Prisma.UserUncheckedUpdateWithoutRoutedRequestsInput>
+}
+
 export type EnumAuthProviderFieldUpdateOperationsInput = {
   set?: $Enums.AuthProvider
 }
@@ -670,6 +691,7 @@ export type UserCreateWithoutCitizenInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   departmentMemberships?: Prisma.DepartmentMemberCreateNestedManyWithoutUserInput
+  routedRequests?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutRoutedByInput
 }
 
 export type UserUncheckedCreateWithoutCitizenInput = {
@@ -692,6 +714,7 @@ export type UserUncheckedCreateWithoutCitizenInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   departmentMemberships?: Prisma.DepartmentMemberUncheckedCreateNestedManyWithoutUserInput
+  routedRequests?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutRoutedByInput
 }
 
 export type UserCreateOrConnectWithoutCitizenInput = {
@@ -730,6 +753,7 @@ export type UserUpdateWithoutCitizenInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   departmentMemberships?: Prisma.DepartmentMemberUpdateManyWithoutUserNestedInput
+  routedRequests?: Prisma.RequestDepartmentRouteUpdateManyWithoutRoutedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCitizenInput = {
@@ -752,6 +776,7 @@ export type UserUncheckedUpdateWithoutCitizenInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   departmentMemberships?: Prisma.DepartmentMemberUncheckedUpdateManyWithoutUserNestedInput
+  routedRequests?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutRoutedByNestedInput
 }
 
 export type UserCreateWithoutDepartmentMembershipsInput = {
@@ -774,6 +799,7 @@ export type UserCreateWithoutDepartmentMembershipsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   citizen?: Prisma.CitizenCreateNestedOneWithoutUserInput
+  routedRequests?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutRoutedByInput
 }
 
 export type UserUncheckedCreateWithoutDepartmentMembershipsInput = {
@@ -796,6 +822,7 @@ export type UserUncheckedCreateWithoutDepartmentMembershipsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   citizen?: Prisma.CitizenUncheckedCreateNestedOneWithoutUserInput
+  routedRequests?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutRoutedByInput
 }
 
 export type UserCreateOrConnectWithoutDepartmentMembershipsInput = {
@@ -834,6 +861,7 @@ export type UserUpdateWithoutDepartmentMembershipsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citizen?: Prisma.CitizenUpdateOneWithoutUserNestedInput
+  routedRequests?: Prisma.RequestDepartmentRouteUpdateManyWithoutRoutedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDepartmentMembershipsInput = {
@@ -856,6 +884,115 @@ export type UserUncheckedUpdateWithoutDepartmentMembershipsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citizen?: Prisma.CitizenUncheckedUpdateOneWithoutUserNestedInput
+  routedRequests?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutRoutedByNestedInput
+}
+
+export type UserCreateWithoutRoutedRequestsInput = {
+  id?: string
+  name: string
+  email: string
+  password?: string | null
+  phone?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  authProvider?: $Enums.AuthProvider
+  role?: $Enums.UserRole
+  status?: $Enums.UserStatus
+  emailVerified?: boolean
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  citizen?: Prisma.CitizenCreateNestedOneWithoutUserInput
+  departmentMemberships?: Prisma.DepartmentMemberCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutRoutedRequestsInput = {
+  id?: string
+  name: string
+  email: string
+  password?: string | null
+  phone?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  authProvider?: $Enums.AuthProvider
+  role?: $Enums.UserRole
+  status?: $Enums.UserStatus
+  emailVerified?: boolean
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  citizen?: Prisma.CitizenUncheckedCreateNestedOneWithoutUserInput
+  departmentMemberships?: Prisma.DepartmentMemberUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutRoutedRequestsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRoutedRequestsInput, Prisma.UserUncheckedCreateWithoutRoutedRequestsInput>
+}
+
+export type UserUpsertWithoutRoutedRequestsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRoutedRequestsInput, Prisma.UserUncheckedUpdateWithoutRoutedRequestsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRoutedRequestsInput, Prisma.UserUncheckedCreateWithoutRoutedRequestsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRoutedRequestsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRoutedRequestsInput, Prisma.UserUncheckedUpdateWithoutRoutedRequestsInput>
+}
+
+export type UserUpdateWithoutRoutedRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citizen?: Prisma.CitizenUpdateOneWithoutUserNestedInput
+  departmentMemberships?: Prisma.DepartmentMemberUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRoutedRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citizen?: Prisma.CitizenUncheckedUpdateOneWithoutUserNestedInput
+  departmentMemberships?: Prisma.DepartmentMemberUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -865,10 +1002,12 @@ export type UserUncheckedUpdateWithoutDepartmentMembershipsInput = {
 
 export type UserCountOutputType = {
   departmentMemberships: number
+  routedRequests: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   departmentMemberships?: boolean | UserCountOutputTypeCountDepartmentMembershipsArgs
+  routedRequests?: boolean | UserCountOutputTypeCountRoutedRequestsArgs
 }
 
 /**
@@ -886,6 +1025,13 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
  */
 export type UserCountOutputTypeCountDepartmentMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.DepartmentMemberWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRoutedRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RequestDepartmentRouteWhereInput
 }
 
 
@@ -910,6 +1056,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   citizen?: boolean | Prisma.User$citizenArgs<ExtArgs>
   departmentMemberships?: boolean | Prisma.User$departmentMembershipsArgs<ExtArgs>
+  routedRequests?: boolean | Prisma.User$routedRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -980,6 +1127,7 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   citizen?: boolean | Prisma.User$citizenArgs<ExtArgs>
   departmentMemberships?: boolean | Prisma.User$departmentMembershipsArgs<ExtArgs>
+  routedRequests?: boolean | Prisma.User$routedRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -990,6 +1138,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     citizen: Prisma.$CitizenPayload<ExtArgs> | null
     departmentMemberships: Prisma.$DepartmentMemberPayload<ExtArgs>[]
+    routedRequests: Prisma.$RequestDepartmentRoutePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1406,6 +1555,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   citizen<T extends Prisma.User$citizenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$citizenArgs<ExtArgs>>): Prisma.Prisma__CitizenClient<runtime.Types.Result.GetResult<Prisma.$CitizenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   departmentMemberships<T extends Prisma.User$departmentMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$departmentMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DepartmentMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  routedRequests<T extends Prisma.User$routedRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$routedRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RequestDepartmentRoutePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1886,6 +2036,30 @@ export type User$departmentMembershipsArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.DepartmentMemberScalarFieldEnum | Prisma.DepartmentMemberScalarFieldEnum[]
+}
+
+/**
+ * User.routedRequests
+ */
+export type User$routedRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RequestDepartmentRoute
+   */
+  select?: Prisma.RequestDepartmentRouteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RequestDepartmentRoute
+   */
+  omit?: Prisma.RequestDepartmentRouteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RequestDepartmentRouteInclude<ExtArgs> | null
+  where?: Prisma.RequestDepartmentRouteWhereInput
+  orderBy?: Prisma.RequestDepartmentRouteOrderByWithRelationInput | Prisma.RequestDepartmentRouteOrderByWithRelationInput[]
+  cursor?: Prisma.RequestDepartmentRouteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RequestDepartmentRouteScalarFieldEnum | Prisma.RequestDepartmentRouteScalarFieldEnum[]
 }
 
 /**

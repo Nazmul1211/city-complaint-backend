@@ -19,6 +19,8 @@ model Category {
 
   department        Department @relation(fields: [departmentId], references: [id])
 
+  serviceRequests   ServiceRequest[]
+
   slaPolicy         SlaPolicy?
 
   // Constraints / Indexes

@@ -55,3 +55,37 @@ export const StaffPosition = {
 } as const
 
 export type StaffPosition = (typeof StaffPosition)[keyof typeof StaffPosition]
+
+
+export const RequestType = {
+  COMPLAINT: 'COMPLAINT',
+  SERVICE: 'SERVICE',
+  INFORMATION: 'INFORMATION'
+} as const
+
+export type RequestType = (typeof RequestType)[keyof typeof RequestType]
+
+
+export const RequestPriority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  URGENT: 'URGENT'
+} as const
+
+export type RequestPriority = (typeof RequestPriority)[keyof typeof RequestPriority]
+
+
+export const RequestStatus = {
+  SUBMITTED: 'SUBMITTED',
+  UNDER_REVIEW: 'UNDER_REVIEW',
+  ASSIGNED: 'ASSIGNED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  PENDING: 'PENDING',
+  RESOLVED: 'RESOLVED',
+  CLOSED: 'CLOSED',
+  REOPENED: 'REOPENED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type RequestStatus = (typeof RequestStatus)[keyof typeof RequestStatus]
