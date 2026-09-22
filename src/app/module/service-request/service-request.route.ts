@@ -4,9 +4,9 @@ import { auth } from "../../middlewares/auth";
 import { validateRequest } from "../../middlewares/validateRequest";
 import { serviceRequestValidation } from "./service-request.validation";
 import { UserRole } from "../../../../generated/prisma/enums";
+import { requestRoutingRoutes } from "../request-routing/request-routing.route";
 
 const router = Router();
-
 
 router.post(
 	"/",
@@ -21,7 +21,6 @@ router.get(
 	serviceRequestController.getMyServiceRequests,
 );
 
-
 router.get(
 	"/",
 	auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.STAFF),
@@ -35,12 +34,14 @@ router.get(
 	serviceRequestController.getServiceRequestById,
 );
 
-
 router.get(
 	"/:id/timeline",
 	auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.STAFF, UserRole.CITIZEN),
 	validateRequest(serviceRequestValidation.getServiceRequestByIdSchema),
 	serviceRequestController.getRequestTimeline,
 );
+
+// Department routing sub-router — POST/GET /requests/:id/routes, PATCH /requests/:id/routes/:routeId/end
+router.use("/:id/routes", requestRoutingRoutes);
 
 export const serviceRequestRoutes = router;

@@ -34,23 +34,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// Authentication API
+
 app.use("/api/v1/auth/", authRoutes);
-
-// User Management API
 app.use("/api/v1/users/", userRoutes);
-
-// Department Management API
 app.use("/api/v1/departments/", departmentRoutes);
-
-// Category Management API
 app.use("/api/v1/categories/", categoryRoutes);
-
-// Ward Management API (used for reported locations)
 app.use("/api/v1/wards/", wardRoutes);
-
-// Service Request API
 app.use("/api/v1/requests/", serviceRequestRoutes);
+
+
 
 // TEST Otp api
 app.get("/test", async (req: Request, res: Response, next: NextFunction) => {
