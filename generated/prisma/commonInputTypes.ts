@@ -175,6 +175,23 @@ export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
 }
 
+export type EnumStaffPositionFilter<$PrismaModel = never> = {
+  equals?: $Enums.StaffPosition | Prisma.EnumStaffPositionFieldRefInput<$PrismaModel>
+  in?: $Enums.StaffPosition[] | Prisma.ListEnumStaffPositionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StaffPosition[] | Prisma.ListEnumStaffPositionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStaffPositionFilter<$PrismaModel> | $Enums.StaffPosition
+}
+
+export type EnumStaffPositionWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StaffPosition | Prisma.EnumStaffPositionFieldRefInput<$PrismaModel>
+  in?: $Enums.StaffPosition[] | Prisma.ListEnumStaffPositionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StaffPosition[] | Prisma.ListEnumStaffPositionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStaffPositionWithAggregatesFilter<$PrismaModel> | $Enums.StaffPosition
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStaffPositionFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStaffPositionFilter<$PrismaModel>
+}
+
 export type EnumAuthProviderFilter<$PrismaModel = never> = {
   equals?: $Enums.AuthProvider | Prisma.EnumAuthProviderFieldRefInput<$PrismaModel>
   in?: $Enums.AuthProvider[] | Prisma.ListEnumAuthProviderFieldRefInput<$PrismaModel>
@@ -396,6 +413,23 @@ export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedDateTimeFilter<$PrismaModel>
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
+}
+
+export type NestedEnumStaffPositionFilter<$PrismaModel = never> = {
+  equals?: $Enums.StaffPosition | Prisma.EnumStaffPositionFieldRefInput<$PrismaModel>
+  in?: $Enums.StaffPosition[] | Prisma.ListEnumStaffPositionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StaffPosition[] | Prisma.ListEnumStaffPositionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStaffPositionFilter<$PrismaModel> | $Enums.StaffPosition
+}
+
+export type NestedEnumStaffPositionWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StaffPosition | Prisma.EnumStaffPositionFieldRefInput<$PrismaModel>
+  in?: $Enums.StaffPosition[] | Prisma.ListEnumStaffPositionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StaffPosition[] | Prisma.ListEnumStaffPositionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStaffPositionWithAggregatesFilter<$PrismaModel> | $Enums.StaffPosition
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStaffPositionFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStaffPositionFilter<$PrismaModel>
 }
 
 export type NestedEnumAuthProviderFilter<$PrismaModel = never> = {

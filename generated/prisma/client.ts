@@ -47,6 +47,16 @@ export { Prisma }
  */
 export type Citizen = Prisma.CitizenModel
 /**
+ * Model Department
+ * 
+ */
+export type Department = Prisma.DepartmentModel
+/**
+ * Model DepartmentMember
+ * 
+ */
+export type DepartmentMember = Prisma.DepartmentMemberModel
+/**
  * Model User
  * 
  */

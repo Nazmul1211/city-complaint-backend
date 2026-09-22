@@ -27,7 +27,9 @@
         "noCommaOperator": "off"
       },
       "style": {
-        "noNonNullAssertion": "info"
+        "noNonNullAssertion": "info",
+        "useImportType": "off"
+
       }
     },
     "includes": ["**", "!src/generated", "!src/app/templates"]
@@ -41,7 +43,7 @@
     "enabled": true,
     "actions": {
       "source": {
-        "organizeImports": "on"
+        "organizeImports": "off"
       }
     }
   }

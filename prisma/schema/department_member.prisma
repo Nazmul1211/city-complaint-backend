@@ -1,0 +1,22 @@
+model DepartmentMember {
+  id            String        @id @default(uuid()) @db.Uuid
+  departmentId  String        @db.Uuid
+  userId        String        @db.Uuid
+
+  position      StaffPosition
+  isActive      Boolean       @default(true)
+  joinedAt      DateTime      @default(now())
+
+
+  // Relations
+
+  department    Department @relation(fields: [departmentId], references: [id])
+
+  user          User @relation(fields: [userId], references: [id])
+
+  // Constraints / Indexes
+
+  @@unique([departmentId, userId])
+  @@index([userId])
+  @@index([departmentId, isActive])
+}

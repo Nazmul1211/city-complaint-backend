@@ -6,13 +6,13 @@ import express, {
 } from "express";
 import { authRoutes } from "./app/module/auth/auth.route";
 import { userRoutes } from "./app/module/users/user.route";
+import { departmentRoutes } from "./app/module/department/department.route";
 import cors from "cors";
 import config from "./app/config";
 import { globalErrorHandler } from "./app/middlewares/globalErrorHandlers";
 import { notFound } from "./app/middlewares/notFound";
 import crypto from "crypto";
 import httpStatus from "http-status";
-import { redisClient } from "./app/lib/redis";
 import cookieParser from "cookie-parser";
 
 const app: Application = express();
@@ -36,6 +36,9 @@ app.use("/api/v1/auth/", authRoutes);
 
 // User Management API
 app.use("/api/v1/users/", userRoutes);
+
+// Department Management API
+app.use("/api/v1/departments/", departmentRoutes);
 
 // TEST Otp api
 app.get("/test", async (req: Request, res: Response, next: NextFunction) => {

@@ -287,6 +287,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   citizen?: Prisma.XOR<Prisma.CitizenNullableScalarRelationFilter, Prisma.CitizenWhereInput> | null
+  departmentMemberships?: Prisma.DepartmentMemberListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -309,6 +310,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   citizen?: Prisma.CitizenOrderByWithRelationInput
+  departmentMemberships?: Prisma.DepartmentMemberOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -334,6 +336,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   citizen?: Prisma.XOR<Prisma.CitizenNullableScalarRelationFilter, Prisma.CitizenWhereInput> | null
+  departmentMemberships?: Prisma.DepartmentMemberListRelationFilter
 }, "id" | "email" | "phone" | "googleId" | "githubId">
 
 export type UserOrderByWithAggregationInput = {
@@ -404,6 +407,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   citizen?: Prisma.CitizenCreateNestedOneWithoutUserInput
+  departmentMemberships?: Prisma.DepartmentMemberCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -426,6 +430,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   citizen?: Prisma.CitizenUncheckedCreateNestedOneWithoutUserInput
+  departmentMemberships?: Prisma.DepartmentMemberUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -448,6 +453,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citizen?: Prisma.CitizenUpdateOneWithoutUserNestedInput
+  departmentMemberships?: Prisma.DepartmentMemberUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -470,6 +476,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citizen?: Prisma.CitizenUncheckedUpdateOneWithoutUserNestedInput
+  departmentMemberships?: Prisma.DepartmentMemberUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -617,6 +624,20 @@ export type UserUpdateOneRequiredWithoutCitizenNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCitizenInput, Prisma.UserUpdateWithoutCitizenInput>, Prisma.UserUncheckedUpdateWithoutCitizenInput>
 }
 
+export type UserCreateNestedOneWithoutDepartmentMembershipsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDepartmentMembershipsInput, Prisma.UserUncheckedCreateWithoutDepartmentMembershipsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDepartmentMembershipsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutDepartmentMembershipsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDepartmentMembershipsInput, Prisma.UserUncheckedCreateWithoutDepartmentMembershipsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDepartmentMembershipsInput
+  upsert?: Prisma.UserUpsertWithoutDepartmentMembershipsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDepartmentMembershipsInput, Prisma.UserUpdateWithoutDepartmentMembershipsInput>, Prisma.UserUncheckedUpdateWithoutDepartmentMembershipsInput>
+}
+
 export type EnumAuthProviderFieldUpdateOperationsInput = {
   set?: $Enums.AuthProvider
 }
@@ -648,6 +669,7 @@ export type UserCreateWithoutCitizenInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  departmentMemberships?: Prisma.DepartmentMemberCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCitizenInput = {
@@ -669,6 +691,7 @@ export type UserUncheckedCreateWithoutCitizenInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  departmentMemberships?: Prisma.DepartmentMemberUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCitizenInput = {
@@ -706,6 +729,7 @@ export type UserUpdateWithoutCitizenInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  departmentMemberships?: Prisma.DepartmentMemberUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCitizenInput = {
@@ -727,8 +751,142 @@ export type UserUncheckedUpdateWithoutCitizenInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  departmentMemberships?: Prisma.DepartmentMemberUncheckedUpdateManyWithoutUserNestedInput
 }
 
+export type UserCreateWithoutDepartmentMembershipsInput = {
+  id?: string
+  name: string
+  email: string
+  password?: string | null
+  phone?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  authProvider?: $Enums.AuthProvider
+  role?: $Enums.UserRole
+  status?: $Enums.UserStatus
+  emailVerified?: boolean
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  citizen?: Prisma.CitizenCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutDepartmentMembershipsInput = {
+  id?: string
+  name: string
+  email: string
+  password?: string | null
+  phone?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  authProvider?: $Enums.AuthProvider
+  role?: $Enums.UserRole
+  status?: $Enums.UserStatus
+  emailVerified?: boolean
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  citizen?: Prisma.CitizenUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutDepartmentMembershipsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDepartmentMembershipsInput, Prisma.UserUncheckedCreateWithoutDepartmentMembershipsInput>
+}
+
+export type UserUpsertWithoutDepartmentMembershipsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDepartmentMembershipsInput, Prisma.UserUncheckedUpdateWithoutDepartmentMembershipsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDepartmentMembershipsInput, Prisma.UserUncheckedCreateWithoutDepartmentMembershipsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDepartmentMembershipsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDepartmentMembershipsInput, Prisma.UserUncheckedUpdateWithoutDepartmentMembershipsInput>
+}
+
+export type UserUpdateWithoutDepartmentMembershipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citizen?: Prisma.CitizenUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDepartmentMembershipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citizen?: Prisma.CitizenUncheckedUpdateOneWithoutUserNestedInput
+}
+
+
+/**
+ * Count Type UserCountOutputType
+ */
+
+export type UserCountOutputType = {
+  departmentMemberships: number
+}
+
+export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  departmentMemberships?: boolean | UserCountOutputTypeCountDepartmentMembershipsArgs
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserCountOutputType
+   */
+  select?: Prisma.UserCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDepartmentMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DepartmentMemberWhereInput
+}
 
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -751,6 +909,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   citizen?: boolean | Prisma.User$citizenArgs<ExtArgs>
+  departmentMemberships?: boolean | Prisma.User$departmentMembershipsArgs<ExtArgs>
+  _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -819,6 +979,8 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "phone" | "googleId" | "githubId" | "authProvider" | "role" | "status" | "emailVerified" | "avatarUrl" | "avatarPublicId" | "needPasswordChange" | "isDeleted" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   citizen?: boolean | Prisma.User$citizenArgs<ExtArgs>
+  departmentMemberships?: boolean | Prisma.User$departmentMembershipsArgs<ExtArgs>
+  _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -827,6 +989,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     citizen: Prisma.$CitizenPayload<ExtArgs> | null
+    departmentMemberships: Prisma.$DepartmentMemberPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1242,6 +1405,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   citizen<T extends Prisma.User$citizenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$citizenArgs<ExtArgs>>): Prisma.Prisma__CitizenClient<runtime.Types.Result.GetResult<Prisma.$CitizenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  departmentMemberships<T extends Prisma.User$departmentMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$departmentMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DepartmentMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1698,6 +1862,30 @@ export type User$citizenArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    */
   include?: Prisma.CitizenInclude<ExtArgs> | null
   where?: Prisma.CitizenWhereInput
+}
+
+/**
+ * User.departmentMemberships
+ */
+export type User$departmentMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DepartmentMember
+   */
+  select?: Prisma.DepartmentMemberSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DepartmentMember
+   */
+  omit?: Prisma.DepartmentMemberOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DepartmentMemberInclude<ExtArgs> | null
+  where?: Prisma.DepartmentMemberWhereInput
+  orderBy?: Prisma.DepartmentMemberOrderByWithRelationInput | Prisma.DepartmentMemberOrderByWithRelationInput[]
+  cursor?: Prisma.DepartmentMemberWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DepartmentMemberScalarFieldEnum | Prisma.DepartmentMemberScalarFieldEnum[]
 }
 
 /**
