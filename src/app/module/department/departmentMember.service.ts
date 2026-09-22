@@ -22,7 +22,10 @@ const getActiveDepartment = async (departmentId: string) => {
 	return department;
 };
 
-const addMember = async (departmentId: string, payload: IAddDepartmentMember) => {
+const addMember = async (
+	departmentId: string,
+	payload: IAddDepartmentMember,
+) => {
 	await getActiveDepartment(departmentId);
 
 	const user = await prisma.user.findFirst({
@@ -36,7 +39,10 @@ const addMember = async (departmentId: string, payload: IAddDepartmentMember) =>
 		throw new Error("User not found!");
 	}
 
-	if (user.status === UserStatus.DELETED || user.status === UserStatus.BLOCKED) {
+	if (
+		user.status === UserStatus.DELETED ||
+		user.status === UserStatus.BLOCKED
+	) {
 		throw new Error(
 			`User is ${user.status.toLowerCase()}. Cannot be added to a department!`,
 		);

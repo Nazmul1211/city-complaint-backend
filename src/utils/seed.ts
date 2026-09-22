@@ -3,7 +3,6 @@ import { UserRole, UserStatus } from "../../generated/prisma/enums";
 import { prisma } from "../app/lib/prisma";
 import config from "../app/config";
 
-
 const activateIfPending = async (email: string) => {
 	await prisma.user.updateMany({
 		where: {

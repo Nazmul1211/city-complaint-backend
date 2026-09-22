@@ -13,6 +13,7 @@ model Department {
   // Relations
 
   members     DepartmentMember[]
+  categories  Category[]
 
   @@index([isActive])
 }

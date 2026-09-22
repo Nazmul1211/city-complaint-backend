@@ -27,7 +27,9 @@ const getAllDepartments = catchAsync(async (_req: Request, res: Response) => {
 });
 
 const getDepartmentById = catchAsync(async (req: Request, res: Response) => {
-	const result = await departmentService.getDepartmentById(req.params.id as string);
+	const result = await departmentService.getDepartmentById(
+		req.params.id as string,
+	);
 
 	sendResponse(res, {
 		statusCode: httpStatus.OK,

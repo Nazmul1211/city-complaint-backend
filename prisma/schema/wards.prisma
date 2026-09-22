@@ -1,0 +1,10 @@
+model Ward {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String
+  code        String   @unique
+  city        String
+  isActive    Boolean  @default(true)
+
+  @@index([city])
+  @@index([isActive])
+}

@@ -7,6 +7,7 @@ import express, {
 import { authRoutes } from "./app/module/auth/auth.route";
 import { userRoutes } from "./app/module/users/user.route";
 import { departmentRoutes } from "./app/module/department/department.route";
+import { categoryRoutes } from "./app/module/category/category.route";
 import cors from "cors";
 import config from "./app/config";
 import { globalErrorHandler } from "./app/middlewares/globalErrorHandlers";
@@ -39,6 +40,9 @@ app.use("/api/v1/users/", userRoutes);
 
 // Department Management API
 app.use("/api/v1/departments/", departmentRoutes);
+
+// Category Management API
+app.use("/api/v1/categories/", categoryRoutes);
 
 // TEST Otp api
 app.get("/test", async (req: Request, res: Response, next: NextFunction) => {

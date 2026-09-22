@@ -1,0 +1,15 @@
+model SlaPolicy {
+  id                    String   @id @default(uuid()) @db.Uuid
+  categoryId            String   @unique @db.Uuid
+
+  responseWithinHours   Int
+  resolutionWithinHours Int
+  reopenWindowHours     Int
+
+  isActive              Boolean  @default(true)
+
+  // Relations
+
+  category              Category @relation(fields: [categoryId],references: [id])
+}
+

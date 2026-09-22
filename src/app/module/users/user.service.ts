@@ -1,8 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import {
-	UserStatus,
-	UserRole,
-} from "../../../../generated/prisma/enums";
+import { UserStatus, UserRole } from "../../../../generated/prisma/enums";
 import type { IUpdateMyProfile, IUserFilterParams } from "./user.interface";
 import { cloudinary } from "../../lib/cloudinary";
 import type { UploadApiResponse } from "cloudinary";

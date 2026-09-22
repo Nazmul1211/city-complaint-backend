@@ -422,26 +422,6 @@ export type CitizenNullableScalarRelationFilter = {
   isNot?: Prisma.CitizenWhereInput | null
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
 export type CitizenCreateNestedOneWithoutUserInput = {
   create?: Prisma.XOR<Prisma.CitizenCreateWithoutUserInput, Prisma.CitizenUncheckedCreateWithoutUserInput>
   connectOrCreate?: Prisma.CitizenCreateOrConnectWithoutUserInput

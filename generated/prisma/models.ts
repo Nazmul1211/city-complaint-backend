@@ -8,8 +8,11 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Category'
 export type * from './models/Citizen'
 export type * from './models/Department'
 export type * from './models/DepartmentMember'
+export type * from './models/SlaPolicy'
 export type * from './models/User'
+export type * from './models/Ward'
 export type * from './commonInputTypes'

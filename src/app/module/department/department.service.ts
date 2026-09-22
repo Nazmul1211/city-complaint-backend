@@ -1,5 +1,8 @@
 import { prisma } from "../../lib/prisma";
-import type { ICreateDepartment, IUpdateDepartment } from "./department.interface";
+import type {
+	ICreateDepartment,
+	IUpdateDepartment,
+} from "./department.interface";
 
 // Departments are soft deleted (deletedAt flag), so every read/write must
 // scope itself to the non-deleted rows to keep deleted data invisible.

@@ -19,7 +19,9 @@ const addMember = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getMembers = catchAsync(async (req: Request, res: Response) => {
-	const result = await departmentMemberService.getMembers(req.params.id as string);
+	const result = await departmentMemberService.getMembers(
+		req.params.id as string,
+	);
 
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
