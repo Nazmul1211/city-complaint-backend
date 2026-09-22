@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { sendResponse } from "../../../utils/sendResponse";
 import httpStatus from "http-status";
 import { authService } from "./auth.service";
@@ -92,10 +92,30 @@ const loginUser = catchAsync(
 }
 )
 
-const deleteUser = async() => {
+const logoutUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await authService.logoutUser();
 
-}
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
 
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "User logged out successfully",
+      data: result,
+    });
+  },
+);
 
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
 	if (!req.cookies.refreshToken) {
@@ -199,7 +219,7 @@ export const authController = {
     registerCitizen,
 	verifyCitizenEmail,
 	loginUser,
-    deleteUser,
+	logoutUser,
 	refreshToken,
 	googleLogin,
     githubLogin,

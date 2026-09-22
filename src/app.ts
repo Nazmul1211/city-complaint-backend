@@ -1,5 +1,6 @@
 import express, { NextFunction, type Application, type Request, type Response } from "express";
 import { authRoutes } from "./app/module/auth/auth.route";
+import { userRoutes } from "./app/module/users/user.route";
 import cors from "cors";
 import config from "./app/config";
 import { globalErrorHandler } from "./app/middlewares/globalErrorHandlers";
@@ -27,6 +28,9 @@ app.use(express.json());
 
 // Authentication API
 app.use("/api/v1/auth/", authRoutes);
+
+// User Management API
+app.use("/api/v1/users", userRoutes);
 
 // TEST Otp api
 app.get("/test", async (req: Request, res: Response, next: NextFunction) => {

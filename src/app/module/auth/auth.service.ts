@@ -15,7 +15,6 @@ import ejs from "ejs";
 
 
 
-
 const registerCitizen = async(payload: IRegisterPayload) => {
 	const { name, password, citizen: citizenData } = payload;
 	const email = payload.email.trim().toLowerCase();
@@ -278,10 +277,6 @@ const loginUser = async(payload: ILoginUserPayload) => {
 }
 
 const logoutUser = async() => {
-
-}
-
-const deleteUser = async() => {
 
 }
 
@@ -619,7 +614,6 @@ export const authService = {
 	verifyCitizenEmail,
 	loginUser,
 	logoutUser,
-    deleteUser,
 	refreshToken,
 	googleLogin,
     githubLogin,
