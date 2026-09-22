@@ -19,7 +19,7 @@
     "@prisma/client": "^7.10.0",
     "@types/cookie-parser": "^1.4.10",
     "bcryptjs": "^3.0.3",
-    "cookie-parser": "^1.4.7",
+    "cloudinary": "^2.11.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "ejs": "^6.0.1",
@@ -27,6 +27,7 @@
     "google-auth-library": "^11.1.0",
     "http-status": "^2.1.0",
     "jsonwebtoken": "^9.0.3",
+    "multer": "^2.4.0",
     "nodemailer": "^10.0.10",
     "pg": "^8.23.0",
     "redis": "^6.2.1"
@@ -36,8 +37,10 @@
     "@types/ejs": "^3.1.5",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.2.0",
     "@types/node": "^22.20.3",
     "@types/pg": "^8.23.1",
+    "cookie-parser": "^1.4.7",
     "prisma": "^7.10.0",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"

@@ -8,6 +8,7 @@ import { notFound } from "./app/middlewares/notFound";
 import crypto from "crypto";
 import  httpStatus  from "http-status";
 import { redisClient } from "./app/lib/redis";
+import cookieParser from "cookie-parser";
 
 const app: Application = express();
 
@@ -23,14 +24,15 @@ app.use(express.urlencoded({ extended: true }));
 
 // Middleware to parse JSON bodies
 app.use(express.json());
-
+app.use(cookieParser());
 
 
 // Authentication API
 app.use("/api/v1/auth/", authRoutes);
 
 // User Management API
-app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/users/", userRoutes);
+
 
 // TEST Otp api
 app.get("/test", async (req: Request, res: Response, next: NextFunction) => {
