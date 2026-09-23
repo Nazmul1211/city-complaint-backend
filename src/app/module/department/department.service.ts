@@ -3,6 +3,7 @@ import type {
 	ICreateDepartment,
 	IUpdateDepartment,
 } from "./department.interface";
+import { auditLogService } from "../audit-log/audit-log.service";
 
 // Departments are soft deleted (deletedAt flag), so every read/write must
 // scope itself to the non-deleted rows to keep deleted data invisible.
@@ -83,7 +84,7 @@ const updateDepartment = async (id: string, payload: IUpdateDepartment) => {
 
 // Soft delete: flag the row instead of removing it, so complaint records that
 // reference the department keep their history intact.
-const deleteDepartment = async (id: string) => {
+const deleteDepartment = async (id: string, actorId?: string) => {
 	const department = await prisma.department.findFirst({
 		where: {
 			id,
@@ -101,6 +102,15 @@ const deleteDepartment = async (id: string) => {
 			isActive: false,
 			deletedAt: new Date(),
 		},
+	});
+
+	await auditLogService.recordAuditLog({
+		action: "DEPARTMENT_DELETED",
+		entityType: "DEPARTMENT",
+		entityId: department.id,
+		actorId: actorId ?? null,
+		oldValues: { name: department.name, isActive: department.isActive },
+		newValues: { isActive: false, deletedAt: new Date() },
 	});
 
 	return null;

@@ -60,7 +60,7 @@ const updateWard = catchAsync(async (req: Request, res: Response) => {
 });
 
 const deleteWard = catchAsync(async (req: Request, res: Response) => {
-	await wardService.deleteWard(req.params.id as string);
+	await wardService.deleteWard(req.params.id as string, req.user.id);
 
 	sendResponse(res, {
 		statusCode: httpStatus.OK,

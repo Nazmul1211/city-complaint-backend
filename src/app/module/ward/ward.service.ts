@@ -4,6 +4,7 @@ import type {
 	IUpdateWard,
 	IWardFilterParams,
 } from "./ward.interface";
+import { auditLogService } from "../audit-log/audit-log.service";
 
 const getAllWards = async (filters: IWardFilterParams = {}) => {
 	const { city, isActive } = filters;
@@ -51,7 +52,7 @@ const updateWard = async (id: string, payload: IUpdateWard) => {
 };
 
 
-const deleteWard = async (id: string) => {
+const deleteWard = async (id: string, actorId?: string) => {
 	const ward = await prisma.ward.findUnique({
 		where: { id },
 	});
@@ -62,6 +63,15 @@ const deleteWard = async (id: string) => {
 
 	await prisma.ward.delete({
 		where: { id },
+	});
+
+	await auditLogService.recordAuditLog({
+		action: "WARD_DELETED",
+		entityType: "WARD",
+		entityId: ward.id,
+		actorId: actorId ?? null,
+		oldValues: { name: ward.name, city: ward.city },
+		newValues: null,
 	});
 
 	return null;

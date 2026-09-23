@@ -74,6 +74,7 @@ const uploadProfileImage = catchAsync(async (req: Request, res: Response) => {
 const deleteMe = catchAsync(async (req: Request, res: Response) => {
 	const userId = req.user.id;
 
+	// Self-delete: actorId defaults to the target user inside the service
 	await userService.deleteUser(userId);
 
 	sendResponse(res, {
@@ -91,7 +92,8 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
 		throw new Error("User ID Required!");
 	}
 
-	await userService.deleteUser(userId as string);
+	// Admin-initiated delete — audited with the acting admin as the actor
+	await userService.deleteUser(userId as string, req.user.id);
 
 	sendResponse(res, {
 		statusCode: httpStatus.OK,

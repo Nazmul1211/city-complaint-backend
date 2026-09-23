@@ -8,6 +8,7 @@ import type {
 } from "./request-assignment.interface";
 import { requestStatusService } from "../request-status/request-status.service";
 import { notificationService } from "../notification/notification.service";
+import { auditLogService } from "../audit-log/audit-log.service";
 
 const assignmentInclude = {
 	assignee: {
@@ -119,6 +120,19 @@ const assignRequest = async (
 			tx,
 		);
 
+		await auditLogService.recordAuditLog({
+			action: "REQUEST_ASSIGNED",
+			entityType: "SERVICE_REQUEST",
+			entityId: requestId,
+			actorId: userId,
+			newValues: {
+				assignmentId: created.id,
+				assigneeId: payload.assigneeId,
+				note: payload.note ?? null,
+			},
+			tx,
+		});
+
 		return created;
 	});
 
@@ -224,9 +238,7 @@ const releaseAssignment = async (
 
 		const activeCount = await tx.requestAssignment.count({
 			where: { requestId, releasedAt: null },
-		});
-
-		// When no active assignments remain, revert status to UNDER_REVIEW via the centralized service
+		});		// When no active assignments remain, revert status to UNDER_REVIEW via the centralized service
 		if (activeCount === 0) {
 			await requestStatusService.changeStatus(
 				requestId,
@@ -238,6 +250,24 @@ const releaseAssignment = async (
 				tx,
 			);
 		}
+
+		await auditLogService.recordAuditLog({
+			action: "ASSIGNMENT_RELEASED",
+			entityType: "SERVICE_REQUEST",
+			entityId: requestId,
+			actorId: userId,
+			oldValues: {
+				assignmentId: assignment.id,
+				assigneeId: assignment.assigneeId,
+				releasedAt: null,
+			},
+			newValues: {
+				assignmentId: assignment.id,
+				assigneeId: assignment.assigneeId,
+				releasedAt: released.releasedAt,
+			},
+			tx,
+		});
 
 		return released;
 	});

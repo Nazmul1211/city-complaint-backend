@@ -1,6 +1,7 @@
 import { RequestStatus } from "../../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import { notificationService } from "../notification/notification.service";
+import { auditLogService } from "../audit-log/audit-log.service";
 import { STATUS_TRANSITIONS, TIMESTAMP_MAP } from "./request-status.constants";
 import type {
 	IChangeStatusPayload,
@@ -88,6 +89,16 @@ const changeStatus = async (
 				note: note ?? null,
 			},
 			include: statusHistoryInclude,
+		});
+
+		await auditLogService.recordAuditLog({
+			action: "REQUEST_STATUS_CHANGED",
+			entityType: "SERVICE_REQUEST",
+			entityId: requestId,
+			actorId: changedById,
+			oldValues: { status: fromStatus },
+			newValues: { status: toStatus, note: note ?? null },
+			tx: client,
 		});
 
 		const requestSnapshot = {

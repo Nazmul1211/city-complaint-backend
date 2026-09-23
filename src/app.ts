@@ -18,8 +18,14 @@ import { notFound } from "./app/middlewares/notFound";
 import crypto from "crypto";
 import httpStatus from "http-status";
 import cookieParser from "cookie-parser";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import { auditLogRoutes } from "./app/module/audit-log/audit-log.route";
 
 const app: Application = express();
+
+// Security headers (XSS protection, noSniff, frameguard, HSTS in production)
+app.use(helmet());
 
 app.use(
 	cors({
@@ -35,6 +41,38 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+// Stricter limiter for auth endpoints — blunt force against credential
+// stuffing / OTP brute force. 10 attempts per 10 minutes per IP.
+const authLimiter = rateLimit({
+	windowMs: 10 * 60 * 1000,
+	limit: 10,
+	standardHeaders: "draft-7",
+	legacyHeaders: false,
+	message: {
+		success: false,
+		statusCode: 429,
+		message: "Too many attempts, please try again after 10 minutes",
+		errors: [],
+	},
+});
+
+// General API limiter — 300 requests per 10 minutes per IP.
+const apiLimiter = rateLimit({
+	windowMs: 10 * 60 * 1000,
+	limit: 300,
+	standardHeaders: "draft-7",
+	legacyHeaders: false,
+	message: {
+		success: false,
+		statusCode: 429,
+		message: "Too many requests from this IP, please try again later",
+		errors: [],
+	},
+});
+
+app.use("/api/v1/auth", authLimiter);
+app.use("/api", apiLimiter);
+
 app.use("/api/v1/auth/", authRoutes);
 app.use("/api/v1/users/", userRoutes);
 app.use("/api/v1/departments/", departmentRoutes);
@@ -42,6 +80,7 @@ app.use("/api/v1/categories/", categoryRoutes);
 app.use("/api/v1/wards/", wardRoutes);
 app.use("/api/v1/requests/", serviceRequestRoutes);
 app.use("/api/v1/notifications/", notificationRoutes);
+app.use("/api/v1/audit-logs/", auditLogRoutes);
 
 // TEST Otp api
 app.get("/test", async (req: Request, res: Response, next: NextFunction) => {
@@ -59,6 +98,7 @@ app.get("/test", async (req: Request, res: Response, next: NextFunction) => {
 
 		return res.status(httpStatus.OK).json({
 			success: true,
+			statusCode: httpStatus.OK,
 			message: "Welcome to CityCare OTP Provider System!",
 			data: otp,
 		});
@@ -67,8 +107,13 @@ app.get("/test", async (req: Request, res: Response, next: NextFunction) => {
 	}
 });
 
-app.get("/", (req: Request, res: Response) => {
-	res.send("Wellcome to the Citycare Backend System!");
+app.get("/", (_req: Request, res: Response) => {
+	res.status(httpStatus.OK).json({
+		success: true,
+		statusCode: httpStatus.OK,
+		message: "Welcome to the Citycare Backend System!",
+		data: null,
+	});
 });
 
 app.use(globalErrorHandler);

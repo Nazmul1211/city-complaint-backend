@@ -1,5 +1,6 @@
 import { prisma } from "../../lib/prisma";
 import type { ICreateCategory, IUpdateCategory } from "./category.interface";
+import { auditLogService } from "../audit-log/audit-log.service";
 
 // Categories are soft deleted (deletedAt flag), so every read/write must
 // scope itself to the non-deleted rows to keep deleted data invisible.
@@ -113,7 +114,7 @@ const updateCategory = async (id: string, payload: IUpdateCategory) => {
 
 // Soft delete: flag the row instead of removing it, so complaint records that
 // reference the category keep their history intact.
-const deleteCategory = async (id: string) => {
+const deleteCategory = async (id: string, actorId?: string) => {
 	const category = await prisma.category.findFirst({
 		where: {
 			id,
@@ -131,6 +132,15 @@ const deleteCategory = async (id: string) => {
 			isActive: false,
 			deletedAt: new Date(),
 		},
+	});
+
+	await auditLogService.recordAuditLog({
+		action: "CATEGORY_DELETED",
+		entityType: "CATEGORY",
+		entityId: category.id,
+		actorId: actorId ?? null,
+		oldValues: { name: category.name, isActive: category.isActive },
+		newValues: { isActive: false, deletedAt: new Date() },
 	});
 
 	return null;

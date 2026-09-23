@@ -4,6 +4,7 @@ import type { IUpdateMyProfile, IUserFilterParams } from "./user.interface";
 import { cloudinary } from "../../lib/cloudinary";
 import type { UploadApiResponse } from "cloudinary";
 import type { Prisma } from "../../../../generated/prisma/client";
+import { auditLogService } from "../audit-log/audit-log.service";
 
 // Admin user listing with filters: role/status for scoped lists (e.g. staff
 // pickers for service-request assignment), departmentId to resolve memberships,
@@ -224,10 +225,13 @@ const uploadProfileImage = async (
 	return updatedUser;
 };
 
-const deleteMe = async (userId: string) => {
+const deleteUser = async (
+	targetUserId: string,
+	actorId?: string,
+) => {
 	const user = await prisma.user.findUnique({
 		where: {
-			id: userId,
+			id: targetUserId,
 		},
 	});
 
@@ -239,11 +243,13 @@ const deleteMe = async (userId: string) => {
 		throw new Error("User is already deleted!");
 	}
 
+	const isSelfDelete = actorId === undefined || actorId === targetUserId;
+
 	// Self soft delete: same flagging logic as the admin-initiated delete,
 	// so the account is deactivated while related records stay intact.
 	const deletedUser = await prisma.user.update({
 		where: {
-			id: userId,
+			id: targetUserId,
 		},
 		data: {
 			isDeleted: true,
@@ -251,6 +257,15 @@ const deleteMe = async (userId: string) => {
 			status: UserStatus.DELETED,
 		},
 		omit: { password: true },
+	});
+
+	await auditLogService.recordAuditLog({
+		action: isSelfDelete ? "USER_SELF_DELETED" : "USER_DELETED",
+		entityType: "USER",
+		entityId: user.id,
+		actorId: actorId ?? user.id,
+		oldValues: { status: user.status, isDeleted: user.isDeleted },
+		newValues: { status: UserStatus.DELETED, isDeleted: true },
 	});
 
 	return deletedUser;
@@ -261,5 +276,5 @@ export const userService = {
 	getMe,
 	updateMyProfile,
 	uploadProfileImage,
-	deleteUser: deleteMe,
+	deleteUser,
 };
