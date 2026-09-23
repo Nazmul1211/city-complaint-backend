@@ -43,10 +43,20 @@ export type DepartmentMember = Prisma.DepartmentMemberModel
  */
 export type ReportedLocation = Prisma.ReportedLocationModel
 /**
+ * Model RequestAssignment
+ * 
+ */
+export type RequestAssignment = Prisma.RequestAssignmentModel
+/**
  * Model RequestDepartmentRoute
  * 
  */
 export type RequestDepartmentRoute = Prisma.RequestDepartmentRouteModel
+/**
+ * Model RequestStatusHistory
+ * 
+ */
+export type RequestStatusHistory = Prisma.RequestStatusHistoryModel
 /**
  * Model ServiceRequest
  * 

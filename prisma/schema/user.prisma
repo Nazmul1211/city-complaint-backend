@@ -33,5 +33,10 @@ model User {
 
   routedRequests      RequestDepartmentRoute[] @relation("RouteByUser")
 
+  assignmentsMade     RequestAssignment[] @relation("AssignmentByUser")
+  assignmentsReceived RequestAssignment[] @relation("AssignmentToUser")
+
+  statusChanges       RequestStatusHistory[] @relation("StatusChangedByUser")
+
   @@map("users")
 }

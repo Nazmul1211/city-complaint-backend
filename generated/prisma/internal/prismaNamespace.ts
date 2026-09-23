@@ -402,7 +402,9 @@ export const ModelName = {
   Department: 'Department',
   DepartmentMember: 'DepartmentMember',
   ReportedLocation: 'ReportedLocation',
+  RequestAssignment: 'RequestAssignment',
   RequestDepartmentRoute: 'RequestDepartmentRoute',
+  RequestStatusHistory: 'RequestStatusHistory',
   ServiceRequest: 'ServiceRequest',
   SlaPolicy: 'SlaPolicy',
   User: 'User',
@@ -422,7 +424,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "category" | "citizen" | "department" | "departmentMember" | "reportedLocation" | "requestDepartmentRoute" | "serviceRequest" | "slaPolicy" | "user" | "ward"
+    modelProps: "category" | "citizen" | "department" | "departmentMember" | "reportedLocation" | "requestAssignment" | "requestDepartmentRoute" | "requestStatusHistory" | "serviceRequest" | "slaPolicy" | "user" | "ward"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -796,6 +798,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    RequestAssignment: {
+      payload: Prisma.$RequestAssignmentPayload<ExtArgs>
+      fields: Prisma.RequestAssignmentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RequestAssignmentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestAssignmentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RequestAssignmentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestAssignmentPayload>
+        }
+        findFirst: {
+          args: Prisma.RequestAssignmentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestAssignmentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RequestAssignmentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestAssignmentPayload>
+        }
+        findMany: {
+          args: Prisma.RequestAssignmentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestAssignmentPayload>[]
+        }
+        create: {
+          args: Prisma.RequestAssignmentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestAssignmentPayload>
+        }
+        createMany: {
+          args: Prisma.RequestAssignmentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RequestAssignmentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestAssignmentPayload>[]
+        }
+        delete: {
+          args: Prisma.RequestAssignmentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestAssignmentPayload>
+        }
+        update: {
+          args: Prisma.RequestAssignmentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestAssignmentPayload>
+        }
+        deleteMany: {
+          args: Prisma.RequestAssignmentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RequestAssignmentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RequestAssignmentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestAssignmentPayload>[]
+        }
+        upsert: {
+          args: Prisma.RequestAssignmentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestAssignmentPayload>
+        }
+        aggregate: {
+          args: Prisma.RequestAssignmentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRequestAssignment>
+        }
+        groupBy: {
+          args: Prisma.RequestAssignmentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RequestAssignmentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RequestAssignmentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RequestAssignmentCountAggregateOutputType> | number
+        }
+      }
+    }
     RequestDepartmentRoute: {
       payload: Prisma.$RequestDepartmentRoutePayload<ExtArgs>
       fields: Prisma.RequestDepartmentRouteFieldRefs
@@ -867,6 +943,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.RequestDepartmentRouteCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.RequestDepartmentRouteCountAggregateOutputType> | number
+        }
+      }
+    }
+    RequestStatusHistory: {
+      payload: Prisma.$RequestStatusHistoryPayload<ExtArgs>
+      fields: Prisma.RequestStatusHistoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RequestStatusHistoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestStatusHistoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RequestStatusHistoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestStatusHistoryPayload>
+        }
+        findFirst: {
+          args: Prisma.RequestStatusHistoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestStatusHistoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RequestStatusHistoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestStatusHistoryPayload>
+        }
+        findMany: {
+          args: Prisma.RequestStatusHistoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestStatusHistoryPayload>[]
+        }
+        create: {
+          args: Prisma.RequestStatusHistoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestStatusHistoryPayload>
+        }
+        createMany: {
+          args: Prisma.RequestStatusHistoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RequestStatusHistoryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestStatusHistoryPayload>[]
+        }
+        delete: {
+          args: Prisma.RequestStatusHistoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestStatusHistoryPayload>
+        }
+        update: {
+          args: Prisma.RequestStatusHistoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestStatusHistoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.RequestStatusHistoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RequestStatusHistoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RequestStatusHistoryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestStatusHistoryPayload>[]
+        }
+        upsert: {
+          args: Prisma.RequestStatusHistoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestStatusHistoryPayload>
+        }
+        aggregate: {
+          args: Prisma.RequestStatusHistoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRequestStatusHistory>
+        }
+        groupBy: {
+          args: Prisma.RequestStatusHistoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RequestStatusHistoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RequestStatusHistoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RequestStatusHistoryCountAggregateOutputType> | number
         }
       }
     }
@@ -1277,6 +1427,19 @@ export const ReportedLocationScalarFieldEnum = {
 export type ReportedLocationScalarFieldEnum = (typeof ReportedLocationScalarFieldEnum)[keyof typeof ReportedLocationScalarFieldEnum]
 
 
+export const RequestAssignmentScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  assigneeId: 'assigneeId',
+  assignedById: 'assignedById',
+  note: 'note',
+  assignedAt: 'assignedAt',
+  releasedAt: 'releasedAt'
+} as const
+
+export type RequestAssignmentScalarFieldEnum = (typeof RequestAssignmentScalarFieldEnum)[keyof typeof RequestAssignmentScalarFieldEnum]
+
+
 export const RequestDepartmentRouteScalarFieldEnum = {
   id: 'id',
   requestId: 'requestId',
@@ -1288,6 +1451,19 @@ export const RequestDepartmentRouteScalarFieldEnum = {
 } as const
 
 export type RequestDepartmentRouteScalarFieldEnum = (typeof RequestDepartmentRouteScalarFieldEnum)[keyof typeof RequestDepartmentRouteScalarFieldEnum]
+
+
+export const RequestStatusHistoryScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  changedById: 'changedById',
+  fromStatus: 'fromStatus',
+  toStatus: 'toStatus',
+  note: 'note',
+  createdAt: 'createdAt'
+} as const
+
+export type RequestStatusHistoryScalarFieldEnum = (typeof RequestStatusHistoryScalarFieldEnum)[keyof typeof RequestStatusHistoryScalarFieldEnum]
 
 
 export const ServiceRequestScalarFieldEnum = {
@@ -1455,6 +1631,20 @@ export type ListEnumStaffPositionFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'RequestStatus'
+ */
+export type EnumRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'RequestStatus[]'
+ */
+export type ListEnumRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'RequestType'
  */
 export type EnumRequestTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestType'>
@@ -1479,20 +1669,6 @@ export type EnumRequestPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'RequestPriority[]'
  */
 export type ListEnumRequestPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestPriority[]'>
-    
-
-
-/**
- * Reference to a field of type 'RequestStatus'
- */
-export type EnumRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestStatus'>
-    
-
-
-/**
- * Reference to a field of type 'RequestStatus[]'
- */
-export type ListEnumRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestStatus[]'>
     
 
 
@@ -1721,7 +1897,9 @@ export type GlobalOmitConfig = {
   department?: Prisma.DepartmentOmit
   departmentMember?: Prisma.DepartmentMemberOmit
   reportedLocation?: Prisma.ReportedLocationOmit
+  requestAssignment?: Prisma.RequestAssignmentOmit
   requestDepartmentRoute?: Prisma.RequestDepartmentRouteOmit
+  requestStatusHistory?: Prisma.RequestStatusHistoryOmit
   serviceRequest?: Prisma.ServiceRequestOmit
   slaPolicy?: Prisma.SlaPolicyOmit
   user?: Prisma.UserOmit

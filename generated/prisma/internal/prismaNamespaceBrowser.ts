@@ -56,7 +56,9 @@ export const ModelName = {
   Department: 'Department',
   DepartmentMember: 'DepartmentMember',
   ReportedLocation: 'ReportedLocation',
+  RequestAssignment: 'RequestAssignment',
   RequestDepartmentRoute: 'RequestDepartmentRoute',
+  RequestStatusHistory: 'RequestStatusHistory',
   ServiceRequest: 'ServiceRequest',
   SlaPolicy: 'SlaPolicy',
   User: 'User',
@@ -151,6 +153,19 @@ export const ReportedLocationScalarFieldEnum = {
 export type ReportedLocationScalarFieldEnum = (typeof ReportedLocationScalarFieldEnum)[keyof typeof ReportedLocationScalarFieldEnum]
 
 
+export const RequestAssignmentScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  assigneeId: 'assigneeId',
+  assignedById: 'assignedById',
+  note: 'note',
+  assignedAt: 'assignedAt',
+  releasedAt: 'releasedAt'
+} as const
+
+export type RequestAssignmentScalarFieldEnum = (typeof RequestAssignmentScalarFieldEnum)[keyof typeof RequestAssignmentScalarFieldEnum]
+
+
 export const RequestDepartmentRouteScalarFieldEnum = {
   id: 'id',
   requestId: 'requestId',
@@ -162,6 +177,19 @@ export const RequestDepartmentRouteScalarFieldEnum = {
 } as const
 
 export type RequestDepartmentRouteScalarFieldEnum = (typeof RequestDepartmentRouteScalarFieldEnum)[keyof typeof RequestDepartmentRouteScalarFieldEnum]
+
+
+export const RequestStatusHistoryScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  changedById: 'changedById',
+  fromStatus: 'fromStatus',
+  toStatus: 'toStatus',
+  note: 'note',
+  createdAt: 'createdAt'
+} as const
+
+export type RequestStatusHistoryScalarFieldEnum = (typeof RequestStatusHistoryScalarFieldEnum)[keyof typeof RequestStatusHistoryScalarFieldEnum]
 
 
 export const ServiceRequestScalarFieldEnum = {

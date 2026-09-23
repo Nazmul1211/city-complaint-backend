@@ -1,0 +1,25 @@
+model RequestStatusHistory {
+  id            String        @id @default(uuid()) @db.Uuid
+
+  requestId     String        @db.Uuid
+  changedById   String        @db.Uuid
+
+  fromStatus    RequestStatus?
+  toStatus      RequestStatus
+
+  note          String?
+
+  createdAt     DateTime      @default(now())
+
+  // Relations
+
+  request       ServiceRequest @relation(fields: [requestId], references: [id])
+
+  changedBy     User @relation("StatusChangedByUser", fields: [changedById], references: [id])
+
+  // Indexes
+
+  @@index([requestId])
+  @@index([changedById])
+  @@index([requestId, createdAt])
+}

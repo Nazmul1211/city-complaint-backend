@@ -27,7 +27,7 @@ export interface IUpdateServiceRequest {
 }
 
 export interface ITimelineEvent {
-	type: "SUBMITTED" | "ROUTED";
+	type: "SUBMITTED" | "ROUTED" | "STATUS_CHANGED" | "ASSIGNED" | "RELEASED";
 	timestamp: Date;
 	note: string;
 	actor?: {
@@ -40,6 +40,7 @@ export interface ITimelineEvent {
 		name: string;
 		code: string;
 	};
+	meta?: Record<string, unknown>;
 }
 
 export interface IServiceRequestFilters {

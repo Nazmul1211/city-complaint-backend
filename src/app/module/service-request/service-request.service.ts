@@ -218,13 +218,32 @@ const getRequestTimeline = async (id: string, userId: string, userRole: string):
 	const serviceRequest = await getServiceRequestById(id, userId, userRole);
 	if (!serviceRequest) throw new Error("Service request not found.");
 
-	// Load the department routing history for this request
+	// Load routing history
 	const routes = await prisma.requestDepartmentRoute.findMany({
 		where: { requestId: id },
 		orderBy: { routedAt: "asc" },
 		include: {
 			department: { select: { id: true, name: true, code: true } },
 			routedBy: { select: { id: true, name: true, email: true } },
+		},
+	});
+
+	// Load status history
+	const statusHistory = await prisma.requestStatusHistory.findMany({
+		where: { requestId: id },
+		orderBy: { createdAt: "asc" },
+		include: {
+			changedBy: { select: { id: true, name: true, email: true } },
+		},
+	});
+
+	// Load assignments
+	const assignments = await prisma.requestAssignment.findMany({
+		where: { requestId: id },
+		orderBy: { assignedAt: "asc" },
+		include: {
+			assignee: { select: { id: true, name: true, email: true } },
+			assignedBy: { select: { id: true, name: true, email: true } },
 		},
 	});
 
@@ -237,7 +256,7 @@ const getRequestTimeline = async (id: string, userId: string, userRole: string):
 		},
 	];
 
-	// Each routing entry becomes a ROUTED event
+	// Department routing events
 	for (const route of routes) {
 		timeline.push({
 			type: "ROUTED",
@@ -246,6 +265,38 @@ const getRequestTimeline = async (id: string, userId: string, userRole: string):
 			actor: route.routedBy,
 			department: route.department,
 		});
+	}
+
+	// Status change events
+	for (const entry of statusHistory) {
+		timeline.push({
+			type: "STATUS_CHANGED",
+			timestamp: entry.createdAt,
+			note: entry.note ?? `Status changed from ${entry.fromStatus ?? "—"} to ${entry.toStatus}`,
+			actor: entry.changedBy,
+			meta: { fromStatus: entry.fromStatus, toStatus: entry.toStatus },
+		});
+	}
+
+	// Assignment events
+	for (const a of assignments) {
+		timeline.push({
+			type: "ASSIGNED",
+			timestamp: a.assignedAt,
+			note: a.note ?? `Assigned to ${a.assignee.name}`,
+			actor: a.assignedBy,
+			meta: { assigneeId: a.assignee.id, assigneeName: a.assignee.name },
+		});
+
+		if (a.releasedAt) {
+			timeline.push({
+				type: "RELEASED",
+				timestamp: a.releasedAt,
+				note: `Assignment for ${a.assignee.name} released`,
+				actor: a.assignedBy,
+				meta: { assigneeId: a.assignee.id, assigneeName: a.assignee.name },
+			});
+		}
 	}
 
 	// Sort by timestamp so the order is always correct regardless of DB insertion order

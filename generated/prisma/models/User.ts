@@ -289,6 +289,9 @@ export type UserWhereInput = {
   citizen?: Prisma.XOR<Prisma.CitizenNullableScalarRelationFilter, Prisma.CitizenWhereInput> | null
   departmentMemberships?: Prisma.DepartmentMemberListRelationFilter
   routedRequests?: Prisma.RequestDepartmentRouteListRelationFilter
+  assignmentsMade?: Prisma.RequestAssignmentListRelationFilter
+  assignmentsReceived?: Prisma.RequestAssignmentListRelationFilter
+  statusChanges?: Prisma.RequestStatusHistoryListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -313,6 +316,9 @@ export type UserOrderByWithRelationInput = {
   citizen?: Prisma.CitizenOrderByWithRelationInput
   departmentMemberships?: Prisma.DepartmentMemberOrderByRelationAggregateInput
   routedRequests?: Prisma.RequestDepartmentRouteOrderByRelationAggregateInput
+  assignmentsMade?: Prisma.RequestAssignmentOrderByRelationAggregateInput
+  assignmentsReceived?: Prisma.RequestAssignmentOrderByRelationAggregateInput
+  statusChanges?: Prisma.RequestStatusHistoryOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -340,6 +346,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   citizen?: Prisma.XOR<Prisma.CitizenNullableScalarRelationFilter, Prisma.CitizenWhereInput> | null
   departmentMemberships?: Prisma.DepartmentMemberListRelationFilter
   routedRequests?: Prisma.RequestDepartmentRouteListRelationFilter
+  assignmentsMade?: Prisma.RequestAssignmentListRelationFilter
+  assignmentsReceived?: Prisma.RequestAssignmentListRelationFilter
+  statusChanges?: Prisma.RequestStatusHistoryListRelationFilter
 }, "id" | "email" | "phone" | "googleId" | "githubId">
 
 export type UserOrderByWithAggregationInput = {
@@ -412,6 +421,9 @@ export type UserCreateInput = {
   citizen?: Prisma.CitizenCreateNestedOneWithoutUserInput
   departmentMemberships?: Prisma.DepartmentMemberCreateNestedManyWithoutUserInput
   routedRequests?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutRoutedByInput
+  assignmentsMade?: Prisma.RequestAssignmentCreateNestedManyWithoutAssignedByInput
+  assignmentsReceived?: Prisma.RequestAssignmentCreateNestedManyWithoutAssigneeInput
+  statusChanges?: Prisma.RequestStatusHistoryCreateNestedManyWithoutChangedByInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -436,6 +448,9 @@ export type UserUncheckedCreateInput = {
   citizen?: Prisma.CitizenUncheckedCreateNestedOneWithoutUserInput
   departmentMemberships?: Prisma.DepartmentMemberUncheckedCreateNestedManyWithoutUserInput
   routedRequests?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutRoutedByInput
+  assignmentsMade?: Prisma.RequestAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+  assignmentsReceived?: Prisma.RequestAssignmentUncheckedCreateNestedManyWithoutAssigneeInput
+  statusChanges?: Prisma.RequestStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
 }
 
 export type UserUpdateInput = {
@@ -460,6 +475,9 @@ export type UserUpdateInput = {
   citizen?: Prisma.CitizenUpdateOneWithoutUserNestedInput
   departmentMemberships?: Prisma.DepartmentMemberUpdateManyWithoutUserNestedInput
   routedRequests?: Prisma.RequestDepartmentRouteUpdateManyWithoutRoutedByNestedInput
+  assignmentsMade?: Prisma.RequestAssignmentUpdateManyWithoutAssignedByNestedInput
+  assignmentsReceived?: Prisma.RequestAssignmentUpdateManyWithoutAssigneeNestedInput
+  statusChanges?: Prisma.RequestStatusHistoryUpdateManyWithoutChangedByNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -484,6 +502,9 @@ export type UserUncheckedUpdateInput = {
   citizen?: Prisma.CitizenUncheckedUpdateOneWithoutUserNestedInput
   departmentMemberships?: Prisma.DepartmentMemberUncheckedUpdateManyWithoutUserNestedInput
   routedRequests?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutRoutedByNestedInput
+  assignmentsMade?: Prisma.RequestAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+  assignmentsReceived?: Prisma.RequestAssignmentUncheckedUpdateManyWithoutAssigneeNestedInput
+  statusChanges?: Prisma.RequestStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -645,6 +666,34 @@ export type UserUpdateOneRequiredWithoutDepartmentMembershipsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDepartmentMembershipsInput, Prisma.UserUpdateWithoutDepartmentMembershipsInput>, Prisma.UserUncheckedUpdateWithoutDepartmentMembershipsInput>
 }
 
+export type UserCreateNestedOneWithoutAssignmentsReceivedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssignmentsReceivedInput, Prisma.UserUncheckedCreateWithoutAssignmentsReceivedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssignmentsReceivedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutAssignmentsMadeInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssignmentsMadeInput, Prisma.UserUncheckedCreateWithoutAssignmentsMadeInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssignmentsMadeInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAssignmentsReceivedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssignmentsReceivedInput, Prisma.UserUncheckedCreateWithoutAssignmentsReceivedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssignmentsReceivedInput
+  upsert?: Prisma.UserUpsertWithoutAssignmentsReceivedInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAssignmentsReceivedInput, Prisma.UserUpdateWithoutAssignmentsReceivedInput>, Prisma.UserUncheckedUpdateWithoutAssignmentsReceivedInput>
+}
+
+export type UserUpdateOneRequiredWithoutAssignmentsMadeNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssignmentsMadeInput, Prisma.UserUncheckedCreateWithoutAssignmentsMadeInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssignmentsMadeInput
+  upsert?: Prisma.UserUpsertWithoutAssignmentsMadeInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAssignmentsMadeInput, Prisma.UserUpdateWithoutAssignmentsMadeInput>, Prisma.UserUncheckedUpdateWithoutAssignmentsMadeInput>
+}
+
 export type UserCreateNestedOneWithoutRoutedRequestsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutRoutedRequestsInput, Prisma.UserUncheckedCreateWithoutRoutedRequestsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutRoutedRequestsInput
@@ -657,6 +706,20 @@ export type UserUpdateOneRequiredWithoutRoutedRequestsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutRoutedRequestsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRoutedRequestsInput, Prisma.UserUpdateWithoutRoutedRequestsInput>, Prisma.UserUncheckedUpdateWithoutRoutedRequestsInput>
+}
+
+export type UserCreateNestedOneWithoutStatusChangesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutStatusChangesInput, Prisma.UserUncheckedCreateWithoutStatusChangesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStatusChangesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutStatusChangesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutStatusChangesInput, Prisma.UserUncheckedCreateWithoutStatusChangesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStatusChangesInput
+  upsert?: Prisma.UserUpsertWithoutStatusChangesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStatusChangesInput, Prisma.UserUpdateWithoutStatusChangesInput>, Prisma.UserUncheckedUpdateWithoutStatusChangesInput>
 }
 
 export type EnumAuthProviderFieldUpdateOperationsInput = {
@@ -692,6 +755,9 @@ export type UserCreateWithoutCitizenInput = {
   updatedAt?: Date | string
   departmentMemberships?: Prisma.DepartmentMemberCreateNestedManyWithoutUserInput
   routedRequests?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutRoutedByInput
+  assignmentsMade?: Prisma.RequestAssignmentCreateNestedManyWithoutAssignedByInput
+  assignmentsReceived?: Prisma.RequestAssignmentCreateNestedManyWithoutAssigneeInput
+  statusChanges?: Prisma.RequestStatusHistoryCreateNestedManyWithoutChangedByInput
 }
 
 export type UserUncheckedCreateWithoutCitizenInput = {
@@ -715,6 +781,9 @@ export type UserUncheckedCreateWithoutCitizenInput = {
   updatedAt?: Date | string
   departmentMemberships?: Prisma.DepartmentMemberUncheckedCreateNestedManyWithoutUserInput
   routedRequests?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutRoutedByInput
+  assignmentsMade?: Prisma.RequestAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+  assignmentsReceived?: Prisma.RequestAssignmentUncheckedCreateNestedManyWithoutAssigneeInput
+  statusChanges?: Prisma.RequestStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
 }
 
 export type UserCreateOrConnectWithoutCitizenInput = {
@@ -754,6 +823,9 @@ export type UserUpdateWithoutCitizenInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   departmentMemberships?: Prisma.DepartmentMemberUpdateManyWithoutUserNestedInput
   routedRequests?: Prisma.RequestDepartmentRouteUpdateManyWithoutRoutedByNestedInput
+  assignmentsMade?: Prisma.RequestAssignmentUpdateManyWithoutAssignedByNestedInput
+  assignmentsReceived?: Prisma.RequestAssignmentUpdateManyWithoutAssigneeNestedInput
+  statusChanges?: Prisma.RequestStatusHistoryUpdateManyWithoutChangedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCitizenInput = {
@@ -777,6 +849,9 @@ export type UserUncheckedUpdateWithoutCitizenInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   departmentMemberships?: Prisma.DepartmentMemberUncheckedUpdateManyWithoutUserNestedInput
   routedRequests?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutRoutedByNestedInput
+  assignmentsMade?: Prisma.RequestAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+  assignmentsReceived?: Prisma.RequestAssignmentUncheckedUpdateManyWithoutAssigneeNestedInput
+  statusChanges?: Prisma.RequestStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
 }
 
 export type UserCreateWithoutDepartmentMembershipsInput = {
@@ -800,6 +875,9 @@ export type UserCreateWithoutDepartmentMembershipsInput = {
   updatedAt?: Date | string
   citizen?: Prisma.CitizenCreateNestedOneWithoutUserInput
   routedRequests?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutRoutedByInput
+  assignmentsMade?: Prisma.RequestAssignmentCreateNestedManyWithoutAssignedByInput
+  assignmentsReceived?: Prisma.RequestAssignmentCreateNestedManyWithoutAssigneeInput
+  statusChanges?: Prisma.RequestStatusHistoryCreateNestedManyWithoutChangedByInput
 }
 
 export type UserUncheckedCreateWithoutDepartmentMembershipsInput = {
@@ -823,6 +901,9 @@ export type UserUncheckedCreateWithoutDepartmentMembershipsInput = {
   updatedAt?: Date | string
   citizen?: Prisma.CitizenUncheckedCreateNestedOneWithoutUserInput
   routedRequests?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutRoutedByInput
+  assignmentsMade?: Prisma.RequestAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+  assignmentsReceived?: Prisma.RequestAssignmentUncheckedCreateNestedManyWithoutAssigneeInput
+  statusChanges?: Prisma.RequestStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
 }
 
 export type UserCreateOrConnectWithoutDepartmentMembershipsInput = {
@@ -862,6 +943,9 @@ export type UserUpdateWithoutDepartmentMembershipsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citizen?: Prisma.CitizenUpdateOneWithoutUserNestedInput
   routedRequests?: Prisma.RequestDepartmentRouteUpdateManyWithoutRoutedByNestedInput
+  assignmentsMade?: Prisma.RequestAssignmentUpdateManyWithoutAssignedByNestedInput
+  assignmentsReceived?: Prisma.RequestAssignmentUpdateManyWithoutAssigneeNestedInput
+  statusChanges?: Prisma.RequestStatusHistoryUpdateManyWithoutChangedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDepartmentMembershipsInput = {
@@ -885,6 +969,249 @@ export type UserUncheckedUpdateWithoutDepartmentMembershipsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citizen?: Prisma.CitizenUncheckedUpdateOneWithoutUserNestedInput
   routedRequests?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutRoutedByNestedInput
+  assignmentsMade?: Prisma.RequestAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+  assignmentsReceived?: Prisma.RequestAssignmentUncheckedUpdateManyWithoutAssigneeNestedInput
+  statusChanges?: Prisma.RequestStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
+}
+
+export type UserCreateWithoutAssignmentsReceivedInput = {
+  id?: string
+  name: string
+  email: string
+  password?: string | null
+  phone?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  authProvider?: $Enums.AuthProvider
+  role?: $Enums.UserRole
+  status?: $Enums.UserStatus
+  emailVerified?: boolean
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  citizen?: Prisma.CitizenCreateNestedOneWithoutUserInput
+  departmentMemberships?: Prisma.DepartmentMemberCreateNestedManyWithoutUserInput
+  routedRequests?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutRoutedByInput
+  assignmentsMade?: Prisma.RequestAssignmentCreateNestedManyWithoutAssignedByInput
+  statusChanges?: Prisma.RequestStatusHistoryCreateNestedManyWithoutChangedByInput
+}
+
+export type UserUncheckedCreateWithoutAssignmentsReceivedInput = {
+  id?: string
+  name: string
+  email: string
+  password?: string | null
+  phone?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  authProvider?: $Enums.AuthProvider
+  role?: $Enums.UserRole
+  status?: $Enums.UserStatus
+  emailVerified?: boolean
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  citizen?: Prisma.CitizenUncheckedCreateNestedOneWithoutUserInput
+  departmentMemberships?: Prisma.DepartmentMemberUncheckedCreateNestedManyWithoutUserInput
+  routedRequests?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutRoutedByInput
+  assignmentsMade?: Prisma.RequestAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+  statusChanges?: Prisma.RequestStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
+}
+
+export type UserCreateOrConnectWithoutAssignmentsReceivedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssignmentsReceivedInput, Prisma.UserUncheckedCreateWithoutAssignmentsReceivedInput>
+}
+
+export type UserCreateWithoutAssignmentsMadeInput = {
+  id?: string
+  name: string
+  email: string
+  password?: string | null
+  phone?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  authProvider?: $Enums.AuthProvider
+  role?: $Enums.UserRole
+  status?: $Enums.UserStatus
+  emailVerified?: boolean
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  citizen?: Prisma.CitizenCreateNestedOneWithoutUserInput
+  departmentMemberships?: Prisma.DepartmentMemberCreateNestedManyWithoutUserInput
+  routedRequests?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutRoutedByInput
+  assignmentsReceived?: Prisma.RequestAssignmentCreateNestedManyWithoutAssigneeInput
+  statusChanges?: Prisma.RequestStatusHistoryCreateNestedManyWithoutChangedByInput
+}
+
+export type UserUncheckedCreateWithoutAssignmentsMadeInput = {
+  id?: string
+  name: string
+  email: string
+  password?: string | null
+  phone?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  authProvider?: $Enums.AuthProvider
+  role?: $Enums.UserRole
+  status?: $Enums.UserStatus
+  emailVerified?: boolean
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  citizen?: Prisma.CitizenUncheckedCreateNestedOneWithoutUserInput
+  departmentMemberships?: Prisma.DepartmentMemberUncheckedCreateNestedManyWithoutUserInput
+  routedRequests?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutRoutedByInput
+  assignmentsReceived?: Prisma.RequestAssignmentUncheckedCreateNestedManyWithoutAssigneeInput
+  statusChanges?: Prisma.RequestStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
+}
+
+export type UserCreateOrConnectWithoutAssignmentsMadeInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssignmentsMadeInput, Prisma.UserUncheckedCreateWithoutAssignmentsMadeInput>
+}
+
+export type UserUpsertWithoutAssignmentsReceivedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAssignmentsReceivedInput, Prisma.UserUncheckedUpdateWithoutAssignmentsReceivedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssignmentsReceivedInput, Prisma.UserUncheckedCreateWithoutAssignmentsReceivedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAssignmentsReceivedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAssignmentsReceivedInput, Prisma.UserUncheckedUpdateWithoutAssignmentsReceivedInput>
+}
+
+export type UserUpdateWithoutAssignmentsReceivedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citizen?: Prisma.CitizenUpdateOneWithoutUserNestedInput
+  departmentMemberships?: Prisma.DepartmentMemberUpdateManyWithoutUserNestedInput
+  routedRequests?: Prisma.RequestDepartmentRouteUpdateManyWithoutRoutedByNestedInput
+  assignmentsMade?: Prisma.RequestAssignmentUpdateManyWithoutAssignedByNestedInput
+  statusChanges?: Prisma.RequestStatusHistoryUpdateManyWithoutChangedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAssignmentsReceivedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citizen?: Prisma.CitizenUncheckedUpdateOneWithoutUserNestedInput
+  departmentMemberships?: Prisma.DepartmentMemberUncheckedUpdateManyWithoutUserNestedInput
+  routedRequests?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutRoutedByNestedInput
+  assignmentsMade?: Prisma.RequestAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+  statusChanges?: Prisma.RequestStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
+}
+
+export type UserUpsertWithoutAssignmentsMadeInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAssignmentsMadeInput, Prisma.UserUncheckedUpdateWithoutAssignmentsMadeInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssignmentsMadeInput, Prisma.UserUncheckedCreateWithoutAssignmentsMadeInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAssignmentsMadeInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAssignmentsMadeInput, Prisma.UserUncheckedUpdateWithoutAssignmentsMadeInput>
+}
+
+export type UserUpdateWithoutAssignmentsMadeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citizen?: Prisma.CitizenUpdateOneWithoutUserNestedInput
+  departmentMemberships?: Prisma.DepartmentMemberUpdateManyWithoutUserNestedInput
+  routedRequests?: Prisma.RequestDepartmentRouteUpdateManyWithoutRoutedByNestedInput
+  assignmentsReceived?: Prisma.RequestAssignmentUpdateManyWithoutAssigneeNestedInput
+  statusChanges?: Prisma.RequestStatusHistoryUpdateManyWithoutChangedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAssignmentsMadeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citizen?: Prisma.CitizenUncheckedUpdateOneWithoutUserNestedInput
+  departmentMemberships?: Prisma.DepartmentMemberUncheckedUpdateManyWithoutUserNestedInput
+  routedRequests?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutRoutedByNestedInput
+  assignmentsReceived?: Prisma.RequestAssignmentUncheckedUpdateManyWithoutAssigneeNestedInput
+  statusChanges?: Prisma.RequestStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
 }
 
 export type UserCreateWithoutRoutedRequestsInput = {
@@ -908,6 +1235,9 @@ export type UserCreateWithoutRoutedRequestsInput = {
   updatedAt?: Date | string
   citizen?: Prisma.CitizenCreateNestedOneWithoutUserInput
   departmentMemberships?: Prisma.DepartmentMemberCreateNestedManyWithoutUserInput
+  assignmentsMade?: Prisma.RequestAssignmentCreateNestedManyWithoutAssignedByInput
+  assignmentsReceived?: Prisma.RequestAssignmentCreateNestedManyWithoutAssigneeInput
+  statusChanges?: Prisma.RequestStatusHistoryCreateNestedManyWithoutChangedByInput
 }
 
 export type UserUncheckedCreateWithoutRoutedRequestsInput = {
@@ -931,6 +1261,9 @@ export type UserUncheckedCreateWithoutRoutedRequestsInput = {
   updatedAt?: Date | string
   citizen?: Prisma.CitizenUncheckedCreateNestedOneWithoutUserInput
   departmentMemberships?: Prisma.DepartmentMemberUncheckedCreateNestedManyWithoutUserInput
+  assignmentsMade?: Prisma.RequestAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+  assignmentsReceived?: Prisma.RequestAssignmentUncheckedCreateNestedManyWithoutAssigneeInput
+  statusChanges?: Prisma.RequestStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
 }
 
 export type UserCreateOrConnectWithoutRoutedRequestsInput = {
@@ -970,6 +1303,9 @@ export type UserUpdateWithoutRoutedRequestsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citizen?: Prisma.CitizenUpdateOneWithoutUserNestedInput
   departmentMemberships?: Prisma.DepartmentMemberUpdateManyWithoutUserNestedInput
+  assignmentsMade?: Prisma.RequestAssignmentUpdateManyWithoutAssignedByNestedInput
+  assignmentsReceived?: Prisma.RequestAssignmentUpdateManyWithoutAssigneeNestedInput
+  statusChanges?: Prisma.RequestStatusHistoryUpdateManyWithoutChangedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRoutedRequestsInput = {
@@ -993,6 +1329,129 @@ export type UserUncheckedUpdateWithoutRoutedRequestsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citizen?: Prisma.CitizenUncheckedUpdateOneWithoutUserNestedInput
   departmentMemberships?: Prisma.DepartmentMemberUncheckedUpdateManyWithoutUserNestedInput
+  assignmentsMade?: Prisma.RequestAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+  assignmentsReceived?: Prisma.RequestAssignmentUncheckedUpdateManyWithoutAssigneeNestedInput
+  statusChanges?: Prisma.RequestStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
+}
+
+export type UserCreateWithoutStatusChangesInput = {
+  id?: string
+  name: string
+  email: string
+  password?: string | null
+  phone?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  authProvider?: $Enums.AuthProvider
+  role?: $Enums.UserRole
+  status?: $Enums.UserStatus
+  emailVerified?: boolean
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  citizen?: Prisma.CitizenCreateNestedOneWithoutUserInput
+  departmentMemberships?: Prisma.DepartmentMemberCreateNestedManyWithoutUserInput
+  routedRequests?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutRoutedByInput
+  assignmentsMade?: Prisma.RequestAssignmentCreateNestedManyWithoutAssignedByInput
+  assignmentsReceived?: Prisma.RequestAssignmentCreateNestedManyWithoutAssigneeInput
+}
+
+export type UserUncheckedCreateWithoutStatusChangesInput = {
+  id?: string
+  name: string
+  email: string
+  password?: string | null
+  phone?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  authProvider?: $Enums.AuthProvider
+  role?: $Enums.UserRole
+  status?: $Enums.UserStatus
+  emailVerified?: boolean
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  citizen?: Prisma.CitizenUncheckedCreateNestedOneWithoutUserInput
+  departmentMemberships?: Prisma.DepartmentMemberUncheckedCreateNestedManyWithoutUserInput
+  routedRequests?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutRoutedByInput
+  assignmentsMade?: Prisma.RequestAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+  assignmentsReceived?: Prisma.RequestAssignmentUncheckedCreateNestedManyWithoutAssigneeInput
+}
+
+export type UserCreateOrConnectWithoutStatusChangesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutStatusChangesInput, Prisma.UserUncheckedCreateWithoutStatusChangesInput>
+}
+
+export type UserUpsertWithoutStatusChangesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutStatusChangesInput, Prisma.UserUncheckedUpdateWithoutStatusChangesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutStatusChangesInput, Prisma.UserUncheckedCreateWithoutStatusChangesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutStatusChangesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutStatusChangesInput, Prisma.UserUncheckedUpdateWithoutStatusChangesInput>
+}
+
+export type UserUpdateWithoutStatusChangesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citizen?: Prisma.CitizenUpdateOneWithoutUserNestedInput
+  departmentMemberships?: Prisma.DepartmentMemberUpdateManyWithoutUserNestedInput
+  routedRequests?: Prisma.RequestDepartmentRouteUpdateManyWithoutRoutedByNestedInput
+  assignmentsMade?: Prisma.RequestAssignmentUpdateManyWithoutAssignedByNestedInput
+  assignmentsReceived?: Prisma.RequestAssignmentUpdateManyWithoutAssigneeNestedInput
+}
+
+export type UserUncheckedUpdateWithoutStatusChangesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citizen?: Prisma.CitizenUncheckedUpdateOneWithoutUserNestedInput
+  departmentMemberships?: Prisma.DepartmentMemberUncheckedUpdateManyWithoutUserNestedInput
+  routedRequests?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutRoutedByNestedInput
+  assignmentsMade?: Prisma.RequestAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+  assignmentsReceived?: Prisma.RequestAssignmentUncheckedUpdateManyWithoutAssigneeNestedInput
 }
 
 
@@ -1003,11 +1462,17 @@ export type UserUncheckedUpdateWithoutRoutedRequestsInput = {
 export type UserCountOutputType = {
   departmentMemberships: number
   routedRequests: number
+  assignmentsMade: number
+  assignmentsReceived: number
+  statusChanges: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   departmentMemberships?: boolean | UserCountOutputTypeCountDepartmentMembershipsArgs
   routedRequests?: boolean | UserCountOutputTypeCountRoutedRequestsArgs
+  assignmentsMade?: boolean | UserCountOutputTypeCountAssignmentsMadeArgs
+  assignmentsReceived?: boolean | UserCountOutputTypeCountAssignmentsReceivedArgs
+  statusChanges?: boolean | UserCountOutputTypeCountStatusChangesArgs
 }
 
 /**
@@ -1034,6 +1499,27 @@ export type UserCountOutputTypeCountRoutedRequestsArgs<ExtArgs extends runtime.T
   where?: Prisma.RequestDepartmentRouteWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAssignmentsMadeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RequestAssignmentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAssignmentsReceivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RequestAssignmentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountStatusChangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RequestStatusHistoryWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1057,6 +1543,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   citizen?: boolean | Prisma.User$citizenArgs<ExtArgs>
   departmentMemberships?: boolean | Prisma.User$departmentMembershipsArgs<ExtArgs>
   routedRequests?: boolean | Prisma.User$routedRequestsArgs<ExtArgs>
+  assignmentsMade?: boolean | Prisma.User$assignmentsMadeArgs<ExtArgs>
+  assignmentsReceived?: boolean | Prisma.User$assignmentsReceivedArgs<ExtArgs>
+  statusChanges?: boolean | Prisma.User$statusChangesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1128,6 +1617,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   citizen?: boolean | Prisma.User$citizenArgs<ExtArgs>
   departmentMemberships?: boolean | Prisma.User$departmentMembershipsArgs<ExtArgs>
   routedRequests?: boolean | Prisma.User$routedRequestsArgs<ExtArgs>
+  assignmentsMade?: boolean | Prisma.User$assignmentsMadeArgs<ExtArgs>
+  assignmentsReceived?: boolean | Prisma.User$assignmentsReceivedArgs<ExtArgs>
+  statusChanges?: boolean | Prisma.User$statusChangesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1139,6 +1631,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     citizen: Prisma.$CitizenPayload<ExtArgs> | null
     departmentMemberships: Prisma.$DepartmentMemberPayload<ExtArgs>[]
     routedRequests: Prisma.$RequestDepartmentRoutePayload<ExtArgs>[]
+    assignmentsMade: Prisma.$RequestAssignmentPayload<ExtArgs>[]
+    assignmentsReceived: Prisma.$RequestAssignmentPayload<ExtArgs>[]
+    statusChanges: Prisma.$RequestStatusHistoryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1556,6 +2051,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   citizen<T extends Prisma.User$citizenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$citizenArgs<ExtArgs>>): Prisma.Prisma__CitizenClient<runtime.Types.Result.GetResult<Prisma.$CitizenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   departmentMemberships<T extends Prisma.User$departmentMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$departmentMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DepartmentMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   routedRequests<T extends Prisma.User$routedRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$routedRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RequestDepartmentRoutePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assignmentsMade<T extends Prisma.User$assignmentsMadeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assignmentsMadeArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RequestAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assignmentsReceived<T extends Prisma.User$assignmentsReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assignmentsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RequestAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  statusChanges<T extends Prisma.User$statusChangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$statusChangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RequestStatusHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2060,6 +2558,78 @@ export type User$routedRequestsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.RequestDepartmentRouteScalarFieldEnum | Prisma.RequestDepartmentRouteScalarFieldEnum[]
+}
+
+/**
+ * User.assignmentsMade
+ */
+export type User$assignmentsMadeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RequestAssignment
+   */
+  select?: Prisma.RequestAssignmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RequestAssignment
+   */
+  omit?: Prisma.RequestAssignmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RequestAssignmentInclude<ExtArgs> | null
+  where?: Prisma.RequestAssignmentWhereInput
+  orderBy?: Prisma.RequestAssignmentOrderByWithRelationInput | Prisma.RequestAssignmentOrderByWithRelationInput[]
+  cursor?: Prisma.RequestAssignmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RequestAssignmentScalarFieldEnum | Prisma.RequestAssignmentScalarFieldEnum[]
+}
+
+/**
+ * User.assignmentsReceived
+ */
+export type User$assignmentsReceivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RequestAssignment
+   */
+  select?: Prisma.RequestAssignmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RequestAssignment
+   */
+  omit?: Prisma.RequestAssignmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RequestAssignmentInclude<ExtArgs> | null
+  where?: Prisma.RequestAssignmentWhereInput
+  orderBy?: Prisma.RequestAssignmentOrderByWithRelationInput | Prisma.RequestAssignmentOrderByWithRelationInput[]
+  cursor?: Prisma.RequestAssignmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RequestAssignmentScalarFieldEnum | Prisma.RequestAssignmentScalarFieldEnum[]
+}
+
+/**
+ * User.statusChanges
+ */
+export type User$statusChangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RequestStatusHistory
+   */
+  select?: Prisma.RequestStatusHistorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RequestStatusHistory
+   */
+  omit?: Prisma.RequestStatusHistoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RequestStatusHistoryInclude<ExtArgs> | null
+  where?: Prisma.RequestStatusHistoryWhereInput
+  orderBy?: Prisma.RequestStatusHistoryOrderByWithRelationInput | Prisma.RequestStatusHistoryOrderByWithRelationInput[]
+  cursor?: Prisma.RequestStatusHistoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RequestStatusHistoryScalarFieldEnum | Prisma.RequestStatusHistoryScalarFieldEnum[]
 }
 
 /**
