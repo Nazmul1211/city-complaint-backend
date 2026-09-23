@@ -3,6 +3,7 @@ import httpStatus from "http-status";
 
 import { Prisma } from "../../../generated/prisma/client";
 import config from "../config";
+import { AppError } from "../../utils/AppError";
 
 type IssueLike = { path?: Array<string | number | symbol>; message?: string };
 
@@ -61,15 +62,19 @@ export const globalErrorHandler = async (
 	} else if (err instanceof Prisma.PrismaClientUnknownRequestError) {
 		statusCode = httpStatus.INTERNAL_SERVER_ERROR;
 		errorMessage = "Error occurred during query execution";
+	} else if (err instanceof AppError) {
+		statusCode = err.statusCode;
+		errorMessage = err.message;
 	} else if (err instanceof Error) {
 		errorMessage = err.message;
 	}
 
 	// Structured error envelope:
-	// development → real message + detailed errors array
-	// production  → generic message + empty errors array
+	// Client errors (<500) or development → real message
+	// 500 in production → generic "Internal Server Error"
 	const isDev = config.node_env === "development";
-	const safeMessage = isDev ? errorMessage : "Internal Server Error";
+	const safeMessage =
+		isDev || statusCode < 500 ? errorMessage : "Internal Server Error";
 
 	res.status(statusCode).json({
 		success: false,
