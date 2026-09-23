@@ -9,6 +9,17 @@
 * 🟢 You can import this file directly.
 */
 
+export const AttachmentPurpose = {
+  EVIDENCE: 'EVIDENCE',
+  DOCUMENT: 'DOCUMENT',
+  PHOTO: 'PHOTO',
+  RECEIPT: 'RECEIPT',
+  OTHER: 'OTHER'
+} as const
+
+export type AttachmentPurpose = (typeof AttachmentPurpose)[keyof typeof AttachmentPurpose]
+
+
 export const UserRole = {
   CITIZEN: 'CITIZEN',
   STAFF: 'STAFF',

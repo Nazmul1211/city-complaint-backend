@@ -38,5 +38,9 @@ model User {
 
   statusChanges       RequestStatusHistory[] @relation("StatusChangedByUser")
 
+  workUpdates         WorkUpdate[] @relation("WorkUpdateByUser")
+
+  uploadedAttachments MediaAttachment[] @relation("AttachmentByUser")
+
   @@map("users")
 }

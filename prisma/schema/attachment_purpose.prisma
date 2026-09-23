@@ -1,0 +1,7 @@
+enum AttachmentPurpose {
+  EVIDENCE
+  DOCUMENT
+  PHOTO
+  RECEIPT
+  OTHER
+}

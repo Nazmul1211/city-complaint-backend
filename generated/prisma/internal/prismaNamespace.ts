@@ -401,6 +401,7 @@ export const ModelName = {
   Citizen: 'Citizen',
   Department: 'Department',
   DepartmentMember: 'DepartmentMember',
+  MediaAttachment: 'MediaAttachment',
   ReportedLocation: 'ReportedLocation',
   RequestAssignment: 'RequestAssignment',
   RequestDepartmentRoute: 'RequestDepartmentRoute',
@@ -408,7 +409,8 @@ export const ModelName = {
   ServiceRequest: 'ServiceRequest',
   SlaPolicy: 'SlaPolicy',
   User: 'User',
-  Ward: 'Ward'
+  Ward: 'Ward',
+  WorkUpdate: 'WorkUpdate'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -424,7 +426,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "category" | "citizen" | "department" | "departmentMember" | "reportedLocation" | "requestAssignment" | "requestDepartmentRoute" | "requestStatusHistory" | "serviceRequest" | "slaPolicy" | "user" | "ward"
+    modelProps: "category" | "citizen" | "department" | "departmentMember" | "mediaAttachment" | "reportedLocation" | "requestAssignment" | "requestDepartmentRoute" | "requestStatusHistory" | "serviceRequest" | "slaPolicy" | "user" | "ward" | "workUpdate"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -721,6 +723,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.DepartmentMemberCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.DepartmentMemberCountAggregateOutputType> | number
+        }
+      }
+    }
+    MediaAttachment: {
+      payload: Prisma.$MediaAttachmentPayload<ExtArgs>
+      fields: Prisma.MediaAttachmentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MediaAttachmentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAttachmentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MediaAttachmentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAttachmentPayload>
+        }
+        findFirst: {
+          args: Prisma.MediaAttachmentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAttachmentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MediaAttachmentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAttachmentPayload>
+        }
+        findMany: {
+          args: Prisma.MediaAttachmentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAttachmentPayload>[]
+        }
+        create: {
+          args: Prisma.MediaAttachmentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAttachmentPayload>
+        }
+        createMany: {
+          args: Prisma.MediaAttachmentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MediaAttachmentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAttachmentPayload>[]
+        }
+        delete: {
+          args: Prisma.MediaAttachmentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAttachmentPayload>
+        }
+        update: {
+          args: Prisma.MediaAttachmentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAttachmentPayload>
+        }
+        deleteMany: {
+          args: Prisma.MediaAttachmentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MediaAttachmentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MediaAttachmentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAttachmentPayload>[]
+        }
+        upsert: {
+          args: Prisma.MediaAttachmentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAttachmentPayload>
+        }
+        aggregate: {
+          args: Prisma.MediaAttachmentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMediaAttachment>
+        }
+        groupBy: {
+          args: Prisma.MediaAttachmentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MediaAttachmentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MediaAttachmentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MediaAttachmentCountAggregateOutputType> | number
         }
       }
     }
@@ -1316,6 +1392,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    WorkUpdate: {
+      payload: Prisma.$WorkUpdatePayload<ExtArgs>
+      fields: Prisma.WorkUpdateFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.WorkUpdateFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkUpdatePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.WorkUpdateFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkUpdatePayload>
+        }
+        findFirst: {
+          args: Prisma.WorkUpdateFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkUpdatePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.WorkUpdateFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkUpdatePayload>
+        }
+        findMany: {
+          args: Prisma.WorkUpdateFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkUpdatePayload>[]
+        }
+        create: {
+          args: Prisma.WorkUpdateCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkUpdatePayload>
+        }
+        createMany: {
+          args: Prisma.WorkUpdateCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.WorkUpdateCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkUpdatePayload>[]
+        }
+        delete: {
+          args: Prisma.WorkUpdateDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkUpdatePayload>
+        }
+        update: {
+          args: Prisma.WorkUpdateUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkUpdatePayload>
+        }
+        deleteMany: {
+          args: Prisma.WorkUpdateDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.WorkUpdateUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.WorkUpdateUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkUpdatePayload>[]
+        }
+        upsert: {
+          args: Prisma.WorkUpdateUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkUpdatePayload>
+        }
+        aggregate: {
+          args: Prisma.WorkUpdateAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWorkUpdate>
+        }
+        groupBy: {
+          args: Prisma.WorkUpdateGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WorkUpdateGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.WorkUpdateCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WorkUpdateCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1412,6 +1562,21 @@ export const DepartmentMemberScalarFieldEnum = {
 } as const
 
 export type DepartmentMemberScalarFieldEnum = (typeof DepartmentMemberScalarFieldEnum)[keyof typeof DepartmentMemberScalarFieldEnum]
+
+
+export const MediaAttachmentScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  uploadedById: 'uploadedById',
+  purpose: 'purpose',
+  publicId: 'publicId',
+  secureUrl: 'secureUrl',
+  mimeType: 'mimeType',
+  sizeBytes: 'sizeBytes',
+  createdAt: 'createdAt'
+} as const
+
+export type MediaAttachmentScalarFieldEnum = (typeof MediaAttachmentScalarFieldEnum)[keyof typeof MediaAttachmentScalarFieldEnum]
 
 
 export const ReportedLocationScalarFieldEnum = {
@@ -1537,6 +1702,18 @@ export const WardScalarFieldEnum = {
 export type WardScalarFieldEnum = (typeof WardScalarFieldEnum)[keyof typeof WardScalarFieldEnum]
 
 
+export const WorkUpdateScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  authorId: 'authorId',
+  note: 'note',
+  visibleToCitizen: 'visibleToCitizen',
+  createdAt: 'createdAt'
+} as const
+
+export type WorkUpdateScalarFieldEnum = (typeof WorkUpdateScalarFieldEnum)[keyof typeof WorkUpdateScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1631,6 +1808,34 @@ export type ListEnumStaffPositionFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'AttachmentPurpose'
+ */
+export type EnumAttachmentPurposeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttachmentPurpose'>
+    
+
+
+/**
+ * Reference to a field of type 'AttachmentPurpose[]'
+ */
+export type ListEnumAttachmentPurposeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttachmentPurpose[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
  * Reference to a field of type 'RequestStatus'
  */
 export type EnumRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestStatus'>
@@ -1669,20 +1874,6 @@ export type EnumRequestPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'RequestPriority[]'
  */
 export type ListEnumRequestPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestPriority[]'>
-    
-
-
-/**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
- * Reference to a field of type 'Int[]'
- */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -1896,6 +2087,7 @@ export type GlobalOmitConfig = {
   citizen?: Prisma.CitizenOmit
   department?: Prisma.DepartmentOmit
   departmentMember?: Prisma.DepartmentMemberOmit
+  mediaAttachment?: Prisma.MediaAttachmentOmit
   reportedLocation?: Prisma.ReportedLocationOmit
   requestAssignment?: Prisma.RequestAssignmentOmit
   requestDepartmentRoute?: Prisma.RequestDepartmentRouteOmit
@@ -1904,6 +2096,7 @@ export type GlobalOmitConfig = {
   slaPolicy?: Prisma.SlaPolicyOmit
   user?: Prisma.UserOmit
   ward?: Prisma.WardOmit
+  workUpdate?: Prisma.WorkUpdateOmit
 }
 
 /* Types for Logging */

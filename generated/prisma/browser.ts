@@ -38,6 +38,11 @@ export type Department = Prisma.DepartmentModel
  */
 export type DepartmentMember = Prisma.DepartmentMemberModel
 /**
+ * Model MediaAttachment
+ * 
+ */
+export type MediaAttachment = Prisma.MediaAttachmentModel
+/**
  * Model ReportedLocation
  * 
  */
@@ -77,3 +82,8 @@ export type User = Prisma.UserModel
  * 
  */
 export type Ward = Prisma.WardModel
+/**
+ * Model WorkUpdate
+ * 
+ */
+export type WorkUpdate = Prisma.WorkUpdateModel

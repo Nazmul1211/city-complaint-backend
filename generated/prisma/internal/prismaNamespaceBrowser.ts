@@ -55,6 +55,7 @@ export const ModelName = {
   Citizen: 'Citizen',
   Department: 'Department',
   DepartmentMember: 'DepartmentMember',
+  MediaAttachment: 'MediaAttachment',
   ReportedLocation: 'ReportedLocation',
   RequestAssignment: 'RequestAssignment',
   RequestDepartmentRoute: 'RequestDepartmentRoute',
@@ -62,7 +63,8 @@ export const ModelName = {
   ServiceRequest: 'ServiceRequest',
   SlaPolicy: 'SlaPolicy',
   User: 'User',
-  Ward: 'Ward'
+  Ward: 'Ward',
+  WorkUpdate: 'WorkUpdate'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -138,6 +140,21 @@ export const DepartmentMemberScalarFieldEnum = {
 } as const
 
 export type DepartmentMemberScalarFieldEnum = (typeof DepartmentMemberScalarFieldEnum)[keyof typeof DepartmentMemberScalarFieldEnum]
+
+
+export const MediaAttachmentScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  uploadedById: 'uploadedById',
+  purpose: 'purpose',
+  publicId: 'publicId',
+  secureUrl: 'secureUrl',
+  mimeType: 'mimeType',
+  sizeBytes: 'sizeBytes',
+  createdAt: 'createdAt'
+} as const
+
+export type MediaAttachmentScalarFieldEnum = (typeof MediaAttachmentScalarFieldEnum)[keyof typeof MediaAttachmentScalarFieldEnum]
 
 
 export const ReportedLocationScalarFieldEnum = {
@@ -261,6 +278,18 @@ export const WardScalarFieldEnum = {
 } as const
 
 export type WardScalarFieldEnum = (typeof WardScalarFieldEnum)[keyof typeof WardScalarFieldEnum]
+
+
+export const WorkUpdateScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  authorId: 'authorId',
+  note: 'note',
+  visibleToCitizen: 'visibleToCitizen',
+  createdAt: 'createdAt'
+} as const
+
+export type WorkUpdateScalarFieldEnum = (typeof WorkUpdateScalarFieldEnum)[keyof typeof WorkUpdateScalarFieldEnum]
 
 
 export const SortOrder = {

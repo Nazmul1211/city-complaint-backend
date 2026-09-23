@@ -422,14 +422,6 @@ export type SlaPolicyUncheckedUpdateOneWithoutCategoryNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SlaPolicyUpdateToOneWithWhereWithoutCategoryInput, Prisma.SlaPolicyUpdateWithoutCategoryInput>, Prisma.SlaPolicyUncheckedUpdateWithoutCategoryInput>
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type SlaPolicyCreateWithoutCategoryInput = {
   id?: string
   responseWithinHours: number

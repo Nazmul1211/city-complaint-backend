@@ -1,0 +1,24 @@
+model MediaAttachment {
+  id           String            @id @default(uuid()) @db.Uuid
+
+  requestId    String            @db.Uuid
+  uploadedById String            @db.Uuid
+
+  purpose      AttachmentPurpose
+
+  publicId     String            @unique
+  secureUrl    String
+
+  mimeType     String
+  sizeBytes    Int
+
+  createdAt    DateTime          @default(now())
+
+  request      ServiceRequest @relation(fields: [requestId], references: [id])
+
+  uploadedBy   User @relation("AttachmentByUser", fields: [uploadedById], references: [id])
+
+  @@index([requestId])
+  @@index([uploadedById])
+  @@index([requestId, createdAt])
+}

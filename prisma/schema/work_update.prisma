@@ -1,0 +1,19 @@
+model WorkUpdate {
+  id               String   @id @default(uuid()) @db.Uuid
+
+  requestId        String   @db.Uuid
+  authorId         String   @db.Uuid
+
+  note             String
+  visibleToCitizen Boolean  @default(false)
+
+  createdAt        DateTime @default(now())
+
+  request          ServiceRequest @relation(fields: [requestId], references: [id])
+
+  author           User @relation("WorkUpdateByUser", fields: [authorId], references: [id])
+
+  @@index([requestId])
+  @@index([authorId])
+  @@index([requestId, createdAt])
+}
