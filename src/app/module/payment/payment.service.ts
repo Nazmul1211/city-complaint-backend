@@ -208,6 +208,9 @@ const initiateCheckout = async (paymentId: string, user: IReqUser) => {
 		});
 
 		return createdTx;
+	}, {
+		maxWait: 10000,
+		timeout: 20000,
 	});
 
 	return {
@@ -444,7 +447,7 @@ const getPaymentById = async (paymentId: string, user: IReqUser) => {
 						select: {
 							id: true,
 							userId: true,
-							nationalId: true,
+							contactNumber: true,
 						},
 					},
 				},

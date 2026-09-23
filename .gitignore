@@ -17,5 +17,3 @@ pnpm-workspace.yaml
 # restricts docx to push into git
 docx/
 hc/
-node_modules/
-dist/

@@ -9,6 +9,7 @@
     "build": "tsc",
     "start": "node dist/src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:e2e": "node scripts/test-e2e.mjs",
     "postinstall": "prisma generate",
     "format:check": "npx @biomejs/biome format ./src",
     "format:fix": "npx @biomejs/biome format --write ./src",
@@ -50,6 +51,7 @@
     "@types/pg": "^8.23.1",
     "cookie-parser": "^1.4.7",
     "prisma": "^7.10.0",
+    "tsup": "^8.5.1",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   },

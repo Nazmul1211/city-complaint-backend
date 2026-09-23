@@ -134,6 +134,9 @@ const assignRequest = async (
 		});
 
 		return created;
+	}, {
+		maxWait: 10000,
+		timeout: 20000,
 	});
 
 	await notificationService.notifyRequestAssigned(
@@ -270,6 +273,9 @@ const releaseAssignment = async (
 		});
 
 		return released;
+	}, {
+		maxWait: 10000,
+		timeout: 20000,
 	});
 
 	return updated as unknown as IAssignmentResponse;

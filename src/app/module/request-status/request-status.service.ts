@@ -145,7 +145,12 @@ const changeStatus = async (
 		return history as unknown as IStatusHistoryResponse;
 	};
 
-	return tx ? run(tx) : prisma.$transaction(run);
+	return tx
+		? run(tx)
+		: prisma.$transaction(run, {
+				maxWait: 10000,
+				timeout: 20000,
+			});
 };
 
 const getStatusHistory = async (

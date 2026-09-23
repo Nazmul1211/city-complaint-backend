@@ -60,6 +60,9 @@ const routeRequest = async (requestId: string, userId: string, userRole: string,
 		});
 
 		return created;
+	}, {
+		maxWait: 10000,
+		timeout: 20000,
 	});
 
 	return newRoute as IRouteResponse;

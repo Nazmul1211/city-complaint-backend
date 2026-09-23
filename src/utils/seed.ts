@@ -141,6 +141,21 @@ export const seedTesterCitizen = async () => {
 		if (isTestercitizenExists) {
 			console.log("Tester citizen already Exists!");
 			await activateIfPending(config.tester_citizen_email);
+
+			const existingCitizen = await prisma.citizen.findUnique({
+				where: { userId: isTestercitizenExists.id },
+			});
+			if (!existingCitizen) {
+				await prisma.citizen.create({
+					data: {
+						userId: isTestercitizenExists.id,
+						name: isTestercitizenExists.name,
+						email: isTestercitizenExists.email,
+						contactNumber: "+8801700000000",
+					},
+				});
+				console.log("Created missing Citizen profile for Tester Citizen!");
+			}
 			return;
 		}
 
@@ -168,6 +183,13 @@ export const seedTesterCitizen = async () => {
 				status: UserStatus.ACTIVE,
 				needPasswordChange: false,
 				emailVerified: true,
+				citizen: {
+					create: {
+						name,
+						email,
+						contactNumber: "+8801700000000",
+					},
+				},
 			},
 		});
 

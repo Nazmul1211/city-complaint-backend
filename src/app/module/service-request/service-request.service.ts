@@ -130,6 +130,9 @@ const createServiceRequest = async (
 		});
 
 		return created;
+	}, {
+		maxWait: 10000,
+		timeout: 20000,
 	});
 
 	await notificationService.notifyRequestCreated(serviceRequest, userId);
