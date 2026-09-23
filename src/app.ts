@@ -44,37 +44,35 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// Stricter limiter for auth endpoints — blunt force against credential
-// stuffing / OTP brute force. 10 attempts per 10 minutes per IP.
-const authLimiter = rateLimit({
-	windowMs: 10 * 60 * 1000,
-	limit: 10,
-	standardHeaders: "draft-7",
-	legacyHeaders: false,
-	message: {
-		success: false,
-		statusCode: 429,
-		message: "Too many attempts, please try again after 10 minutes",
-		errors: [],
-	},
-});
+// Rate limiters temporarily disabled during API testing and development
+// const authLimiter = rateLimit({
+// 	windowMs: 10 * 60 * 1000,
+// 	limit: 10,
+// 	standardHeaders: "draft-7",
+// 	legacyHeaders: false,
+// 	message: {
+// 		success: false,
+// 		statusCode: 429,
+// 		message: "Too many attempts, please try again after 10 minutes",
+// 		errors: [],
+// 	},
+// });
 
-// General API limiter — 300 requests per 10 minutes per IP.
-const apiLimiter = rateLimit({
-	windowMs: 10 * 60 * 1000,
-	limit: 300,
-	standardHeaders: "draft-7",
-	legacyHeaders: false,
-	message: {
-		success: false,
-		statusCode: 429,
-		message: "Too many requests from this IP, please try again later",
-		errors: [],
-	},
-});
+// const apiLimiter = rateLimit({
+// 	windowMs: 10 * 60 * 1000,
+// 	limit: 300,
+// 	standardHeaders: "draft-7",
+// 	legacyHeaders: false,
+// 	message: {
+// 		success: false,
+// 		statusCode: 429,
+// 		message: "Too many requests from this IP, please try again later",
+// 		errors: [],
+// 	},
+// });
 
-app.use("/api/v1/auth", authLimiter);
-app.use("/api", apiLimiter);
+// app.use("/api/v1/auth", authLimiter);
+// app.use("/api", apiLimiter);
 
 app.use("/api/v1/auth/", authRoutes);
 app.use("/api/v1/users/", userRoutes);

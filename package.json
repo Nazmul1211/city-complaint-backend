@@ -6,8 +6,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
-    "start": "node dist/src/server.js",
+    "build": "esbuild src/app.ts --bundle --platform=node --format=esm --packages=external --outfile=api/index.js && tsup",
+    "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:e2e": "node scripts/test-e2e.mjs",
     "postinstall": "prisma generate",
