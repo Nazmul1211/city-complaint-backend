@@ -23,6 +23,22 @@ import type {
 	IReqUser,
 } from "./payment.interface";
 
+const parseBkashDate = (timeStr?: string | null): Date => {
+	if (!timeStr) return new Date();
+	const direct = new Date(timeStr);
+	if (!isNaN(direct.getTime())) return direct;
+
+	// bKash format: "2026-09-23T21:50:42:720 GMT+0600"
+	// Replace millisecond colon delimiter with dot and strip " GMT"
+	const normalized = timeStr
+		.replace(/(\d{2}:\d{2}:\d{2}):(\d{3})/, "$1.$2")
+		.replace(" GMT", "");
+	const parsed = new Date(normalized);
+	if (!isNaN(parsed.getTime())) return parsed;
+
+	return new Date();
+};
+
 const issuePayment = async (
 	payload: IIssuePaymentPayload,
 	issuedByUser: IReqUser,
@@ -255,6 +271,20 @@ const handleCallback = async (query: IBkashCallbackQuery) => {
 		);
 	}
 
+	// If transaction already succeeded (e.g. repeated callback / page refresh)
+	if (transaction.status === PaymentTransactionStatus.SUCCESS) {
+		return {
+			status: "success",
+			message: "Payment already completed successfully",
+			paymentId: transaction.paymentId,
+			trxId: transaction.gatewayTransactionId || "",
+			amount: transaction.amount,
+			currency: transaction.currency,
+			paidAt: transaction.verifiedAt || new Date(),
+			redirectUrl: `${config.frontend_url}/dashboard/payments?status=success&trxId=${transaction.gatewayTransactionId}`,
+		};
+	}
+
 	// If user cancelled
 	if (status === "cancel") {
 		await prisma.$transaction(async (tx) => {
@@ -333,7 +363,36 @@ const handleCallback = async (query: IBkashCallbackQuery) => {
 		);
 	}
 
-	const result = (await executeResponse.json()) as IBkashExecuteResponse;
+	let result = (await executeResponse.json()) as IBkashExecuteResponse;
+
+	// If bKash reports that the payment was already completed (e.g. status 2062)
+	if (
+		result.statusCode === "2062" ||
+		result.statusMessage?.toLowerCase().includes("already been completed")
+	) {
+		const queryResponse = await fetch(
+			`${config.bkash_base_url}/tokenized/checkout/payment/status`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+					Authorization: bkashIdToken,
+					"X-App-Key": config.bkash_app_key,
+				},
+				body: JSON.stringify({ paymentID }),
+			},
+		);
+		if (queryResponse.ok) {
+			const queryData = (await queryResponse.json()) as IBkashExecuteResponse;
+			if (
+				queryData.transactionStatus === "Completed" &&
+				queryData.statusCode === "0000"
+			) {
+				result = queryData;
+			}
+		}
+	}
 
 	if (
 		result.statusCode !== "0000" ||
@@ -355,7 +414,7 @@ const handleCallback = async (query: IBkashCallbackQuery) => {
 					payload: result as any,
 				},
 			});
-		});
+		}, { maxWait: 10000, timeout: 20000 });
 
 		throw new AppError(
 			httpStatus.BAD_REQUEST,
@@ -363,10 +422,8 @@ const handleCallback = async (query: IBkashCallbackQuery) => {
 		);
 	}
 
-	// Successful execution: update payment and transaction
-	const executedAt = result.paymentExecuteTime
-		? new Date(result.paymentExecuteTime)
-		: new Date();
+	// Successful execution: safely parse executed date
+	const executedAt = parseBkashDate(result.paymentExecuteTime);
 
 	await prisma.$transaction(async (tx) => {
 		await tx.paymentTransaction.update({
@@ -397,7 +454,7 @@ const handleCallback = async (query: IBkashCallbackQuery) => {
 				processedAt: new Date(),
 			},
 		});
-	});
+	}, { maxWait: 10000, timeout: 20000 });
 
 	// Send payment success notification to citizen
 	await notificationService.notifyPaymentSuccessful(
