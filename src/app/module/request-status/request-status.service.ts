@@ -8,6 +8,8 @@ import type {
 	IStatusHistoryFilters,
 	IStatusHistoryResponse,
 } from "./request-status.interface";
+import httpStatus from "http-status";
+import { AppError } from "../../../utils/AppError";
 
 type TxClient = Parameters<Parameters<typeof prisma.$transaction>[0]>[0];
 
@@ -16,9 +18,11 @@ const statusHistoryInclude = {
 } as const;
 
 const validateTransition = (from: RequestStatus, to: RequestStatus): void => {
+	if (from === to) return;
 	const allowed = STATUS_TRANSITIONS[from];
 	if (!allowed.includes(to)) {
-		throw new Error(
+		throw new AppError(
+			httpStatus.BAD_REQUEST,
 			`Invalid status transition: ${from} → ${to}. ` +
 				`Allowed transitions from ${from}: [${allowed.join(", ") || "none — this is a terminal status"}]`,
 		);
@@ -62,7 +66,9 @@ const changeStatus = async (
 			},
 		});
 
-		if (!request) throw new Error("Service request not found.");
+		if (!request) {
+			throw new AppError(httpStatus.NOT_FOUND, "Service request not found.");
+		}
 
 		const fromStatus = request.status;
 		const { toStatus, note } = payload;
@@ -165,12 +171,15 @@ const getStatusHistory = async (
 	const request = await prisma.serviceRequest.findFirst({
 		where: { id: requestId },
 	});
-	if (!request) throw new Error("Service request not found.");
+	if (!request) {
+		throw new AppError(httpStatus.NOT_FOUND, "Service request not found.");
+	}
 
 	if (userRole === "CITIZEN") {
 		const citizen = await prisma.citizen.findUnique({ where: { userId } });
 		if (!citizen || request.citizenId !== citizen.id) {
-			throw new Error(
+			throw new AppError(
+				httpStatus.FORBIDDEN,
 				"You don't have permission to view this request's status history.",
 			);
 		}
@@ -185,7 +194,8 @@ const getStatusHistory = async (
 			(m: { departmentId: string }) => m.departmentId,
 		);
 		if (!deptIds.includes(request.currentDepartmentId)) {
-			throw new Error(
+			throw new AppError(
+				httpStatus.FORBIDDEN,
 				"You don't have permission to view this request's status history.",
 			);
 		}

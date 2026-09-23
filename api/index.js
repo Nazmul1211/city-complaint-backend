@@ -3585,11 +3585,15 @@ var requestRoutingRoutes = router6;
 import { Router as Router7 } from "express";
 
 // src/app/module/request-assignment/request-assignment.controller.ts
-import httpStatus12 from "http-status";
+import httpStatus14 from "http-status";
 
 // src/app/module/request-status/request-status.constants.ts
 var STATUS_TRANSITIONS = {
-  [RequestStatus.SUBMITTED]: [RequestStatus.UNDER_REVIEW, RequestStatus.REJECTED],
+  [RequestStatus.SUBMITTED]: [
+    RequestStatus.UNDER_REVIEW,
+    RequestStatus.ASSIGNED,
+    RequestStatus.REJECTED
+  ],
   [RequestStatus.UNDER_REVIEW]: [
     RequestStatus.ASSIGNED,
     RequestStatus.PENDING,
@@ -3623,18 +3627,22 @@ var STATUS_TRANSITIONS = {
 };
 var TIMESTAMP_MAP = {
   [RequestStatus.UNDER_REVIEW]: "firstRespondedAt",
+  [RequestStatus.ASSIGNED]: "firstRespondedAt",
   [RequestStatus.RESOLVED]: "resolvedAt",
   [RequestStatus.CLOSED]: "closedAt"
 };
 
 // src/app/module/request-status/request-status.service.ts
+import httpStatus12 from "http-status";
 var statusHistoryInclude = {
   changedBy: { select: { id: true, name: true, email: true } }
 };
 var validateTransition = (from, to) => {
+  if (from === to) return;
   const allowed = STATUS_TRANSITIONS[from];
   if (!allowed.includes(to)) {
-    throw new Error(
+    throw new AppError(
+      httpStatus12.BAD_REQUEST,
       `Invalid status transition: ${from} \u2192 ${to}. Allowed transitions from ${from}: [${allowed.join(", ") || "none \u2014 this is a terminal status"}]`
     );
   }
@@ -3662,7 +3670,9 @@ var changeStatus = async (requestId, changedById, payload, tx) => {
         citizen: { select: { user: { select: { id: true } } } }
       }
     });
-    if (!request) throw new Error("Service request not found.");
+    if (!request) {
+      throw new AppError(httpStatus12.NOT_FOUND, "Service request not found.");
+    }
     const fromStatus = request.status;
     const { toStatus, note } = payload;
     validateTransition(fromStatus, toStatus);
@@ -3739,11 +3749,14 @@ var getStatusHistory = async (requestId, userId, userRole, filters) => {
   const request = await prisma.serviceRequest.findFirst({
     where: { id: requestId }
   });
-  if (!request) throw new Error("Service request not found.");
+  if (!request) {
+    throw new AppError(httpStatus12.NOT_FOUND, "Service request not found.");
+  }
   if (userRole === "CITIZEN") {
     const citizen = await prisma.citizen.findUnique({ where: { userId } });
     if (!citizen || request.citizenId !== citizen.id) {
-      throw new Error(
+      throw new AppError(
+        httpStatus12.FORBIDDEN,
         "You don't have permission to view this request's status history."
       );
     }
@@ -3757,7 +3770,8 @@ var getStatusHistory = async (requestId, userId, userRole, filters) => {
       (m) => m.departmentId
     );
     if (!deptIds.includes(request.currentDepartmentId)) {
-      throw new Error(
+      throw new AppError(
+        httpStatus12.FORBIDDEN,
         "You don't have permission to view this request's status history."
       );
     }
@@ -3785,6 +3799,7 @@ var requestStatusService = {
 };
 
 // src/app/module/request-assignment/request-assignment.service.ts
+import httpStatus13 from "http-status";
 var assignmentInclude = {
   assignee: {
     select: {
@@ -3819,7 +3834,9 @@ var assignRequest = async (requestId, userId, userRole, payload) => {
   const request = await prisma.serviceRequest.findFirst({
     where: { id: requestId }
   });
-  if (!request) throw new Error("Service request not found.");
+  if (!request) {
+    throw new AppError(httpStatus13.NOT_FOUND, "Service request not found.");
+  }
   if (userRole === "STAFF") {
     const memberships = await prisma.departmentMember.findMany({
       where: { userId, isActive: true },
@@ -3829,7 +3846,8 @@ var assignRequest = async (requestId, userId, userRole, payload) => {
       (m) => m.departmentId
     );
     if (!deptIds.includes(request.currentDepartmentId)) {
-      throw new Error(
+      throw new AppError(
+        httpStatus13.FORBIDDEN,
         "You can only assign requests that belong to your department."
       );
     }
@@ -3847,12 +3865,18 @@ var assignRequest = async (requestId, userId, userRole, payload) => {
       }
     }
   });
-  if (!assignee) throw new Error("Assignee not found or not a staff member.");
+  if (!assignee) {
+    throw new AppError(
+      httpStatus13.NOT_FOUND,
+      "Assignee not found or not a staff member."
+    );
+  }
   const isMemberOfDept = assignee.departmentMemberships.some(
     (m) => m.departmentId === request.currentDepartmentId && m.isActive
   );
   if (!isMemberOfDept) {
-    throw new Error(
+    throw new AppError(
+      httpStatus13.BAD_REQUEST,
       "Assignee must be an active member of the request's current department."
     );
   }
@@ -3860,7 +3884,8 @@ var assignRequest = async (requestId, userId, userRole, payload) => {
     where: { requestId, releasedAt: null }
   });
   if (existingActive) {
-    throw new Error(
+    throw new AppError(
+      httpStatus13.BAD_REQUEST,
       "Request already has an active assignment. Release it first."
     );
   }
@@ -3944,7 +3969,9 @@ var releaseAssignment = async (requestId, assignmentId, userId, userRole, payloa
   const request = await prisma.serviceRequest.findFirst({
     where: { id: requestId }
   });
-  if (!request) throw new Error("Service request not found.");
+  if (!request) {
+    throw new AppError(httpStatus13.NOT_FOUND, "Service request not found.");
+  }
   if (userRole === "STAFF") {
     const memberships = await prisma.departmentMember.findMany({
       where: { userId, isActive: true },
@@ -3954,7 +3981,8 @@ var releaseAssignment = async (requestId, assignmentId, userId, userRole, payloa
       (m) => m.departmentId
     );
     if (!deptIds.includes(request.currentDepartmentId)) {
-      throw new Error(
+      throw new AppError(
+        httpStatus13.FORBIDDEN,
         "You can only release assignments for requests in your department."
       );
     }
@@ -3962,8 +3990,12 @@ var releaseAssignment = async (requestId, assignmentId, userId, userRole, payloa
   const assignment = await prisma.requestAssignment.findFirst({
     where: { id: assignmentId, requestId }
   });
-  if (!assignment) throw new Error("Assignment not found.");
-  if (assignment.releasedAt) throw new Error("Assignment already released.");
+  if (!assignment) {
+    throw new AppError(httpStatus13.NOT_FOUND, "Assignment not found.");
+  }
+  if (assignment.releasedAt) {
+    throw new AppError(httpStatus13.BAD_REQUEST, "Assignment already released.");
+  }
   const updated = await prisma.$transaction(async (tx) => {
     const released = await tx.requestAssignment.update({
       where: { id: assignmentId },
@@ -4026,7 +4058,7 @@ var assignRequest2 = catchAsync(async (req, res) => {
     req.body
   );
   sendResponse(res, {
-    statusCode: httpStatus12.CREATED,
+    statusCode: httpStatus14.CREATED,
     success: true,
     message: "Request assigned to staff successfully",
     data: result
@@ -4038,7 +4070,7 @@ var getAssignments2 = catchAsync(async (req, res) => {
     req.query
   );
   sendResponse(res, {
-    statusCode: httpStatus12.OK,
+    statusCode: httpStatus14.OK,
     success: true,
     message: "Assignments fetched successfully",
     data: result.data,
@@ -4054,7 +4086,7 @@ var releaseAssignment2 = catchAsync(async (req, res) => {
     req.body
   );
   sendResponse(res, {
-    statusCode: httpStatus12.OK,
+    statusCode: httpStatus14.OK,
     success: true,
     message: "Assignment released successfully",
     data: result
@@ -4129,7 +4161,7 @@ var requestAssignmentRoutes = router7;
 import { Router as Router8 } from "express";
 
 // src/app/module/request-status/request-status.controller.ts
-import httpStatus13 from "http-status";
+import httpStatus15 from "http-status";
 var changeStatus2 = catchAsync(async (req, res) => {
   const result = await requestStatusService.changeStatus(
     String(req.params.id),
@@ -4137,7 +4169,7 @@ var changeStatus2 = catchAsync(async (req, res) => {
     req.body
   );
   sendResponse(res, {
-    statusCode: httpStatus13.OK,
+    statusCode: httpStatus15.OK,
     success: true,
     message: `Request status changed to ${result.toStatus} successfully`,
     data: result
@@ -4151,7 +4183,7 @@ var getStatusHistory2 = catchAsync(async (req, res) => {
     req.query
   );
   sendResponse(res, {
-    statusCode: httpStatus13.OK,
+    statusCode: httpStatus15.OK,
     success: true,
     message: "Status history fetched successfully",
     data: result.data,
@@ -4210,7 +4242,7 @@ var requestStatusRoutes = router8;
 import { Router as Router9 } from "express";
 
 // src/app/module/work-update/work-update.controller.ts
-import httpStatus14 from "http-status";
+import httpStatus16 from "http-status";
 
 // src/app/module/work-update/work-update.service.ts
 var workUpdateInclude = {
@@ -4292,7 +4324,7 @@ var createWorkUpdate2 = catchAsync(async (req, res) => {
     req.body
   );
   sendResponse(res, {
-    statusCode: httpStatus14.CREATED,
+    statusCode: httpStatus16.CREATED,
     success: true,
     message: "Work update added successfully",
     data: result
@@ -4306,7 +4338,7 @@ var getWorkUpdates2 = catchAsync(async (req, res) => {
     req.query
   );
   sendResponse(res, {
-    statusCode: httpStatus14.OK,
+    statusCode: httpStatus16.OK,
     success: true,
     message: "Work updates fetched successfully",
     data: result.data,
@@ -4363,7 +4395,7 @@ var workUpdateRoutes = router9;
 import { Router as Router10 } from "express";
 
 // src/app/module/media-attachment/media-attachment.controller.ts
-import httpStatus15 from "http-status";
+import httpStatus17 from "http-status";
 
 // src/app/module/media-attachment/media-attachment.service.ts
 var attachmentInclude = {
@@ -4484,7 +4516,7 @@ var uploadAttachment2 = catchAsync(async (req, res) => {
     purpose
   );
   sendResponse(res, {
-    statusCode: httpStatus15.CREATED,
+    statusCode: httpStatus17.CREATED,
     success: true,
     message: "Attachment uploaded successfully",
     data: result
@@ -4498,7 +4530,7 @@ var getAttachments2 = catchAsync(async (req, res) => {
     req.query
   );
   sendResponse(res, {
-    statusCode: httpStatus15.OK,
+    statusCode: httpStatus17.OK,
     success: true,
     message: "Attachments fetched successfully",
     data: result.data,
@@ -4513,7 +4545,7 @@ var deleteAttachment2 = catchAsync(async (req, res) => {
     req.user.role
   );
   sendResponse(res, {
-    statusCode: httpStatus15.OK,
+    statusCode: httpStatus17.OK,
     success: true,
     message: "Attachment deleted successfully",
     data: null
@@ -4583,7 +4615,7 @@ var mediaAttachmentRoutes = router10;
 import { Router as Router11 } from "express";
 
 // src/app/module/feedback/feedback.controller.ts
-import httpStatus16 from "http-status";
+import httpStatus18 from "http-status";
 
 // src/app/module/feedback/feedback.service.ts
 var feedbackInclude = {
@@ -4671,7 +4703,7 @@ var createFeedback2 = catchAsync(async (req, res) => {
     req.body
   );
   sendResponse(res, {
-    statusCode: httpStatus16.CREATED,
+    statusCode: httpStatus18.CREATED,
     success: true,
     message: "Feedback submitted successfully",
     data: result
@@ -4684,7 +4716,7 @@ var getFeedback2 = catchAsync(async (req, res) => {
     req.user.role
   );
   sendResponse(res, {
-    statusCode: httpStatus16.OK,
+    statusCode: httpStatus18.OK,
     success: true,
     message: "Feedback fetched successfully",
     data: result
@@ -4774,7 +4806,7 @@ var serviceRequestRoutes = router12;
 import { Router as Router13 } from "express";
 
 // src/app/module/notification/notification.controller.ts
-import httpStatus17 from "http-status";
+import httpStatus19 from "http-status";
 var getMyNotifications2 = catchAsync(async (req, res) => {
   const filters = {
     unreadOnly: req.query.unreadOnly === "true",
@@ -4786,7 +4818,7 @@ var getMyNotifications2 = catchAsync(async (req, res) => {
     filters
   );
   sendResponse(res, {
-    statusCode: httpStatus17.OK,
+    statusCode: httpStatus19.OK,
     success: true,
     message: "Notifications fetched successfully",
     data: result.data,
@@ -4799,7 +4831,7 @@ var markAsRead2 = catchAsync(async (req, res) => {
     req.user.id
   );
   sendResponse(res, {
-    statusCode: httpStatus17.OK,
+    statusCode: httpStatus19.OK,
     success: true,
     message: "Notification marked as read",
     data: result
@@ -4808,7 +4840,7 @@ var markAsRead2 = catchAsync(async (req, res) => {
 var markAllAsRead2 = catchAsync(async (req, res) => {
   const result = await notificationService.markAllAsRead(req.user.id);
   sendResponse(res, {
-    statusCode: httpStatus17.OK,
+    statusCode: httpStatus19.OK,
     success: true,
     message: "All notifications marked as read",
     data: result
@@ -4864,7 +4896,7 @@ var notificationRoutes = router13;
 import cors from "cors";
 
 // src/app/middlewares/globalErrorHandlers.ts
-import httpStatus18 from "http-status";
+import httpStatus20 from "http-status";
 var toErrorsArray = (err, fallbackMessage) => {
   if (Array.isArray(err.issues) && err.issues.length > 0) {
     return err.issues.map((issue) => ({
@@ -4878,33 +4910,33 @@ var globalErrorHandler = async (err, _req, res, _next) => {
   if (config_default.node_env === "development") {
     console.log("Error from Global Error Handler", err);
   }
-  let statusCode = httpStatus18.INTERNAL_SERVER_ERROR;
+  let statusCode = httpStatus20.INTERNAL_SERVER_ERROR;
   let errorMessage = err.message || "Internal Server Error";
   const errorName = err.name || "Internal Server Error";
   if (err instanceof prismaNamespace_exports.PrismaClientValidationError) {
-    statusCode = httpStatus18.BAD_REQUEST;
+    statusCode = httpStatus20.BAD_REQUEST;
     errorMessage = "You have provided incorrect field type or missing fields";
   } else if (err instanceof prismaNamespace_exports.PrismaClientKnownRequestError) {
     if (err.code === "P2002") {
-      statusCode = httpStatus18.BAD_REQUEST;
+      statusCode = httpStatus20.BAD_REQUEST;
       errorMessage = "Duplicate Key Error";
     } else if (err.code === "P2003") {
-      statusCode = httpStatus18.BAD_REQUEST;
+      statusCode = httpStatus20.BAD_REQUEST;
       errorMessage = "Foreign key constraint failed";
     } else if (err.code === "P2025") {
-      statusCode = httpStatus18.BAD_REQUEST;
+      statusCode = httpStatus20.BAD_REQUEST;
       errorMessage = "An operation failed because it depends on one or more records that were required but not found.";
     }
   } else if (err instanceof prismaNamespace_exports.PrismaClientInitializationError) {
     if (err.errorCode === "P1000") {
-      statusCode = httpStatus18.UNAUTHORIZED;
+      statusCode = httpStatus20.UNAUTHORIZED;
       errorMessage = "Authentication failed against database server. Please Check Your Credentials";
     } else if (err.errorCode === "P1001") {
-      statusCode = httpStatus18.BAD_REQUEST;
+      statusCode = httpStatus20.BAD_REQUEST;
       errorMessage = "Can't reach database server";
     }
   } else if (err instanceof prismaNamespace_exports.PrismaClientUnknownRequestError) {
-    statusCode = httpStatus18.INTERNAL_SERVER_ERROR;
+    statusCode = httpStatus20.INTERNAL_SERVER_ERROR;
     errorMessage = "Error occurred during query execution";
   } else if (err instanceof AppError) {
     statusCode = err.statusCode;
@@ -4924,18 +4956,18 @@ var globalErrorHandler = async (err, _req, res, _next) => {
 };
 
 // src/app/middlewares/notFound.ts
-import httpStatus19 from "http-status";
+import httpStatus21 from "http-status";
 var notFound = (req, res) => {
-  res.status(httpStatus19.NOT_FOUND).json({
+  res.status(httpStatus21.NOT_FOUND).json({
     success: false,
-    statusCode: httpStatus19.NOT_FOUND,
+    statusCode: httpStatus21.NOT_FOUND,
     message: `Route not found: ${req.method} ${req.originalUrl}`,
     errors: []
   });
 };
 
 // src/app.ts
-import httpStatus24 from "http-status";
+import httpStatus26 from "http-status";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 
@@ -4943,7 +4975,7 @@ import helmet from "helmet";
 import { Router as Router14 } from "express";
 
 // src/app/module/audit-log/audit-log.controller.ts
-import httpStatus20 from "http-status";
+import httpStatus22 from "http-status";
 var getAuditLogs2 = catchAsync(async (req, res) => {
   const filters = {
     action: req.query.action,
@@ -4957,7 +4989,7 @@ var getAuditLogs2 = catchAsync(async (req, res) => {
   };
   const result = await auditLogService.getAuditLogs(filters);
   sendResponse(res, {
-    statusCode: httpStatus20.OK,
+    statusCode: httpStatus22.OK,
     success: true,
     message: "Audit logs fetched successfully",
     data: result.data,
@@ -4967,7 +4999,7 @@ var getAuditLogs2 = catchAsync(async (req, res) => {
 var getAuditLogActions2 = catchAsync(async (_req, res) => {
   const actions = await auditLogService.getAuditLogActions();
   sendResponse(res, {
-    statusCode: httpStatus20.OK,
+    statusCode: httpStatus22.OK,
     success: true,
     message: "Audit log actions fetched successfully",
     data: actions
@@ -5015,13 +5047,13 @@ var auditLogRoutes = router14;
 import { Router as Router15 } from "express";
 
 // src/app/module/payment/payment.controller.ts
-import httpStatus23 from "http-status";
+import httpStatus25 from "http-status";
 
 // src/app/module/payment/payment.service.ts
-import httpStatus22 from "http-status";
+import httpStatus24 from "http-status";
 
 // src/app/lib/bkash.ts
-import httpStatus21 from "http-status";
+import httpStatus23 from "http-status";
 var getBkashIdToken = async () => {
   try {
     const IdTokenKey = "bkash:idToken";
@@ -5050,7 +5082,7 @@ var getBkashIdToken = async () => {
       );
       if (!refreshTokenResponse.ok) {
         throw new AppError(
-          httpStatus21.BAD_GATEWAY,
+          httpStatus23.BAD_GATEWAY,
           "Bkash Access Token Grant Failed"
         );
       }
@@ -5086,7 +5118,7 @@ var getBkashIdToken = async () => {
     );
     if (!response.ok) {
       throw new AppError(
-        httpStatus21.BAD_GATEWAY,
+        httpStatus23.BAD_GATEWAY,
         "Bkash Access Token Grant Failed"
       );
     }
@@ -5110,7 +5142,7 @@ var getBkashIdToken = async () => {
       throw error;
     }
     throw new AppError(
-      httpStatus21.BAD_GATEWAY,
+      httpStatus23.BAD_GATEWAY,
       error.message || "Bkash service error"
     );
   }
@@ -5133,7 +5165,7 @@ var issuePayment = async (payload, issuedByUser) => {
     include: { citizen: true }
   });
   if (!request) {
-    throw new AppError(httpStatus22.NOT_FOUND, "Service request not found");
+    throw new AppError(httpStatus24.NOT_FOUND, "Service request not found");
   }
   const payment = await prisma.payment.create({
     data: {
@@ -5183,17 +5215,17 @@ var initiateCheckout = async (paymentId, user) => {
     }
   });
   if (!payment) {
-    throw new AppError(httpStatus22.NOT_FOUND, "Payment invoice not found");
+    throw new AppError(httpStatus24.NOT_FOUND, "Payment invoice not found");
   }
   if (payment.status === PaymentStatus.PAID) {
     throw new AppError(
-      httpStatus22.BAD_REQUEST,
+      httpStatus24.BAD_REQUEST,
       "Payment has already been completed"
     );
   }
   if (payment.status !== PaymentStatus.PENDING) {
     throw new AppError(
-      httpStatus22.BAD_REQUEST,
+      httpStatus24.BAD_REQUEST,
       `Payment cannot be initiated for invoice in ${payment.status} status`
     );
   }
@@ -5203,19 +5235,19 @@ var initiateCheckout = async (paymentId, user) => {
       data: { status: PaymentStatus.EXPIRED }
     });
     throw new AppError(
-      httpStatus22.BAD_REQUEST,
+      httpStatus24.BAD_REQUEST,
       "Payment invoice has expired. Please contact support."
     );
   }
   if (user.role === UserRole.CITIZEN && payment.request.citizen.userId !== user.id) {
     throw new AppError(
-      httpStatus22.FORBIDDEN,
+      httpStatus24.FORBIDDEN,
       "You are not authorized to pay this invoice"
     );
   }
   const bkashIdToken = await getBkashIdToken();
   if (!bkashIdToken) {
-    throw new AppError(httpStatus22.BAD_GATEWAY, "No bKash access token found");
+    throw new AppError(httpStatus24.BAD_GATEWAY, "No bKash access token found");
   }
   const callbackURL = `${config_default.bkash_callback_url}/payments/callback`;
   const createPaymentResponse = await fetch(
@@ -5241,14 +5273,14 @@ var initiateCheckout = async (paymentId, user) => {
   );
   if (!createPaymentResponse.ok) {
     throw new AppError(
-      httpStatus22.BAD_GATEWAY,
+      httpStatus24.BAD_GATEWAY,
       "Failed to connect to bKash payment gateway"
     );
   }
   const result = await createPaymentResponse.json();
   if (result.statusCode !== "0000") {
     throw new AppError(
-      httpStatus22.BAD_GATEWAY,
+      httpStatus24.BAD_GATEWAY,
       result.statusMessage || "bKash checkout creation failed"
     );
   }
@@ -5295,7 +5327,7 @@ var handleCallback = async (query) => {
   const { paymentID, status } = query;
   if (!paymentID || !status) {
     throw new AppError(
-      httpStatus22.BAD_REQUEST,
+      httpStatus24.BAD_REQUEST,
       "bKash callback missing paymentID or status"
     );
   }
@@ -5315,7 +5347,7 @@ var handleCallback = async (query) => {
   });
   if (!transaction) {
     throw new AppError(
-      httpStatus22.NOT_FOUND,
+      httpStatus24.NOT_FOUND,
       "Payment transaction not found for this bKash session"
     );
   }
@@ -5377,7 +5409,7 @@ var handleCallback = async (query) => {
   }
   const bkashIdToken = await getBkashIdToken();
   if (!bkashIdToken) {
-    throw new AppError(httpStatus22.BAD_GATEWAY, "No bKash access token found");
+    throw new AppError(httpStatus24.BAD_GATEWAY, "No bKash access token found");
   }
   const executeResponse = await fetch(
     `${config_default.bkash_base_url}/tokenized/checkout/execute`,
@@ -5394,7 +5426,7 @@ var handleCallback = async (query) => {
   );
   if (!executeResponse.ok) {
     throw new AppError(
-      httpStatus22.BAD_GATEWAY,
+      httpStatus24.BAD_GATEWAY,
       "Failed to execute payment with bKash"
     );
   }
@@ -5439,7 +5471,7 @@ var handleCallback = async (query) => {
       });
     }, { maxWait: 1e4, timeout: 2e4 });
     throw new AppError(
-      httpStatus22.BAD_REQUEST,
+      httpStatus24.BAD_REQUEST,
       result.statusMessage || "bKash payment execution was not completed"
     );
   }
@@ -5538,11 +5570,11 @@ var getPaymentById = async (paymentId, user) => {
     }
   });
   if (!payment) {
-    throw new AppError(httpStatus22.NOT_FOUND, "Payment invoice not found");
+    throw new AppError(httpStatus24.NOT_FOUND, "Payment invoice not found");
   }
   if (user.role === UserRole.CITIZEN && payment.request.citizen.userId !== user.id) {
     throw new AppError(
-      httpStatus22.FORBIDDEN,
+      httpStatus24.FORBIDDEN,
       "You are not allowed to view this payment"
     );
   }
@@ -5553,7 +5585,7 @@ var getMyPayments = async (user, query) => {
     where: { userId: user.id }
   });
   if (!citizen) {
-    throw new AppError(httpStatus22.NOT_FOUND, "Citizen profile not found");
+    throw new AppError(httpStatus24.NOT_FOUND, "Citizen profile not found");
   }
   const page = Math.max(Number(query.page) || 1, 1);
   const limit = Math.min(Math.max(Number(query.limit) || 10, 1), 100);
@@ -5661,18 +5693,18 @@ var refundPayment = async (paymentId, payload, actor) => {
     }
   });
   if (!payment) {
-    throw new AppError(httpStatus22.NOT_FOUND, "Payment not found");
+    throw new AppError(httpStatus24.NOT_FOUND, "Payment not found");
   }
   if (payment.status !== PaymentStatus.PAID) {
     throw new AppError(
-      httpStatus22.BAD_REQUEST,
+      httpStatus24.BAD_REQUEST,
       "Only successfully paid invoices can be refunded"
     );
   }
   const successfulTx = payment.transactions[0];
   if (!successfulTx || !successfulTx.gatewayTransactionId) {
     throw new AppError(
-      httpStatus22.BAD_REQUEST,
+      httpStatus24.BAD_REQUEST,
       "No valid gateway transaction found to refund"
     );
   }
@@ -5699,14 +5731,14 @@ var refundPayment = async (paymentId, payload, actor) => {
   );
   if (!bkashRefundResponse.ok) {
     throw new AppError(
-      httpStatus22.BAD_GATEWAY,
+      httpStatus24.BAD_GATEWAY,
       "bKash refund endpoint request failed"
     );
   }
   const refundResult = await bkashRefundResponse.json();
   if (refundResult.statusCode !== "0000") {
     throw new AppError(
-      httpStatus22.BAD_REQUEST,
+      httpStatus24.BAD_REQUEST,
       refundResult.statusMessage || "bKash refund failed"
     );
   }
@@ -5758,7 +5790,7 @@ var paymentService = {
 var issuePayment2 = catchAsync(async (req, res) => {
   const result = await paymentService.issuePayment(req.body, req.user);
   sendResponse(res, {
-    statusCode: httpStatus23.CREATED,
+    statusCode: httpStatus25.CREATED,
     success: true,
     message: "Payment invoice issued successfully",
     data: result
@@ -5770,7 +5802,7 @@ var initiateCheckout2 = catchAsync(async (req, res) => {
     req.user
   );
   sendResponse(res, {
-    statusCode: httpStatus23.OK,
+    statusCode: httpStatus25.OK,
     success: true,
     message: "bKash checkout session initiated successfully",
     data: result
@@ -5780,7 +5812,7 @@ var handleCallback2 = catchAsync(async (req, res) => {
   const result = await paymentService.handleCallback(req.query);
   if (req.headers.accept?.includes("application/json") || !result.redirectUrl) {
     sendResponse(res, {
-      statusCode: httpStatus23.OK,
+      statusCode: httpStatus25.OK,
       success: result.status === "success",
       message: result.message,
       data: result
@@ -5795,7 +5827,7 @@ var getPaymentById2 = catchAsync(async (req, res) => {
     req.user
   );
   sendResponse(res, {
-    statusCode: httpStatus23.OK,
+    statusCode: httpStatus25.OK,
     success: true,
     message: "Payment details fetched successfully",
     data: result
@@ -5804,7 +5836,7 @@ var getPaymentById2 = catchAsync(async (req, res) => {
 var getMyPayments2 = catchAsync(async (req, res) => {
   const result = await paymentService.getMyPayments(req.user, req.query);
   sendResponse(res, {
-    statusCode: httpStatus23.OK,
+    statusCode: httpStatus25.OK,
     success: true,
     message: "Citizen payments fetched successfully",
     data: result.data,
@@ -5814,7 +5846,7 @@ var getMyPayments2 = catchAsync(async (req, res) => {
 var getAllPayments2 = catchAsync(async (req, res) => {
   const result = await paymentService.getAllPayments(req.query);
   sendResponse(res, {
-    statusCode: httpStatus23.OK,
+    statusCode: httpStatus25.OK,
     success: true,
     message: "All payments fetched successfully",
     data: result.data,
@@ -5828,7 +5860,7 @@ var refundPayment2 = catchAsync(async (req, res) => {
     req.user
   );
   sendResponse(res, {
-    statusCode: httpStatus23.OK,
+    statusCode: httpStatus25.OK,
     success: true,
     message: "Payment refunded successfully via bKash",
     data: result
@@ -5974,9 +6006,9 @@ app.get("/test", async (_req, res, next) => {
     console.log("bKash id_token TTL:", `${idTokenTTL} seconds remaining`);
     console.log("bKash refresh_token:", refreshToken3);
     console.log("bKash refresh_token TTL:", `${refreshTokenTTL} seconds remaining`);
-    return res.status(httpStatus24.OK).json({
+    return res.status(httpStatus26.OK).json({
       success: true,
-      statusCode: httpStatus24.OK,
+      statusCode: httpStatus26.OK,
       message: "bKash Token Grant & Redis Caching Successful!",
       data: {
         idToken,
@@ -5991,9 +6023,9 @@ app.get("/test", async (_req, res, next) => {
   }
 });
 app.get("/", (_req, res) => {
-  res.status(httpStatus24.OK).json({
+  res.status(httpStatus26.OK).json({
     success: true,
-    statusCode: httpStatus24.OK,
+    statusCode: httpStatus26.OK,
     message: "Welcome to the Citycare Backend System!",
     data: null
   });

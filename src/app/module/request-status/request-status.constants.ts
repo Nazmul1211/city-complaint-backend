@@ -1,7 +1,11 @@
 import { RequestStatus } from "../../../../generated/prisma/enums";
 
 export const STATUS_TRANSITIONS: Record<RequestStatus, RequestStatus[]> = {
-	[RequestStatus.SUBMITTED]: [RequestStatus.UNDER_REVIEW, RequestStatus.REJECTED],
+	[RequestStatus.SUBMITTED]: [
+		RequestStatus.UNDER_REVIEW,
+		RequestStatus.ASSIGNED,
+		RequestStatus.REJECTED,
+	],
 
 	[RequestStatus.UNDER_REVIEW]: [
 		RequestStatus.ASSIGNED,
@@ -44,6 +48,7 @@ export const STATUS_TRANSITIONS: Record<RequestStatus, RequestStatus[]> = {
 
 export const TIMESTAMP_MAP: Partial<Record<RequestStatus, keyof TimestampFields>> = {
 	[RequestStatus.UNDER_REVIEW]: "firstRespondedAt",
+	[RequestStatus.ASSIGNED]: "firstRespondedAt",
 	[RequestStatus.RESOLVED]: "resolvedAt",
 	[RequestStatus.CLOSED]: "closedAt",
 };

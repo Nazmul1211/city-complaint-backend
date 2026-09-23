@@ -9,6 +9,8 @@ import type {
 import { requestStatusService } from "../request-status/request-status.service";
 import { notificationService } from "../notification/notification.service";
 import { auditLogService } from "../audit-log/audit-log.service";
+import httpStatus from "http-status";
+import { AppError } from "../../../utils/AppError";
 
 const assignmentInclude = {
 	assignee: {
@@ -50,7 +52,9 @@ const assignRequest = async (
 	const request = await prisma.serviceRequest.findFirst({
 		where: { id: requestId },
 	});
-	if (!request) throw new Error("Service request not found.");
+	if (!request) {
+		throw new AppError(httpStatus.NOT_FOUND, "Service request not found.");
+	}
 
 	if (userRole === "STAFF") {
 		const memberships = await prisma.departmentMember.findMany({
@@ -61,7 +65,8 @@ const assignRequest = async (
 			(m: { departmentId: string }) => m.departmentId,
 		);
 		if (!deptIds.includes(request.currentDepartmentId)) {
-			throw new Error(
+			throw new AppError(
+				httpStatus.FORBIDDEN,
 				"You can only assign requests that belong to your department.",
 			);
 		}
@@ -80,14 +85,20 @@ const assignRequest = async (
 			},
 		},
 	});
-	if (!assignee) throw new Error("Assignee not found or not a staff member.");
+	if (!assignee) {
+		throw new AppError(
+			httpStatus.NOT_FOUND,
+			"Assignee not found or not a staff member.",
+		);
+	}
 
 	const isMemberOfDept = assignee.departmentMemberships.some(
 		(m: { departmentId: string; isActive: boolean }) =>
 			m.departmentId === request.currentDepartmentId && m.isActive,
 	);
 	if (!isMemberOfDept) {
-		throw new Error(
+		throw new AppError(
+			httpStatus.BAD_REQUEST,
 			"Assignee must be an active member of the request's current department.",
 		);
 	}
@@ -96,7 +107,8 @@ const assignRequest = async (
 		where: { requestId, releasedAt: null },
 	});
 	if (existingActive) {
-		throw new Error(
+		throw new AppError(
+			httpStatus.BAD_REQUEST,
 			"Request already has an active assignment. Release it first.",
 		);
 	}
@@ -204,7 +216,9 @@ const releaseAssignment = async (
 	const request = await prisma.serviceRequest.findFirst({
 		where: { id: requestId },
 	});
-	if (!request) throw new Error("Service request not found.");
+	if (!request) {
+		throw new AppError(httpStatus.NOT_FOUND, "Service request not found.");
+	}
 
 	if (userRole === "STAFF") {
 		const memberships = await prisma.departmentMember.findMany({
@@ -215,7 +229,8 @@ const releaseAssignment = async (
 			(m: { departmentId: string }) => m.departmentId,
 		);
 		if (!deptIds.includes(request.currentDepartmentId)) {
-			throw new Error(
+			throw new AppError(
+				httpStatus.FORBIDDEN,
 				"You can only release assignments for requests in your department.",
 			);
 		}
@@ -224,8 +239,12 @@ const releaseAssignment = async (
 	const assignment = await prisma.requestAssignment.findFirst({
 		where: { id: assignmentId, requestId },
 	});
-	if (!assignment) throw new Error("Assignment not found.");
-	if (assignment.releasedAt) throw new Error("Assignment already released.");
+	if (!assignment) {
+		throw new AppError(httpStatus.NOT_FOUND, "Assignment not found.");
+	}
+	if (assignment.releasedAt) {
+		throw new AppError(httpStatus.BAD_REQUEST, "Assignment already released.");
+	}
 
 	const updated = await prisma.$transaction(async (tx) => {
 		const released = await tx.requestAssignment.update({
