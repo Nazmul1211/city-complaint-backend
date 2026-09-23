@@ -17,7 +17,9 @@ const main = async () => {
 		await prisma.$connect();
 		console.log("Connected to the database successfully!");
 
-		await redisClient.connect();
+		if (!redisClient.isOpen) {
+			await redisClient.connect();
+		}
 		console.log("Redis Connnected successfully!");
 
 		await transporter.verify();
