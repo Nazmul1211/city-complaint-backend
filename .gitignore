@@ -17,3 +17,5 @@ pnpm-workspace.yaml
 # restricts docx to push into git
 docx/
 hc/
+.vercel
+.env*
