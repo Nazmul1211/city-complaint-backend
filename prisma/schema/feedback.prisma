@@ -1,0 +1,17 @@
+model Feedback {
+  id String @id @default(uuid()) @db.Uuid
+
+  requestId String @unique @db.Uuid
+  citizenId String @db.Uuid
+
+  rating  Int
+  comment String?
+
+  createdAt DateTime @default(now())
+
+  request ServiceRequest @relation(fields: [requestId], references: [id])
+  citizen Citizen        @relation(fields: [citizenId], references: [id])
+
+  @@index([citizenId])
+  @@index([createdAt])
+}

@@ -1,7 +1,13 @@
 import { prisma } from "../../lib/prisma";
 import { UserRole } from "../../../../generated/prisma/enums";
-import type { IAssignRequest, IReleaseAssignment, IAssignmentResponse, IAssignmentFilters } from "./request-assignment.interface";
+import type {
+	IAssignRequest,
+	IReleaseAssignment,
+	IAssignmentResponse,
+	IAssignmentFilters,
+} from "./request-assignment.interface";
 import { requestStatusService } from "../request-status/request-status.service";
+import { notificationService } from "../notification/notification.service";
 
 const assignmentInclude = {
 	assignee: {
@@ -50,9 +56,13 @@ const assignRequest = async (
 			where: { userId, isActive: true },
 			select: { departmentId: true },
 		});
-		const deptIds = memberships.map((m: { departmentId: string }) => m.departmentId);
+		const deptIds = memberships.map(
+			(m: { departmentId: string }) => m.departmentId,
+		);
 		if (!deptIds.includes(request.currentDepartmentId)) {
-			throw new Error("You can only assign requests that belong to your department.");
+			throw new Error(
+				"You can only assign requests that belong to your department.",
+			);
 		}
 	}
 
@@ -72,17 +82,22 @@ const assignRequest = async (
 	if (!assignee) throw new Error("Assignee not found or not a staff member.");
 
 	const isMemberOfDept = assignee.departmentMemberships.some(
-		(m: { departmentId: string; isActive: boolean }) => m.departmentId === request.currentDepartmentId && m.isActive,
+		(m: { departmentId: string; isActive: boolean }) =>
+			m.departmentId === request.currentDepartmentId && m.isActive,
 	);
 	if (!isMemberOfDept) {
-		throw new Error("Assignee must be an active member of the request's current department.");
+		throw new Error(
+			"Assignee must be an active member of the request's current department.",
+		);
 	}
 
 	const existingActive = await prisma.requestAssignment.findFirst({
 		where: { requestId, releasedAt: null },
 	});
 	if (existingActive) {
-		throw new Error("Request already has an active assignment. Release it first.");
+		throw new Error(
+			"Request already has an active assignment. Release it first.",
+		);
 	}
 
 	const assignment = await prisma.$transaction(async (tx) => {
@@ -107,14 +122,32 @@ const assignRequest = async (
 		return created;
 	});
 
+	await notificationService.notifyRequestAssigned(
+		{
+			id: request.id,
+			requestNo: request.requestNo,
+			title: request.title,
+			status: request.status,
+			currentDepartmentId: request.currentDepartmentId,
+			citizenId: request.citizenId,
+		},
+		assignee.id,
+		assignee.name,
+	);
+
 	return assignment as unknown as IAssignmentResponse;
 };
 
 const getAssignments = async (
 	requestId: string,
 	filters: IAssignmentFilters,
-): Promise<{ data: IAssignmentResponse[]; meta: { page: number; limit: number; total: number; totalPages: number } }> => {
-	const request = await prisma.serviceRequest.findFirst({ where: { id: requestId } });
+): Promise<{
+	data: IAssignmentResponse[];
+	meta: { page: number; limit: number; total: number; totalPages: number };
+}> => {
+	const request = await prisma.serviceRequest.findFirst({
+		where: { id: requestId },
+	});
 	if (!request) throw new Error("Service request not found.");
 
 	const page = Math.max(Number(filters.page) || 1, 1);
@@ -151,7 +184,9 @@ const releaseAssignment = async (
 	userRole: string,
 	payload: IReleaseAssignment,
 ): Promise<IAssignmentResponse> => {
-	const request = await prisma.serviceRequest.findFirst({ where: { id: requestId } });
+	const request = await prisma.serviceRequest.findFirst({
+		where: { id: requestId },
+	});
 	if (!request) throw new Error("Service request not found.");
 
 	if (userRole === "STAFF") {
@@ -159,9 +194,13 @@ const releaseAssignment = async (
 			where: { userId, isActive: true },
 			select: { departmentId: true },
 		});
-		const deptIds = memberships.map((m: { departmentId: string }) => m.departmentId);
+		const deptIds = memberships.map(
+			(m: { departmentId: string }) => m.departmentId,
+		);
 		if (!deptIds.includes(request.currentDepartmentId)) {
-			throw new Error("You can only release assignments for requests in your department.");
+			throw new Error(
+				"You can only release assignments for requests in your department.",
+			);
 		}
 	}
 
@@ -176,7 +215,9 @@ const releaseAssignment = async (
 			where: { id: assignmentId },
 			data: {
 				releasedAt: new Date(),
-				note: payload.note ? `${assignment.note ? assignment.note + " | " : ""}${payload.note}` : assignment.note,
+				note: payload.note
+					? `${assignment.note ? assignment.note + " | " : ""}${payload.note}`
+					: assignment.note,
 			},
 			include: assignmentInclude,
 		});
@@ -190,7 +231,10 @@ const releaseAssignment = async (
 			await requestStatusService.changeStatus(
 				requestId,
 				userId,
-				{ toStatus: "UNDER_REVIEW", note: "Assignment released — returned to review queue" },
+				{
+					toStatus: "UNDER_REVIEW",
+					note: "Assignment released — returned to review queue",
+				},
 				tx,
 			);
 		}

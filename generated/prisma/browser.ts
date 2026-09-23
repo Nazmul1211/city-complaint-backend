@@ -38,10 +38,20 @@ export type Department = Prisma.DepartmentModel
  */
 export type DepartmentMember = Prisma.DepartmentMemberModel
 /**
+ * Model Feedback
+ * 
+ */
+export type Feedback = Prisma.FeedbackModel
+/**
  * Model MediaAttachment
  * 
  */
 export type MediaAttachment = Prisma.MediaAttachmentModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
 /**
  * Model ReportedLocation
  * 

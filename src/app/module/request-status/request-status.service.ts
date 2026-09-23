@@ -1,7 +1,12 @@
 import { RequestStatus } from "../../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
+import { notificationService } from "../notification/notification.service";
 import { STATUS_TRANSITIONS, TIMESTAMP_MAP } from "./request-status.constants";
-import type { IChangeStatusPayload, IStatusHistoryFilters, IStatusHistoryResponse } from "./request-status.interface";
+import type {
+	IChangeStatusPayload,
+	IStatusHistoryFilters,
+	IStatusHistoryResponse,
+} from "./request-status.interface";
 
 type TxClient = Parameters<Parameters<typeof prisma.$transaction>[0]>[0];
 
@@ -21,7 +26,11 @@ const validateTransition = (from: RequestStatus, to: RequestStatus): void => {
 
 const buildTimestampUpdate = (
 	toStatus: RequestStatus,
-	existing: { firstRespondedAt: Date | null; resolvedAt: Date | null; closedAt: Date | null },
+	existing: {
+		firstRespondedAt: Date | null;
+		resolvedAt: Date | null;
+		closedAt: Date | null;
+	},
 ): Partial<{ firstRespondedAt: Date; resolvedAt: Date; closedAt: Date }> => {
 	const field = TIMESTAMP_MAP[toStatus];
 	if (!field) return {};
@@ -40,10 +49,15 @@ const changeStatus = async (
 			where: { id: requestId },
 			select: {
 				id: true,
+				requestNo: true,
+				title: true,
 				status: true,
+				currentDepartmentId: true,
+				citizenId: true,
 				firstRespondedAt: true,
 				resolvedAt: true,
 				closedAt: true,
+				citizen: { select: { user: { select: { id: true } } } },
 			},
 		});
 
@@ -66,9 +80,56 @@ const changeStatus = async (
 		});
 
 		const history = await client.requestStatusHistory.create({
-			data: { requestId, changedById, fromStatus, toStatus, note: note ?? null },
+			data: {
+				requestId,
+				changedById,
+				fromStatus,
+				toStatus,
+				note: note ?? null,
+			},
 			include: statusHistoryInclude,
 		});
+
+		const requestSnapshot = {
+			id: request.id,
+			requestNo: request.requestNo,
+			title: request.title,
+			status: toStatus,
+			currentDepartmentId: request.currentDepartmentId,
+			citizenId: request.citizenId,
+		};
+
+		const citizenUserId = request.citizen?.user.id ?? null;
+		if (citizenUserId && citizenUserId !== changedById) {
+			await notificationService.notifyStatusChanged(
+				requestSnapshot,
+				fromStatus,
+				"CITIZEN",
+				citizenUserId,
+				{ tx: client },
+			);
+		}
+
+		// When running inside an outer transaction (assignment flows) the
+		// assignee is notified by the assignment service, so only the citizen
+		// gets a notification here. Direct status changes also fan out to the
+		// current department's active staff.
+		if (!tx) {
+			const members = await client.departmentMember.findMany({
+				where: { departmentId: request.currentDepartmentId, isActive: true },
+				select: { userId: true },
+			});
+			for (const member of members) {
+				if (member.userId === changedById) continue;
+				await notificationService.notifyStatusChanged(
+					requestSnapshot,
+					fromStatus,
+					"STAFF",
+					member.userId,
+					{ tx: client },
+				);
+			}
+		}
 
 		return history as unknown as IStatusHistoryResponse;
 	};
@@ -85,13 +146,17 @@ const getStatusHistory = async (
 	data: IStatusHistoryResponse[];
 	meta: { page: number; limit: number; total: number; totalPages: number };
 }> => {
-	const request = await prisma.serviceRequest.findFirst({ where: { id: requestId } });
+	const request = await prisma.serviceRequest.findFirst({
+		where: { id: requestId },
+	});
 	if (!request) throw new Error("Service request not found.");
 
 	if (userRole === "CITIZEN") {
 		const citizen = await prisma.citizen.findUnique({ where: { userId } });
 		if (!citizen || request.citizenId !== citizen.id) {
-			throw new Error("You don't have permission to view this request's status history.");
+			throw new Error(
+				"You don't have permission to view this request's status history.",
+			);
 		}
 	}
 
@@ -100,9 +165,13 @@ const getStatusHistory = async (
 			where: { userId, isActive: true },
 			select: { departmentId: true },
 		});
-		const deptIds = memberships.map((m: { departmentId: string }) => m.departmentId);
+		const deptIds = memberships.map(
+			(m: { departmentId: string }) => m.departmentId,
+		);
 		if (!deptIds.includes(request.currentDepartmentId)) {
-			throw new Error("You don't have permission to view this request's status history.");
+			throw new Error(
+				"You don't have permission to view this request's status history.",
+			);
 		}
 	}
 

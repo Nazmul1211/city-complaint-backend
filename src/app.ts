@@ -10,6 +10,7 @@ import { departmentRoutes } from "./app/module/department/department.route";
 import { categoryRoutes } from "./app/module/category/category.route";
 import { wardRoutes } from "./app/module/ward/ward.route";
 import { serviceRequestRoutes } from "./app/module/service-request/service-request.route";
+import { notificationRoutes } from "./app/module/notification/notification.route";
 import cors from "cors";
 import config from "./app/config";
 import { globalErrorHandler } from "./app/middlewares/globalErrorHandlers";
@@ -34,15 +35,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-
 app.use("/api/v1/auth/", authRoutes);
 app.use("/api/v1/users/", userRoutes);
 app.use("/api/v1/departments/", departmentRoutes);
 app.use("/api/v1/categories/", categoryRoutes);
 app.use("/api/v1/wards/", wardRoutes);
 app.use("/api/v1/requests/", serviceRequestRoutes);
-
-
+app.use("/api/v1/notifications/", notificationRoutes);
 
 // TEST Otp api
 app.get("/test", async (req: Request, res: Response, next: NextFunction) => {

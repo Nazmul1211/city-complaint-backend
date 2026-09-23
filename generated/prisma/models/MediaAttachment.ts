@@ -455,14 +455,6 @@ export type EnumAttachmentPurposeFieldUpdateOperationsInput = {
   set?: $Enums.AttachmentPurpose
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type MediaAttachmentCreateNestedManyWithoutRequestInput = {
   create?: Prisma.XOR<Prisma.MediaAttachmentCreateWithoutRequestInput, Prisma.MediaAttachmentUncheckedCreateWithoutRequestInput> | Prisma.MediaAttachmentCreateWithoutRequestInput[] | Prisma.MediaAttachmentUncheckedCreateWithoutRequestInput[]
   connectOrCreate?: Prisma.MediaAttachmentCreateOrConnectWithoutRequestInput | Prisma.MediaAttachmentCreateOrConnectWithoutRequestInput[]

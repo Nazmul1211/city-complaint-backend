@@ -295,6 +295,8 @@ export type ServiceRequestWhereInput = {
   statusHistory?: Prisma.RequestStatusHistoryListRelationFilter
   workUpdates?: Prisma.WorkUpdateListRelationFilter
   attachments?: Prisma.MediaAttachmentListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
+  feedback?: Prisma.XOR<Prisma.FeedbackNullableScalarRelationFilter, Prisma.FeedbackWhereInput> | null
 }
 
 export type ServiceRequestOrderByWithRelationInput = {
@@ -325,6 +327,8 @@ export type ServiceRequestOrderByWithRelationInput = {
   statusHistory?: Prisma.RequestStatusHistoryOrderByRelationAggregateInput
   workUpdates?: Prisma.WorkUpdateOrderByRelationAggregateInput
   attachments?: Prisma.MediaAttachmentOrderByRelationAggregateInput
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput
+  feedback?: Prisma.FeedbackOrderByWithRelationInput
 }
 
 export type ServiceRequestWhereUniqueInput = Prisma.AtLeast<{
@@ -358,6 +362,8 @@ export type ServiceRequestWhereUniqueInput = Prisma.AtLeast<{
   statusHistory?: Prisma.RequestStatusHistoryListRelationFilter
   workUpdates?: Prisma.WorkUpdateListRelationFilter
   attachments?: Prisma.MediaAttachmentListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
+  feedback?: Prisma.XOR<Prisma.FeedbackNullableScalarRelationFilter, Prisma.FeedbackWhereInput> | null
 }, "id" | "requestNo">
 
 export type ServiceRequestOrderByWithAggregationInput = {
@@ -433,6 +439,8 @@ export type ServiceRequestCreateInput = {
   statusHistory?: Prisma.RequestStatusHistoryCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestUncheckedCreateInput = {
@@ -460,6 +468,8 @@ export type ServiceRequestUncheckedCreateInput = {
   statusHistory?: Prisma.RequestStatusHistoryUncheckedCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateUncheckedCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentUncheckedCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestUpdateInput = {
@@ -487,6 +497,8 @@ export type ServiceRequestUpdateInput = {
   statusHistory?: Prisma.RequestStatusHistoryUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestUncheckedUpdateInput = {
@@ -514,6 +526,8 @@ export type ServiceRequestUncheckedUpdateInput = {
   statusHistory?: Prisma.RequestStatusHistoryUncheckedUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUncheckedUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUncheckedUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestCreateManyInput = {
@@ -780,6 +794,20 @@ export type ServiceRequestUncheckedUpdateManyWithoutCurrentDepartmentNestedInput
   deleteMany?: Prisma.ServiceRequestScalarWhereInput | Prisma.ServiceRequestScalarWhereInput[]
 }
 
+export type ServiceRequestCreateNestedOneWithoutFeedbackInput = {
+  create?: Prisma.XOR<Prisma.ServiceRequestCreateWithoutFeedbackInput, Prisma.ServiceRequestUncheckedCreateWithoutFeedbackInput>
+  connectOrCreate?: Prisma.ServiceRequestCreateOrConnectWithoutFeedbackInput
+  connect?: Prisma.ServiceRequestWhereUniqueInput
+}
+
+export type ServiceRequestUpdateOneRequiredWithoutFeedbackNestedInput = {
+  create?: Prisma.XOR<Prisma.ServiceRequestCreateWithoutFeedbackInput, Prisma.ServiceRequestUncheckedCreateWithoutFeedbackInput>
+  connectOrCreate?: Prisma.ServiceRequestCreateOrConnectWithoutFeedbackInput
+  upsert?: Prisma.ServiceRequestUpsertWithoutFeedbackInput
+  connect?: Prisma.ServiceRequestWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ServiceRequestUpdateToOneWithWhereWithoutFeedbackInput, Prisma.ServiceRequestUpdateWithoutFeedbackInput>, Prisma.ServiceRequestUncheckedUpdateWithoutFeedbackInput>
+}
+
 export type ServiceRequestCreateNestedOneWithoutAttachmentsInput = {
   create?: Prisma.XOR<Prisma.ServiceRequestCreateWithoutAttachmentsInput, Prisma.ServiceRequestUncheckedCreateWithoutAttachmentsInput>
   connectOrCreate?: Prisma.ServiceRequestCreateOrConnectWithoutAttachmentsInput
@@ -792,6 +820,20 @@ export type ServiceRequestUpdateOneRequiredWithoutAttachmentsNestedInput = {
   upsert?: Prisma.ServiceRequestUpsertWithoutAttachmentsInput
   connect?: Prisma.ServiceRequestWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ServiceRequestUpdateToOneWithWhereWithoutAttachmentsInput, Prisma.ServiceRequestUpdateWithoutAttachmentsInput>, Prisma.ServiceRequestUncheckedUpdateWithoutAttachmentsInput>
+}
+
+export type ServiceRequestCreateNestedOneWithoutNotificationsInput = {
+  create?: Prisma.XOR<Prisma.ServiceRequestCreateWithoutNotificationsInput, Prisma.ServiceRequestUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.ServiceRequestCreateOrConnectWithoutNotificationsInput
+  connect?: Prisma.ServiceRequestWhereUniqueInput
+}
+
+export type ServiceRequestUpdateOneRequiredWithoutNotificationsNestedInput = {
+  create?: Prisma.XOR<Prisma.ServiceRequestCreateWithoutNotificationsInput, Prisma.ServiceRequestUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.ServiceRequestCreateOrConnectWithoutNotificationsInput
+  upsert?: Prisma.ServiceRequestUpsertWithoutNotificationsInput
+  connect?: Prisma.ServiceRequestWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ServiceRequestUpdateToOneWithWhereWithoutNotificationsInput, Prisma.ServiceRequestUpdateWithoutNotificationsInput>, Prisma.ServiceRequestUncheckedUpdateWithoutNotificationsInput>
 }
 
 export type ServiceRequestCreateNestedOneWithoutReportedLocationInput = {
@@ -896,6 +938,8 @@ export type ServiceRequestCreateWithoutCategoryInput = {
   statusHistory?: Prisma.RequestStatusHistoryCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestUncheckedCreateWithoutCategoryInput = {
@@ -922,6 +966,8 @@ export type ServiceRequestUncheckedCreateWithoutCategoryInput = {
   statusHistory?: Prisma.RequestStatusHistoryUncheckedCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateUncheckedCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentUncheckedCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestCreateOrConnectWithoutCategoryInput = {
@@ -998,6 +1044,8 @@ export type ServiceRequestCreateWithoutCitizenInput = {
   statusHistory?: Prisma.RequestStatusHistoryCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestUncheckedCreateWithoutCitizenInput = {
@@ -1024,6 +1072,8 @@ export type ServiceRequestUncheckedCreateWithoutCitizenInput = {
   statusHistory?: Prisma.RequestStatusHistoryUncheckedCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateUncheckedCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentUncheckedCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestCreateOrConnectWithoutCitizenInput = {
@@ -1076,6 +1126,8 @@ export type ServiceRequestCreateWithoutCurrentDepartmentInput = {
   statusHistory?: Prisma.RequestStatusHistoryCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestUncheckedCreateWithoutCurrentDepartmentInput = {
@@ -1102,6 +1154,8 @@ export type ServiceRequestUncheckedCreateWithoutCurrentDepartmentInput = {
   statusHistory?: Prisma.RequestStatusHistoryUncheckedCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateUncheckedCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentUncheckedCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestCreateOrConnectWithoutCurrentDepartmentInput = {
@@ -1130,6 +1184,134 @@ export type ServiceRequestUpdateManyWithWhereWithoutCurrentDepartmentInput = {
   data: Prisma.XOR<Prisma.ServiceRequestUpdateManyMutationInput, Prisma.ServiceRequestUncheckedUpdateManyWithoutCurrentDepartmentInput>
 }
 
+export type ServiceRequestCreateWithoutFeedbackInput = {
+  id?: string
+  requestNo: string
+  type: $Enums.RequestType
+  title: string
+  description: string
+  priority?: $Enums.RequestPriority
+  status?: $Enums.RequestStatus
+  responseDueAt?: Date | string | null
+  resolutionDueAt?: Date | string | null
+  firstRespondedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  closedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  assignments?: Prisma.RequestAssignmentCreateNestedManyWithoutRequestInput
+  citizen: Prisma.CitizenCreateNestedOneWithoutServiceRequestsInput
+  category: Prisma.CategoryCreateNestedOneWithoutServiceRequestsInput
+  currentDepartment: Prisma.DepartmentCreateNestedOneWithoutServiceRequestsInput
+  reportedLocation?: Prisma.ReportedLocationCreateNestedOneWithoutRequestInput
+  departmentRoutes?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutRequestInput
+  statusHistory?: Prisma.RequestStatusHistoryCreateNestedManyWithoutRequestInput
+  workUpdates?: Prisma.WorkUpdateCreateNestedManyWithoutRequestInput
+  attachments?: Prisma.MediaAttachmentCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRequestInput
+}
+
+export type ServiceRequestUncheckedCreateWithoutFeedbackInput = {
+  id?: string
+  requestNo: string
+  citizenId: string
+  categoryId: string
+  currentDepartmentId: string
+  type: $Enums.RequestType
+  title: string
+  description: string
+  priority?: $Enums.RequestPriority
+  status?: $Enums.RequestStatus
+  responseDueAt?: Date | string | null
+  resolutionDueAt?: Date | string | null
+  firstRespondedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  closedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  assignments?: Prisma.RequestAssignmentUncheckedCreateNestedManyWithoutRequestInput
+  reportedLocation?: Prisma.ReportedLocationUncheckedCreateNestedOneWithoutRequestInput
+  departmentRoutes?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutRequestInput
+  statusHistory?: Prisma.RequestStatusHistoryUncheckedCreateNestedManyWithoutRequestInput
+  workUpdates?: Prisma.WorkUpdateUncheckedCreateNestedManyWithoutRequestInput
+  attachments?: Prisma.MediaAttachmentUncheckedCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRequestInput
+}
+
+export type ServiceRequestCreateOrConnectWithoutFeedbackInput = {
+  where: Prisma.ServiceRequestWhereUniqueInput
+  create: Prisma.XOR<Prisma.ServiceRequestCreateWithoutFeedbackInput, Prisma.ServiceRequestUncheckedCreateWithoutFeedbackInput>
+}
+
+export type ServiceRequestUpsertWithoutFeedbackInput = {
+  update: Prisma.XOR<Prisma.ServiceRequestUpdateWithoutFeedbackInput, Prisma.ServiceRequestUncheckedUpdateWithoutFeedbackInput>
+  create: Prisma.XOR<Prisma.ServiceRequestCreateWithoutFeedbackInput, Prisma.ServiceRequestUncheckedCreateWithoutFeedbackInput>
+  where?: Prisma.ServiceRequestWhereInput
+}
+
+export type ServiceRequestUpdateToOneWithWhereWithoutFeedbackInput = {
+  where?: Prisma.ServiceRequestWhereInput
+  data: Prisma.XOR<Prisma.ServiceRequestUpdateWithoutFeedbackInput, Prisma.ServiceRequestUncheckedUpdateWithoutFeedbackInput>
+}
+
+export type ServiceRequestUpdateWithoutFeedbackInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requestNo?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.EnumRequestPriorityFieldUpdateOperationsInput | $Enums.RequestPriority
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  responseDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolutionDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstRespondedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assignments?: Prisma.RequestAssignmentUpdateManyWithoutRequestNestedInput
+  citizen?: Prisma.CitizenUpdateOneRequiredWithoutServiceRequestsNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutServiceRequestsNestedInput
+  currentDepartment?: Prisma.DepartmentUpdateOneRequiredWithoutServiceRequestsNestedInput
+  reportedLocation?: Prisma.ReportedLocationUpdateOneWithoutRequestNestedInput
+  departmentRoutes?: Prisma.RequestDepartmentRouteUpdateManyWithoutRequestNestedInput
+  statusHistory?: Prisma.RequestStatusHistoryUpdateManyWithoutRequestNestedInput
+  workUpdates?: Prisma.WorkUpdateUpdateManyWithoutRequestNestedInput
+  attachments?: Prisma.MediaAttachmentUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRequestNestedInput
+}
+
+export type ServiceRequestUncheckedUpdateWithoutFeedbackInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requestNo?: Prisma.StringFieldUpdateOperationsInput | string
+  citizenId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  currentDepartmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.EnumRequestPriorityFieldUpdateOperationsInput | $Enums.RequestPriority
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  responseDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolutionDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstRespondedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assignments?: Prisma.RequestAssignmentUncheckedUpdateManyWithoutRequestNestedInput
+  reportedLocation?: Prisma.ReportedLocationUncheckedUpdateOneWithoutRequestNestedInput
+  departmentRoutes?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutRequestNestedInput
+  statusHistory?: Prisma.RequestStatusHistoryUncheckedUpdateManyWithoutRequestNestedInput
+  workUpdates?: Prisma.WorkUpdateUncheckedUpdateManyWithoutRequestNestedInput
+  attachments?: Prisma.MediaAttachmentUncheckedUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRequestNestedInput
+}
+
 export type ServiceRequestCreateWithoutAttachmentsInput = {
   id?: string
   requestNo: string
@@ -1154,6 +1336,8 @@ export type ServiceRequestCreateWithoutAttachmentsInput = {
   departmentRoutes?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutRequestInput
   statusHistory?: Prisma.RequestStatusHistoryCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestUncheckedCreateWithoutAttachmentsInput = {
@@ -1180,6 +1364,8 @@ export type ServiceRequestUncheckedCreateWithoutAttachmentsInput = {
   departmentRoutes?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutRequestInput
   statusHistory?: Prisma.RequestStatusHistoryUncheckedCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateUncheckedCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestCreateOrConnectWithoutAttachmentsInput = {
@@ -1222,6 +1408,8 @@ export type ServiceRequestUpdateWithoutAttachmentsInput = {
   departmentRoutes?: Prisma.RequestDepartmentRouteUpdateManyWithoutRequestNestedInput
   statusHistory?: Prisma.RequestStatusHistoryUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestUncheckedUpdateWithoutAttachmentsInput = {
@@ -1248,6 +1436,136 @@ export type ServiceRequestUncheckedUpdateWithoutAttachmentsInput = {
   departmentRoutes?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutRequestNestedInput
   statusHistory?: Prisma.RequestStatusHistoryUncheckedUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUncheckedUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateOneWithoutRequestNestedInput
+}
+
+export type ServiceRequestCreateWithoutNotificationsInput = {
+  id?: string
+  requestNo: string
+  type: $Enums.RequestType
+  title: string
+  description: string
+  priority?: $Enums.RequestPriority
+  status?: $Enums.RequestStatus
+  responseDueAt?: Date | string | null
+  resolutionDueAt?: Date | string | null
+  firstRespondedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  closedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  assignments?: Prisma.RequestAssignmentCreateNestedManyWithoutRequestInput
+  citizen: Prisma.CitizenCreateNestedOneWithoutServiceRequestsInput
+  category: Prisma.CategoryCreateNestedOneWithoutServiceRequestsInput
+  currentDepartment: Prisma.DepartmentCreateNestedOneWithoutServiceRequestsInput
+  reportedLocation?: Prisma.ReportedLocationCreateNestedOneWithoutRequestInput
+  departmentRoutes?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutRequestInput
+  statusHistory?: Prisma.RequestStatusHistoryCreateNestedManyWithoutRequestInput
+  workUpdates?: Prisma.WorkUpdateCreateNestedManyWithoutRequestInput
+  attachments?: Prisma.MediaAttachmentCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackCreateNestedOneWithoutRequestInput
+}
+
+export type ServiceRequestUncheckedCreateWithoutNotificationsInput = {
+  id?: string
+  requestNo: string
+  citizenId: string
+  categoryId: string
+  currentDepartmentId: string
+  type: $Enums.RequestType
+  title: string
+  description: string
+  priority?: $Enums.RequestPriority
+  status?: $Enums.RequestStatus
+  responseDueAt?: Date | string | null
+  resolutionDueAt?: Date | string | null
+  firstRespondedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  closedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  assignments?: Prisma.RequestAssignmentUncheckedCreateNestedManyWithoutRequestInput
+  reportedLocation?: Prisma.ReportedLocationUncheckedCreateNestedOneWithoutRequestInput
+  departmentRoutes?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutRequestInput
+  statusHistory?: Prisma.RequestStatusHistoryUncheckedCreateNestedManyWithoutRequestInput
+  workUpdates?: Prisma.WorkUpdateUncheckedCreateNestedManyWithoutRequestInput
+  attachments?: Prisma.MediaAttachmentUncheckedCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedOneWithoutRequestInput
+}
+
+export type ServiceRequestCreateOrConnectWithoutNotificationsInput = {
+  where: Prisma.ServiceRequestWhereUniqueInput
+  create: Prisma.XOR<Prisma.ServiceRequestCreateWithoutNotificationsInput, Prisma.ServiceRequestUncheckedCreateWithoutNotificationsInput>
+}
+
+export type ServiceRequestUpsertWithoutNotificationsInput = {
+  update: Prisma.XOR<Prisma.ServiceRequestUpdateWithoutNotificationsInput, Prisma.ServiceRequestUncheckedUpdateWithoutNotificationsInput>
+  create: Prisma.XOR<Prisma.ServiceRequestCreateWithoutNotificationsInput, Prisma.ServiceRequestUncheckedCreateWithoutNotificationsInput>
+  where?: Prisma.ServiceRequestWhereInput
+}
+
+export type ServiceRequestUpdateToOneWithWhereWithoutNotificationsInput = {
+  where?: Prisma.ServiceRequestWhereInput
+  data: Prisma.XOR<Prisma.ServiceRequestUpdateWithoutNotificationsInput, Prisma.ServiceRequestUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type ServiceRequestUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requestNo?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.EnumRequestPriorityFieldUpdateOperationsInput | $Enums.RequestPriority
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  responseDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolutionDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstRespondedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assignments?: Prisma.RequestAssignmentUpdateManyWithoutRequestNestedInput
+  citizen?: Prisma.CitizenUpdateOneRequiredWithoutServiceRequestsNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutServiceRequestsNestedInput
+  currentDepartment?: Prisma.DepartmentUpdateOneRequiredWithoutServiceRequestsNestedInput
+  reportedLocation?: Prisma.ReportedLocationUpdateOneWithoutRequestNestedInput
+  departmentRoutes?: Prisma.RequestDepartmentRouteUpdateManyWithoutRequestNestedInput
+  statusHistory?: Prisma.RequestStatusHistoryUpdateManyWithoutRequestNestedInput
+  workUpdates?: Prisma.WorkUpdateUpdateManyWithoutRequestNestedInput
+  attachments?: Prisma.MediaAttachmentUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUpdateOneWithoutRequestNestedInput
+}
+
+export type ServiceRequestUncheckedUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  requestNo?: Prisma.StringFieldUpdateOperationsInput | string
+  citizenId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  currentDepartmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.EnumRequestPriorityFieldUpdateOperationsInput | $Enums.RequestPriority
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  responseDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolutionDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstRespondedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assignments?: Prisma.RequestAssignmentUncheckedUpdateManyWithoutRequestNestedInput
+  reportedLocation?: Prisma.ReportedLocationUncheckedUpdateOneWithoutRequestNestedInput
+  departmentRoutes?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutRequestNestedInput
+  statusHistory?: Prisma.RequestStatusHistoryUncheckedUpdateManyWithoutRequestNestedInput
+  workUpdates?: Prisma.WorkUpdateUncheckedUpdateManyWithoutRequestNestedInput
+  attachments?: Prisma.MediaAttachmentUncheckedUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestCreateWithoutReportedLocationInput = {
@@ -1274,6 +1592,8 @@ export type ServiceRequestCreateWithoutReportedLocationInput = {
   statusHistory?: Prisma.RequestStatusHistoryCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestUncheckedCreateWithoutReportedLocationInput = {
@@ -1300,6 +1620,8 @@ export type ServiceRequestUncheckedCreateWithoutReportedLocationInput = {
   statusHistory?: Prisma.RequestStatusHistoryUncheckedCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateUncheckedCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentUncheckedCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestCreateOrConnectWithoutReportedLocationInput = {
@@ -1342,6 +1664,8 @@ export type ServiceRequestUpdateWithoutReportedLocationInput = {
   statusHistory?: Prisma.RequestStatusHistoryUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestUncheckedUpdateWithoutReportedLocationInput = {
@@ -1368,6 +1692,8 @@ export type ServiceRequestUncheckedUpdateWithoutReportedLocationInput = {
   statusHistory?: Prisma.RequestStatusHistoryUncheckedUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUncheckedUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUncheckedUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestCreateWithoutAssignmentsInput = {
@@ -1394,6 +1720,8 @@ export type ServiceRequestCreateWithoutAssignmentsInput = {
   statusHistory?: Prisma.RequestStatusHistoryCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestUncheckedCreateWithoutAssignmentsInput = {
@@ -1420,6 +1748,8 @@ export type ServiceRequestUncheckedCreateWithoutAssignmentsInput = {
   statusHistory?: Prisma.RequestStatusHistoryUncheckedCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateUncheckedCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentUncheckedCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestCreateOrConnectWithoutAssignmentsInput = {
@@ -1462,6 +1792,8 @@ export type ServiceRequestUpdateWithoutAssignmentsInput = {
   statusHistory?: Prisma.RequestStatusHistoryUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestUncheckedUpdateWithoutAssignmentsInput = {
@@ -1488,6 +1820,8 @@ export type ServiceRequestUncheckedUpdateWithoutAssignmentsInput = {
   statusHistory?: Prisma.RequestStatusHistoryUncheckedUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUncheckedUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUncheckedUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestCreateWithoutDepartmentRoutesInput = {
@@ -1514,6 +1848,8 @@ export type ServiceRequestCreateWithoutDepartmentRoutesInput = {
   statusHistory?: Prisma.RequestStatusHistoryCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestUncheckedCreateWithoutDepartmentRoutesInput = {
@@ -1540,6 +1876,8 @@ export type ServiceRequestUncheckedCreateWithoutDepartmentRoutesInput = {
   statusHistory?: Prisma.RequestStatusHistoryUncheckedCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateUncheckedCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentUncheckedCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestCreateOrConnectWithoutDepartmentRoutesInput = {
@@ -1582,6 +1920,8 @@ export type ServiceRequestUpdateWithoutDepartmentRoutesInput = {
   statusHistory?: Prisma.RequestStatusHistoryUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestUncheckedUpdateWithoutDepartmentRoutesInput = {
@@ -1608,6 +1948,8 @@ export type ServiceRequestUncheckedUpdateWithoutDepartmentRoutesInput = {
   statusHistory?: Prisma.RequestStatusHistoryUncheckedUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUncheckedUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUncheckedUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestCreateWithoutStatusHistoryInput = {
@@ -1634,6 +1976,8 @@ export type ServiceRequestCreateWithoutStatusHistoryInput = {
   departmentRoutes?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestUncheckedCreateWithoutStatusHistoryInput = {
@@ -1660,6 +2004,8 @@ export type ServiceRequestUncheckedCreateWithoutStatusHistoryInput = {
   departmentRoutes?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutRequestInput
   workUpdates?: Prisma.WorkUpdateUncheckedCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentUncheckedCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestCreateOrConnectWithoutStatusHistoryInput = {
@@ -1702,6 +2048,8 @@ export type ServiceRequestUpdateWithoutStatusHistoryInput = {
   departmentRoutes?: Prisma.RequestDepartmentRouteUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestUncheckedUpdateWithoutStatusHistoryInput = {
@@ -1728,6 +2076,8 @@ export type ServiceRequestUncheckedUpdateWithoutStatusHistoryInput = {
   departmentRoutes?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUncheckedUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUncheckedUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestCreateWithoutWorkUpdatesInput = {
@@ -1754,6 +2104,8 @@ export type ServiceRequestCreateWithoutWorkUpdatesInput = {
   departmentRoutes?: Prisma.RequestDepartmentRouteCreateNestedManyWithoutRequestInput
   statusHistory?: Prisma.RequestStatusHistoryCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestUncheckedCreateWithoutWorkUpdatesInput = {
@@ -1780,6 +2132,8 @@ export type ServiceRequestUncheckedCreateWithoutWorkUpdatesInput = {
   departmentRoutes?: Prisma.RequestDepartmentRouteUncheckedCreateNestedManyWithoutRequestInput
   statusHistory?: Prisma.RequestStatusHistoryUncheckedCreateNestedManyWithoutRequestInput
   attachments?: Prisma.MediaAttachmentUncheckedCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRequestInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedOneWithoutRequestInput
 }
 
 export type ServiceRequestCreateOrConnectWithoutWorkUpdatesInput = {
@@ -1822,6 +2176,8 @@ export type ServiceRequestUpdateWithoutWorkUpdatesInput = {
   departmentRoutes?: Prisma.RequestDepartmentRouteUpdateManyWithoutRequestNestedInput
   statusHistory?: Prisma.RequestStatusHistoryUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestUncheckedUpdateWithoutWorkUpdatesInput = {
@@ -1848,6 +2204,8 @@ export type ServiceRequestUncheckedUpdateWithoutWorkUpdatesInput = {
   departmentRoutes?: Prisma.RequestDepartmentRouteUncheckedUpdateManyWithoutRequestNestedInput
   statusHistory?: Prisma.RequestStatusHistoryUncheckedUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUncheckedUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestCreateManyCategoryInput = {
@@ -1894,6 +2252,8 @@ export type ServiceRequestUpdateWithoutCategoryInput = {
   statusHistory?: Prisma.RequestStatusHistoryUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestUncheckedUpdateWithoutCategoryInput = {
@@ -1920,6 +2280,8 @@ export type ServiceRequestUncheckedUpdateWithoutCategoryInput = {
   statusHistory?: Prisma.RequestStatusHistoryUncheckedUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUncheckedUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUncheckedUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestUncheckedUpdateManyWithoutCategoryInput = {
@@ -1986,6 +2348,8 @@ export type ServiceRequestUpdateWithoutCitizenInput = {
   statusHistory?: Prisma.RequestStatusHistoryUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestUncheckedUpdateWithoutCitizenInput = {
@@ -2012,6 +2376,8 @@ export type ServiceRequestUncheckedUpdateWithoutCitizenInput = {
   statusHistory?: Prisma.RequestStatusHistoryUncheckedUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUncheckedUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUncheckedUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestUncheckedUpdateManyWithoutCitizenInput = {
@@ -2078,6 +2444,8 @@ export type ServiceRequestUpdateWithoutCurrentDepartmentInput = {
   statusHistory?: Prisma.RequestStatusHistoryUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestUncheckedUpdateWithoutCurrentDepartmentInput = {
@@ -2104,6 +2472,8 @@ export type ServiceRequestUncheckedUpdateWithoutCurrentDepartmentInput = {
   statusHistory?: Prisma.RequestStatusHistoryUncheckedUpdateManyWithoutRequestNestedInput
   workUpdates?: Prisma.WorkUpdateUncheckedUpdateManyWithoutRequestNestedInput
   attachments?: Prisma.MediaAttachmentUncheckedUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRequestNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateOneWithoutRequestNestedInput
 }
 
 export type ServiceRequestUncheckedUpdateManyWithoutCurrentDepartmentInput = {
@@ -2137,6 +2507,7 @@ export type ServiceRequestCountOutputType = {
   statusHistory: number
   workUpdates: number
   attachments: number
+  notifications: number
 }
 
 export type ServiceRequestCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2145,6 +2516,7 @@ export type ServiceRequestCountOutputTypeSelect<ExtArgs extends runtime.Types.Ex
   statusHistory?: boolean | ServiceRequestCountOutputTypeCountStatusHistoryArgs
   workUpdates?: boolean | ServiceRequestCountOutputTypeCountWorkUpdatesArgs
   attachments?: boolean | ServiceRequestCountOutputTypeCountAttachmentsArgs
+  notifications?: boolean | ServiceRequestCountOutputTypeCountNotificationsArgs
 }
 
 /**
@@ -2192,6 +2564,13 @@ export type ServiceRequestCountOutputTypeCountAttachmentsArgs<ExtArgs extends ru
   where?: Prisma.MediaAttachmentWhereInput
 }
 
+/**
+ * ServiceRequestCountOutputType without action
+ */
+export type ServiceRequestCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
+}
+
 
 export type ServiceRequestSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2221,6 +2600,8 @@ export type ServiceRequestSelect<ExtArgs extends runtime.Types.Extensions.Intern
   statusHistory?: boolean | Prisma.ServiceRequest$statusHistoryArgs<ExtArgs>
   workUpdates?: boolean | Prisma.ServiceRequest$workUpdatesArgs<ExtArgs>
   attachments?: boolean | Prisma.ServiceRequest$attachmentsArgs<ExtArgs>
+  notifications?: boolean | Prisma.ServiceRequest$notificationsArgs<ExtArgs>
+  feedback?: boolean | Prisma.ServiceRequest$feedbackArgs<ExtArgs>
   _count?: boolean | Prisma.ServiceRequestCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["serviceRequest"]>
 
@@ -2304,6 +2685,8 @@ export type ServiceRequestInclude<ExtArgs extends runtime.Types.Extensions.Inter
   statusHistory?: boolean | Prisma.ServiceRequest$statusHistoryArgs<ExtArgs>
   workUpdates?: boolean | Prisma.ServiceRequest$workUpdatesArgs<ExtArgs>
   attachments?: boolean | Prisma.ServiceRequest$attachmentsArgs<ExtArgs>
+  notifications?: boolean | Prisma.ServiceRequest$notificationsArgs<ExtArgs>
+  feedback?: boolean | Prisma.ServiceRequest$feedbackArgs<ExtArgs>
   _count?: boolean | Prisma.ServiceRequestCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ServiceRequestIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2329,6 +2712,8 @@ export type $ServiceRequestPayload<ExtArgs extends runtime.Types.Extensions.Inte
     statusHistory: Prisma.$RequestStatusHistoryPayload<ExtArgs>[]
     workUpdates: Prisma.$WorkUpdatePayload<ExtArgs>[]
     attachments: Prisma.$MediaAttachmentPayload<ExtArgs>[]
+    notifications: Prisma.$NotificationPayload<ExtArgs>[]
+    feedback: Prisma.$FeedbackPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2752,6 +3137,8 @@ export interface Prisma__ServiceRequestClient<T, Null = never, ExtArgs extends r
   statusHistory<T extends Prisma.ServiceRequest$statusHistoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ServiceRequest$statusHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RequestStatusHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   workUpdates<T extends Prisma.ServiceRequest$workUpdatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ServiceRequest$workUpdatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkUpdatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   attachments<T extends Prisma.ServiceRequest$attachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ServiceRequest$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MediaAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifications<T extends Prisma.ServiceRequest$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ServiceRequest$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  feedback<T extends Prisma.ServiceRequest$feedbackArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ServiceRequest$feedbackArgs<ExtArgs>>): Prisma.Prisma__FeedbackClient<runtime.Types.Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3336,6 +3723,49 @@ export type ServiceRequest$attachmentsArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.MediaAttachmentScalarFieldEnum | Prisma.MediaAttachmentScalarFieldEnum[]
+}
+
+/**
+ * ServiceRequest.notifications
+ */
+export type ServiceRequest$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notification
+   */
+  select?: Prisma.NotificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notification
+   */
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
+}
+
+/**
+ * ServiceRequest.feedback
+ */
+export type ServiceRequest$feedbackArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Feedback
+   */
+  select?: Prisma.FeedbackSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Feedback
+   */
+  omit?: Prisma.FeedbackOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FeedbackInclude<ExtArgs> | null
+  where?: Prisma.FeedbackWhereInput
 }
 
 /**

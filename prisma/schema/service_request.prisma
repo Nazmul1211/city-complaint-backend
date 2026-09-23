@@ -1,50 +1,54 @@
 model ServiceRequest {
-  id                    String          @id @default(uuid()) @db.Uuid
+  id String @id @default(uuid()) @db.Uuid
 
-  requestNo             String          @unique
+  requestNo String @unique
 
-  citizenId             String          @db.Uuid
-  categoryId            String          @db.Uuid
-  currentDepartmentId   String          @db.Uuid
+  citizenId           String @db.Uuid
+  categoryId          String @db.Uuid
+  currentDepartmentId String @db.Uuid
 
-  type                  RequestType
-  title                 String
-  description           String
+  type        RequestType
+  title       String
+  description String
 
-  priority              RequestPriority @default(MEDIUM)
-  status                RequestStatus   @default(SUBMITTED)
+  priority RequestPriority @default(MEDIUM)
+  status   RequestStatus   @default(SUBMITTED)
 
-  responseDueAt         DateTime?
-  resolutionDueAt       DateTime?
+  responseDueAt   DateTime?
+  resolutionDueAt DateTime?
 
-  firstRespondedAt      DateTime?
-  resolvedAt            DateTime?
-  closedAt              DateTime?
+  firstRespondedAt DateTime?
+  resolvedAt       DateTime?
+  closedAt         DateTime?
 
-  deletedAt             DateTime?
+  deletedAt DateTime?
 
-  createdAt             DateTime        @default(now())
-  updatedAt             DateTime        @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Relations
 
-  assignments           RequestAssignment[]
+  assignments RequestAssignment[]
 
-  citizen               Citizen @relation(fields: [citizenId],references: [id])
+  citizen Citizen @relation(fields: [citizenId], references: [id])
 
-  category              Category @relation(fields: [categoryId],references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
 
-  currentDepartment     Department @relation(fields: [currentDepartmentId],references: [id])
+  currentDepartment Department @relation(fields: [currentDepartmentId], references: [id])
 
-  reportedLocation      ReportedLocation?
+  reportedLocation ReportedLocation?
 
-  departmentRoutes      RequestDepartmentRoute[]
+  departmentRoutes RequestDepartmentRoute[]
 
-  statusHistory         RequestStatusHistory[]
+  statusHistory RequestStatusHistory[]
 
-  workUpdates           WorkUpdate[]
+  workUpdates WorkUpdate[]
 
-  attachments           MediaAttachment[]
+  attachments MediaAttachment[]
+
+  notifications Notification[]
+
+  feedback Feedback?
 
   // Indexes
 
@@ -56,4 +60,3 @@ model ServiceRequest {
   @@index([createdAt])
   @@index([status, priority])
 }
-

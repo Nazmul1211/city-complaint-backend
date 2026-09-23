@@ -1,6 +1,15 @@
 import { prisma } from "../../lib/prisma";
-import { RequestPriority, RequestStatus } from "../../../../generated/prisma/enums";
-import type { ICreateServiceRequest, IServiceRequestFilters, IServiceRequestResponse, ITimelineEvent } from "./service-request.interface";
+import { notificationService } from "../notification/notification.service";
+import {
+	RequestPriority,
+	RequestStatus,
+} from "../../../../generated/prisma/enums";
+import type {
+	ICreateServiceRequest,
+	IServiceRequestFilters,
+	IServiceRequestResponse,
+	ITimelineEvent,
+} from "./service-request.interface";
 
 const serviceRequestInclude = {
 	citizen: {
@@ -31,25 +40,40 @@ const generateRequestNo = async (): Promise<string> => {
 		select: { requestNo: true },
 	});
 
-	const lastSequence = lastRequest ? parseInt(lastRequest.requestNo.split("-")[2], 10) : 0;
+	const lastSequence = lastRequest
+		? parseInt(lastRequest.requestNo.split("-")[2], 10)
+		: 0;
 	const nextSequence = isNaN(lastSequence) ? 1 : lastSequence + 1;
 
 	return `${prefix}${nextSequence.toString().padStart(5, "0")}`;
 };
 
-const calculateDueDates = (slaPolicy: { responseWithinHours: number; resolutionWithinHours: number } | null) => {
+const calculateDueDates = (
+	slaPolicy: {
+		responseWithinHours: number;
+		resolutionWithinHours: number;
+	} | null,
+) => {
 	if (!slaPolicy) return { responseDueAt: null, resolutionDueAt: null };
 
 	const now = Date.now();
 	return {
 		responseDueAt: new Date(now + slaPolicy.responseWithinHours * 3_600_000),
-		resolutionDueAt: new Date(now + slaPolicy.resolutionWithinHours * 3_600_000),
+		resolutionDueAt: new Date(
+			now + slaPolicy.resolutionWithinHours * 3_600_000,
+		),
 	};
 };
 
-const createServiceRequest = async (userId: string, payload: ICreateServiceRequest): Promise<IServiceRequestResponse> => {
+const createServiceRequest = async (
+	userId: string,
+	payload: ICreateServiceRequest,
+): Promise<IServiceRequestResponse> => {
 	const citizen = await prisma.citizen.findUnique({ where: { userId } });
-	if (!citizen) throw new Error("Citizen profile not found. Please complete your profile first.");
+	if (!citizen)
+		throw new Error(
+			"Citizen profile not found. Please complete your profile first.",
+		);
 
 	const category = await prisma.category.findFirst({
 		where: { id: payload.categoryId, isActive: true, deletedAt: null },
@@ -57,11 +81,15 @@ const createServiceRequest = async (userId: string, payload: ICreateServiceReque
 	});
 	if (!category) throw new Error("Category not found or inactive.");
 
-	const ward = await prisma.ward.findFirst({ where: { id: payload.wardId, isActive: true } });
+	const ward = await prisma.ward.findFirst({
+		where: { id: payload.wardId, isActive: true },
+	});
 	if (!ward) throw new Error("Ward not found or inactive.");
 
 	const requestNo = await generateRequestNo();
-	const { responseDueAt, resolutionDueAt } = calculateDueDates(category.slaPolicy);
+	const { responseDueAt, resolutionDueAt } = calculateDueDates(
+		category.slaPolicy,
+	);
 
 	const serviceRequest = await prisma.$transaction(async (tx) => {
 		const created = await tx.serviceRequest.create({
@@ -104,11 +132,17 @@ const createServiceRequest = async (userId: string, payload: ICreateServiceReque
 		return created;
 	});
 
+	await notificationService.notifyRequestCreated(serviceRequest, userId);
+
 	return serviceRequest as IServiceRequestResponse;
 };
 
 // CITIZEN sees only their own requests; STAFF sees their departments; ADMIN/SUPER_ADMIN see all.
-const getAllServiceRequests = async (filters: IServiceRequestFilters, userId: string, userRole: string) => {
+const getAllServiceRequests = async (
+	filters: IServiceRequestFilters,
+	userId: string,
+	userRole: string,
+) => {
 	const {
 		searchTerm,
 		status,
@@ -140,7 +174,8 @@ const getAllServiceRequests = async (filters: IServiceRequestFilters, userId: st
 			select: { departmentId: true },
 		});
 		const deptIds = memberships.map((m) => m.departmentId);
-		where.currentDepartmentId = deptIds.length > 0 ? { in: deptIds } : "no-access";
+		where.currentDepartmentId =
+			deptIds.length > 0 ? { in: deptIds } : "no-access";
 	}
 
 	if (searchTerm) {
@@ -179,7 +214,11 @@ const getAllServiceRequests = async (filters: IServiceRequestFilters, userId: st
 };
 
 // CITIZEN may only view their own request; STAFF may only view requests in their departments.
-const getServiceRequestById = async (id: string, userId: string, userRole: string): Promise<IServiceRequestResponse | null> => {
+const getServiceRequestById = async (
+	id: string,
+	userId: string,
+	userRole: string,
+): Promise<IServiceRequestResponse | null> => {
 	const serviceRequest = await prisma.serviceRequest.findFirst({
 		where: { id },
 		include: serviceRequestInclude,
@@ -206,14 +245,25 @@ const getServiceRequestById = async (id: string, userId: string, userRole: strin
 	return serviceRequest as IServiceRequestResponse;
 };
 
-const getMyServiceRequests = async (userId: string, filters: IServiceRequestFilters) => {
+const getMyServiceRequests = async (
+	userId: string,
+	filters: IServiceRequestFilters,
+) => {
 	const citizen = await prisma.citizen.findUnique({ where: { userId } });
 	if (!citizen) throw new Error("Citizen profile not found.");
 
-	return getAllServiceRequests({ ...filters, citizenId: citizen.id }, userId, "CITIZEN");
+	return getAllServiceRequests(
+		{ ...filters, citizenId: citizen.id },
+		userId,
+		"CITIZEN",
+	);
 };
 
-const getRequestTimeline = async (id: string, userId: string, userRole: string): Promise<ITimelineEvent[]> => {
+const getRequestTimeline = async (
+	id: string,
+	userId: string,
+	userRole: string,
+): Promise<ITimelineEvent[]> => {
 	// Re-use the existing single-request getter — it handles auth checks for us
 	const serviceRequest = await getServiceRequestById(id, userId, userRole);
 	if (!serviceRequest) throw new Error("Service request not found.");
@@ -272,7 +322,9 @@ const getRequestTimeline = async (id: string, userId: string, userRole: string):
 		timeline.push({
 			type: "STATUS_CHANGED",
 			timestamp: entry.createdAt,
-			note: entry.note ?? `Status changed from ${entry.fromStatus ?? "—"} to ${entry.toStatus}`,
+			note:
+				entry.note ??
+				`Status changed from ${entry.fromStatus ?? "—"} to ${entry.toStatus}`,
 			actor: entry.changedBy,
 			meta: { fromStatus: entry.fromStatus, toStatus: entry.toStatus },
 		});

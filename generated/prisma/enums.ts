@@ -100,3 +100,16 @@ export const RequestStatus = {
 } as const
 
 export type RequestStatus = (typeof RequestStatus)[keyof typeof RequestStatus]
+
+
+export const NotificationType = {
+  REQUEST_CREATED: 'REQUEST_CREATED',
+  REQUEST_ASSIGNED: 'REQUEST_ASSIGNED',
+  STATUS_CHANGED: 'STATUS_CHANGED',
+  WORK_UPDATE_ADDED: 'WORK_UPDATE_ADDED',
+  FEEDBACK_REQUESTED: 'FEEDBACK_REQUESTED',
+  PAYMENT_REQUIRED: 'PAYMENT_REQUIRED',
+  PAYMENT_SUCCESSFUL: 'PAYMENT_SUCCESSFUL'
+} as const
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]

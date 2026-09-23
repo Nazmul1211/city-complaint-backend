@@ -1,46 +1,48 @@
 model User {
-  id                  String       @id @default(uuid()) @db.Uuid
+  id String @id @default(uuid()) @db.Uuid
 
-  name                String
-  email               String       @unique
-  password            String?
-  phone               String?      @unique
+  name     String
+  email    String  @unique
+  password String?
+  phone    String? @unique
 
-  googleId            String?      @unique
-  githubId            String?      @unique
+  googleId String? @unique
+  githubId String? @unique
 
-  authProvider        AuthProvider @default(CREDENTIAL)
-  role                UserRole     @default(CITIZEN)
-  status              UserStatus   @default(PENDING_VERIFICATION)
+  authProvider AuthProvider @default(CREDENTIAL)
+  role         UserRole     @default(CITIZEN)
+  status       UserStatus   @default(PENDING_VERIFICATION)
 
-  emailVerified       Boolean      @default(false)
+  emailVerified Boolean @default(false)
 
-  avatarUrl           String?
-  avatarPublicId      String?
+  avatarUrl      String?
+  avatarPublicId String?
 
-  needPasswordChange  Boolean      @default(false)
+  needPasswordChange Boolean @default(false)
 
-  citizen             Citizen?
+  citizen Citizen?
 
-  isDeleted           Boolean      @default(false)
-  deletedAt           DateTime?
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
 
-  createdAt           DateTime     @default(now())
-  updatedAt           DateTime     @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Relations
   departmentMemberships DepartmentMember[]
 
-  routedRequests      RequestDepartmentRoute[] @relation("RouteByUser")
+  routedRequests RequestDepartmentRoute[] @relation("RouteByUser")
 
   assignmentsMade     RequestAssignment[] @relation("AssignmentByUser")
   assignmentsReceived RequestAssignment[] @relation("AssignmentToUser")
 
-  statusChanges       RequestStatusHistory[] @relation("StatusChangedByUser")
+  statusChanges RequestStatusHistory[] @relation("StatusChangedByUser")
 
-  workUpdates         WorkUpdate[] @relation("WorkUpdateByUser")
+  workUpdates WorkUpdate[] @relation("WorkUpdateByUser")
 
   uploadedAttachments MediaAttachment[] @relation("AttachmentByUser")
+
+  notifications Notification[] @relation("NotificationsForUser")
 
   @@map("users")
 }

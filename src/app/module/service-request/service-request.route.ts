@@ -9,6 +9,7 @@ import { requestAssignmentRoutes } from "../request-assignment/request-assignmen
 import { requestStatusRoutes } from "../request-status/request-status.route";
 import { workUpdateRoutes } from "../work-update/work-update.route";
 import { mediaAttachmentRoutes } from "../media-attachment/media-attachment.route";
+import { feedbackRoutes } from "../feedback/feedback.route";
 
 const router = Router();
 
@@ -50,5 +51,6 @@ router.use("/:id/assignments", requestAssignmentRoutes);
 router.use("/:id/status", requestStatusRoutes);
 router.use("/:id/updates", workUpdateRoutes);
 router.use("/:id/attachments", mediaAttachmentRoutes);
+router.use("/:id/feedback", feedbackRoutes);
 
 export const serviceRequestRoutes = router;
