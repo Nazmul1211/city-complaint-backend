@@ -46,5 +46,7 @@ model User {
 
   auditLogs AuditLog[]
 
+  paymentsIssued Payment[] @relation("PaymentIssuedByUser")
+
   @@map("users")
 }

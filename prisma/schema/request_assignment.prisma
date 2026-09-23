@@ -1,24 +1,22 @@
 model RequestAssignment {
-  id            String   @id @default(uuid()) @db.Uuid
+  id String @id @default(uuid()) @db.Uuid
 
-  requestId     String   @db.Uuid
-  assigneeId    String   @db.Uuid
-  assignedById  String   @db.Uuid
+  requestId    String @db.Uuid
+  assigneeId   String @db.Uuid
+  assignedById String @db.Uuid
 
-  note          String?
+  note String?
 
-  assignedAt    DateTime @default(now())
-  releasedAt    DateTime?
-
+  assignedAt DateTime  @default(now())
+  releasedAt DateTime?
 
   // Relations
 
-  request       ServiceRequest @relation(fields: [requestId], references: [id])
+  request ServiceRequest @relation(fields: [requestId], references: [id])
 
-  assignee      User @relation("AssignmentToUser", fields: [assigneeId], references: [id])
+  assignee User @relation("AssignmentToUser", fields: [assigneeId], references: [id])
 
-  assignedBy    User @relation("AssignmentByUser", fields: [assignedById], references: [id])
-
+  assignedBy User @relation("AssignmentByUser", fields: [assignedById], references: [id])
 
   // Indexes
 

@@ -21,6 +21,8 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import { auditLogRoutes } from "./app/module/audit-log/audit-log.route";
+import { getBkashIdToken } from "./app/lib/bkash";
+import { redisClient } from "./app/lib/redis";
 
 const app: Application = express();
 
@@ -82,27 +84,32 @@ app.use("/api/v1/requests/", serviceRequestRoutes);
 app.use("/api/v1/notifications/", notificationRoutes);
 app.use("/api/v1/audit-logs/", auditLogRoutes);
 
-// TEST Otp api
-app.get("/test", async (req: Request, res: Response, next: NextFunction) => {
+// TEST bKash Token Grant & Redis Caching
+app.get("/test", async (_req: Request, res: Response, next: NextFunction) => {
 	try {
-		// Generates a 6-digit OTP as a number and converts it to a string
-		const otp = crypto.randomInt(100000, 1000000).toString();
+		const idToken = await getBkashIdToken();
+		const idTokenTTL = await redisClient.ttl("bkash:idToken");
+		const refreshToken = await redisClient.get("bkash:refreshToken");
+		const refreshTokenTTL = await redisClient.ttl("bkash:refreshToken");
 
-		// // Set the data into Redis with a 60-second expiration (TTL)
-		// await redisClient.set("forgot-password-otp:patient1@gmail.com", otp, {
-		// 	expiration: {
-		// 		type: "EX",
-		// 		value: 60,
-		// 	},
-		// });
+		console.log("bKash id_token:", idToken);
+		console.log("bKash id_token TTL:", `${idTokenTTL} seconds remaining`);
+		console.log("bKash refresh_token:", refreshToken);
+		console.log("bKash refresh_token TTL:", `${refreshTokenTTL} seconds remaining`);
 
 		return res.status(httpStatus.OK).json({
 			success: true,
 			statusCode: httpStatus.OK,
-			message: "Welcome to CityCare OTP Provider System!",
-			data: otp,
+			message: "bKash Token Grant & Redis Caching Successful!",
+			data: {
+				idToken,
+				idTokenTTL: `${idTokenTTL} seconds remaining`,
+				refreshToken,
+				refreshTokenTTL: `${refreshTokenTTL} seconds remaining`,
+			},
 		});
 	} catch (error) {
+		console.error("bKash Token Test Error:", error);
 		next(error);
 	}
 });

@@ -65,3 +65,42 @@ enum NotificationType {
   PAYMENT_REQUIRED
   PAYMENT_SUCCESSFUL
 }
+
+enum PaymentPurpose {
+  SERVICE_FEE
+  INSPECTION_FEE
+  PENALTY
+  PERMIT_FEE
+  APPLICATION_FEE
+  OTHER
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  EXPIRED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentGateway {
+  BKASH
+  SSLCOMMERZ
+  CASH
+}
+
+enum PaymentMethod {
+  BKASH
+  CARD
+  NET_BANKING
+  CASH
+}
+
+enum PaymentTransactionStatus {
+  INITIATED
+  PENDING
+  SUCCESS
+  FAILED
+  CANCELLED
+}
