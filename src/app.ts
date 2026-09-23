@@ -21,6 +21,7 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import { auditLogRoutes } from "./app/module/audit-log/audit-log.route";
+import { paymentRoutes } from "./app/module/payment/payment.route";
 import { getBkashIdToken } from "./app/lib/bkash";
 import { redisClient } from "./app/lib/redis";
 
@@ -83,6 +84,7 @@ app.use("/api/v1/wards/", wardRoutes);
 app.use("/api/v1/requests/", serviceRequestRoutes);
 app.use("/api/v1/notifications/", notificationRoutes);
 app.use("/api/v1/audit-logs/", auditLogRoutes);
+app.use("/api/v1/payments/", paymentRoutes);
 
 // TEST bKash Token Grant & Redis Caching
 app.get("/test", async (_req: Request, res: Response, next: NextFunction) => {
